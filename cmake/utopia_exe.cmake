@@ -1,5 +1,5 @@
 FUNCTION(add_utopia_binary bin)
-    foreach(file in LIST ARGN)
+    foreach(file IN LISTS ARGN)
         set(files ${files} ${file})
     endforeach(file)
 
