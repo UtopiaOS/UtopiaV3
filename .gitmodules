@@ -1,3 +1,6 @@
 [submodule "src/External/free-path_cmds"]
 	path = src/External/free-path_cmds
 	url = git@github.com:UtopiaOS/free-path_cmds.git
+[submodule "src/External/open-file_cmds"]
+	path = src/External/open-file_cmds
+	url = git@github.com:UtopiaOS/open-file_cmds.git
