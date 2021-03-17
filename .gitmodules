@@ -4,3 +4,6 @@
 [submodule "src/External/open-file_cmds"]
 	path = src/External/open-file_cmds
 	url = git@github.com:UtopiaOS/open-file_cmds.git
+[submodule "src/External/libblowfish"]
+	path = src/External/libblowfish
+	url = git@github.com:UtopiaOS/libblowfish.git
