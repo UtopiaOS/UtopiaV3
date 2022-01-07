@@ -85,13 +85,13 @@ fi
 
 pushd "$DIR/Tarballs"
     sha256=""
-    if [ -e "KERNEL_HEADERS_PKG" ]; then
+    if [ -e "$KERNEL_HEADERS_PKG" ]; then
         sha256="$($SHA256SUM ${KERNEL_HEADERS_PKG} | cut -f1 -d' ')"
         echo "kernel-headers sha256='$sha256'"
     fi
 
     if [ "$sha256" != "$KERNEL_HEADERS_SHA256SUM" ]; then
-        rm -f "$KERNEL_HEADERS_SHA256SUM"
+        rm -f "$KERNEL_HEADERS_PKG"
         curl -LO "$KERNEL_HEADERS_URL"
     else
         echo "Skipped downloading the kernel headers"
