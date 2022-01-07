@@ -3,4 +3,5 @@ builddir/
 Toolchain/Tarballs
 Toolchain/Build
 Toolchain/Local
+Toolchain/CrossTools
 .vscode

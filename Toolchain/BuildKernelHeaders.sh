@@ -8,6 +8,7 @@ echo $DIR
 
 PREFIX="$DIR/Local/kernel-headers/"
 BUILD="$DIR/../Build"
+CROSSTOOLS="$DIR/CrossTools"
 
 
 SHA256SUM="sha256sum"
@@ -104,6 +105,25 @@ pushd "$DIR/Tarballs"
     
     echo "Extracting Kernel headers..."
     tar -xvf "$KERNEL_HEADERS_PKG"
-pushd
+popd
 
 
+
+mkdir -p "$CROSSTOOLS"
+
+# === COMPILE AND INSTALL ===
+
+## TODO: Stop hardcoding x86 here
+
+pushd "$DIR/Tarballs/linux-$KERNEL_HEADERS_VERSION"
+    buildstep "kernel-headers/clean" make mrproper
+    make ARCH=x86 headers
+    mkdir -pv "$CROSSTOOLS/x86_64-pc-linux-utopia/include"
+    cp -rv usr/include/* "$CROSSTOOLS/x86_64-pc-linux-utopia/include"
+popd
+
+
+pushd "$CROSSTOOLS/x86_64-pc-linux-utopia/include"
+    find . -name '.*.cmd' -exec rm -vf {} \;
+    rm -v . Makefile
+popd
