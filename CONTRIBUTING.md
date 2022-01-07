@@ -75,3 +75,37 @@ We understand that this project isn't perfect, and it will probably never be, bu
 - Write in programming languages that aren't supported by Utopia.
 - Attempt large architectural changes without discussing it with the maintainers first.
 - Comment useless information just to comment.
+
+## Pull request Q&A
+
+**I've submitted a PR and it passes the CI, when can I expect it to be merged?**
+
+While your PR passing the CI is a good sign, specially if your PR closes an issue or implements a feature that has been requested and approved by the Utopia maintainers, it doesn't mean it might get merged right away, your pull request might need some reviews and changes before it can be part of the Utopia codebase.
+
+Also, unadvertised PRs might sometimes fail to get attention, it is best to notify the maintainers via the Discord server, or ping the maintainers via a GitHub mention, however, once we have assigned reviewers to your PR, is best for you to be patient and wait for us to review your code.
+
+**If my PR isn't getting attention, how do I get the maintainers to review it**
+
+If your PR isn't getting attention, is probably a great idea to link it on the `#code-review` channel on the Discord server.
+
+**Who are the project maintainers**
+
+The current project maintainers are @DiegoMagdaleno @Spencer05 and @Luth31, althought Luth has been innactive for quite some time.
+
+**Are there specific people I can reach out for different components of the OS**
+
+Yes, in order to find out who did what, it is a good idea to look at the Copyright headers, however as some of our code is derived from FreeBSD and OpenBSD, some headers might contain two persons, the original developer and the maintainer that ported it over to Utopia, to try to differentiate who is who, just look at the dates, the original BSD developments dates back to the 90's.
+
+**Which one is the best place to discuss ideas or my PR Discord or GitHub**
+
+Discord, we use Discord as our main way of comunication, and it is best if you use Discord, however, once the process of discussing something has been done on Discord, is great if you transition over to GitHub issues.
+
+## General recomendations
+
+If you really want to start contributing to Utopia, it is better to start doing so in a non-so-critical system component, or issues marked with the `good first issue` label, look for issues that you see and say "I can defenitely take up on this" and feel free to ask any questions on our Discord.
+
+We are also very open to critism, the main developer of Utopia, is a 18 year old Mexican Computer Engenieering Student, that of course, doesn't really have the experience or the knowledge to be developing its own OS, this could be the case of many, if you are more experienced and you have feedback, we are more than open to recieve your feedback so we can improve this operating system.
+
+Contribute for fun, Utopia is not really a project you might be able to main on your desktop, sure it runs on top of the Linux kernel, but because of some of the changes (Like NeoHFS, mach-o, code-signing), some programs might be broken, we would love if in the future we could get some ports of this amazing programs, but for now, it is better to use Utopia as a cool PoC.
+
+
