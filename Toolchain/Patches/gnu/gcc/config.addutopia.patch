@@ -1,0 +1,120 @@
+From b067f0e635908a9bde843504939165ddb5fa8d40 Mon Sep 17 00:00:00 2001
+From: Diego Magdaleno <diegomagdaleno@protonmail.com>
+Date: Sat, 8 Jan 2022 12:54:46 -0600
+Subject: [PATCH] Initial port to Utopia config
+
+---
+ config.sub       |  4 ++--
+ config/mt-utopia |  1 +
+ configure        |  3 +++
+ configure.ac     |  3 +++
+ gcc/config.gcc   | 17 ++++++++++++++---
+ 5 files changed, 23 insertions(+), 5 deletions(-)
+ create mode 100644 config/mt-utopia
+
+diff --git a/config.sub b/config.sub
+index 38f3d037a785f..030adda91fc42 100755
+--- a/config.sub
++++ b/config.sub
+@@ -1718,7 +1718,7 @@ case $os in
+ 	# Now accept the basic system types.
+ 	# The portable systems comes first.
+ 	# Each alternative MUST end in a * to match a version number.
+-	gnu* | android* | bsd* | mach* | minix* | genix* | ultrix* | irix* \
++	gnu* | android* | bsd* | mach* | minix* | genix* | ultrix* | irix* | utopia* \
+ 	     | *vms* | esix* | aix* | cnk* | sunos | sunos[34]* \
+ 	     | hpux* | unos* | osf* | luna* | dgux* | auroraux* | solaris* \
+ 	     | sym* |  plan9* | psp* | sim* | xray* | os68k* | v88r* \
+@@ -1766,7 +1766,7 @@ esac
+ # As a final step for OS-related things, validate the OS-kernel combination
+ # (given a valid OS), if there is a kernel.
+ case $kernel-$os in
+-	linux-gnu* | linux-dietlibc* | linux-android* | linux-newlib* \
++	linux-gnu* | linux-dietlibc* | linux-android* | linux-newlib* | linux-utopia* \
+ 		   | linux-musl* | linux-relibc* | linux-uclibc* )
+ 		;;
+ 	uclinux-uclibc* )
+diff --git a/config/mt-utopia b/config/mt-utopia
+new file mode 100644
+index 0000000000000..5c696f51b0b6a
+--- /dev/null
++++ b/config/mt-utopia
+@@ -0,0 +1 @@
++CXXFLAGS_FOR_TARGET += -D_GNU_SOURCE
+diff --git a/configure b/configure
+index 9c2d7df1bb22d..e0d619f64dadb 100755
+--- a/configure
++++ b/configure
+@@ -9550,6 +9550,9 @@ case "${target}" in
+   *-*-linux-android*)
+     target_makefile_frag="config/mt-android"
+     ;;
++  *-*-linux-utopia*)
++    target_makefile_frag="config/mt-utopia"
++    ;;
+   *-*-linux* | *-*-gnu* | *-*-k*bsd*-gnu | *-*-kopensolaris*-gnu)
+     target_makefile_frag="config/mt-gnu"
+     ;;
+diff --git a/configure.ac b/configure.ac
+index 68cc5cc31fe91..4b89c29cdf30e 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -2726,6 +2726,9 @@ case "${target}" in
+   *-*-linux-android*)
+     target_makefile_frag="config/mt-android"
+     ;;
++  *-*-linux-utopia*)
++    target_makefile_frag="config/mt-utopia"
++    ;;
+   *-*-linux* | *-*-gnu* | *-*-k*bsd*-gnu | *-*-kopensolaris*-gnu)
+     target_makefile_frag="config/mt-gnu"
+     ;;
+diff --git a/gcc/config.gcc b/gcc/config.gcc
+index 89e0992fda5c1..6a4eba75404b1 100644
+--- a/gcc/config.gcc
++++ b/gcc/config.gcc
+@@ -848,6 +848,9 @@ case ${target} in
+     *-*-*android*)
+       tm_defines="$tm_defines DEFAULT_LIBC=LIBC_BIONIC"
+       ;;
++	*-*-*utopia*)
++	  tm_defines="$tm_defines DEFAULT_LIBC=LIBC_MUSL"
++	  ;;
+     *-*-*uclibc* | *-*-uclinuxfdpiceabi)
+       tm_defines="$tm_defines DEFAULT_LIBC=LIBC_UCLIBC"
+       ;;
+@@ -872,6 +875,14 @@ case ${target} in
+       tm_defines="$tm_defines ANDROID_DEFAULT=0"
+       ;;
+   esac
++  case $target in
++	*-*-*utopia*)
++       tm_defines="$tm_defines UTOPIA_DEFAULT=1"
++	   ;;
++	*)
++       tm_defines="$tm_defines UTOPIA_DEFAULT=0"
++	   ;;
++  esac
+   c_target_objs="${c_target_objs} glibc-c.o"
+   cxx_target_objs="${cxx_target_objs} glibc-c.o"
+   d_target_objs="${d_target_objs} glibc-d.o"
+@@ -2003,8 +2014,8 @@ x86_64-*-linux* | x86_64-*-kfreebsd*-gnu)
+ 		 i386/x86-64.h i386/gnu-user-common.h i386/gnu-user64.h"
+ 	case ${target} in
+ 	x86_64-*-linux*)
+-		tm_file="${tm_file} linux.h linux-android.h i386/linux-common.h i386/linux64.h"
+-		extra_options="${extra_options} linux-android.opt"
++		tm_file="${tm_file} linux.h linux-android.h linux-utopia.h i386/linux-common.h i386/linux64.h"
++		extra_options="${extra_options} linux-android.opt linux-utopia.opt"
+ 	  	;;
+ 	x86_64-*-kfreebsd*-gnu)
+ 		tm_file="${tm_file} kfreebsd-gnu.h i386/kfreebsd-gnu64.h"
+@@ -3594,7 +3605,7 @@ esac
+ # Assume the existence of indirect function support and allow the use of the
+ # resolver attribute.
+ case ${target} in
+-*-*-linux*android*|*-*-linux*uclibc*|*-*-linux*musl*)
++*-*-linux*android*|*-*-linux*uclibc*|*-*-linux*musl*|*-*-linux*utopia*)
+         ;;
+ *-*-kfreebsd*-gnu | *-*-kopensolaris*-gnu)
+         ;;
