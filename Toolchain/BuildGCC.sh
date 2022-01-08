@@ -21,12 +21,6 @@ if [ -z "$MAKEJOBS" ]; then
     MAKEJOBS=$($NPROC)
 fi
 
-if [ ! -d "$BUILD" ]; then
-    mkdir -p "$BUILD"
-fi
-
-BUILD=$($REALPATH "$BUILD")
-
 echo PREFIX is "$PREFIX"
 
 mkdir -p "$DIR/Tarballs"
@@ -95,13 +89,14 @@ pushd "$DIR/Tarballs"
     fi
 
     echo "Extracting gcc..."
-    tar -xvf "$KERNEL_HEADERS_PKG"
+    tar -xvf "$GCC_PKG"
 popd
 
 pushd "$DIR/Tarballs/$GCC_NAME"
     buildstep patching echo "Patching GCC"
-    patch -Np0 -i "$DIR/Patches/gnu/gcc/config.addutopia.patch"
+    patch -Np1 -i "$DIR/Patches/gnu/gcc/config.addutopia.patch"
+    patch -Np0 -i "$DIR/Patches/gnu/gcc/gcc_valid_utopia.patch"
     patch -Np0 -i "$DIR/Patches/gnu/gcc/utopiahighlevel.patch"
-    patch -Np0 -i "$DIR/Patches/gnu/gcc/utopialinuxcommon.patch"
+    patch -Np1 -i "$DIR/Patches/gnu/gcc/utopialinuxcommon.patch"
 popd
 

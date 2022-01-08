@@ -4,7 +4,7 @@ Date: Sat, 8 Jan 2022 12:54:46 -0600
 Subject: [PATCH] Initial port to Utopia config
 
 ---
- config.sub       |  4 ++--
+ config.sub       |  2 +-
  config/mt-utopia |  1 +
  configure        |  3 +++
  configure.ac     |  3 +++
@@ -12,28 +12,6 @@ Subject: [PATCH] Initial port to Utopia config
  5 files changed, 23 insertions(+), 5 deletions(-)
  create mode 100644 config/mt-utopia
 
-diff --git a/config.sub b/config.sub
-index 38f3d037a785f..030adda91fc42 100755
---- a/config.sub
-+++ b/config.sub
-@@ -1718,7 +1718,7 @@ case $os in
- 	# Now accept the basic system types.
- 	# The portable systems comes first.
- 	# Each alternative MUST end in a * to match a version number.
--	gnu* | android* | bsd* | mach* | minix* | genix* | ultrix* | irix* \
-+	gnu* | android* | bsd* | mach* | minix* | genix* | ultrix* | irix* | utopia* \
- 	     | *vms* | esix* | aix* | cnk* | sunos | sunos[34]* \
- 	     | hpux* | unos* | osf* | luna* | dgux* | auroraux* | solaris* \
- 	     | sym* |  plan9* | psp* | sim* | xray* | os68k* | v88r* \
-@@ -1766,7 +1766,7 @@ esac
- # As a final step for OS-related things, validate the OS-kernel combination
- # (given a valid OS), if there is a kernel.
- case $kernel-$os in
--	linux-gnu* | linux-dietlibc* | linux-android* | linux-newlib* \
-+	linux-gnu* | linux-dietlibc* | linux-android* | linux-newlib* | linux-utopia* \
- 		   | linux-musl* | linux-relibc* | linux-uclibc* )
- 		;;
- 	uclinux-uclibc* )
 diff --git a/config/mt-utopia b/config/mt-utopia
 new file mode 100644
 index 0000000000000..5c696f51b0b6a

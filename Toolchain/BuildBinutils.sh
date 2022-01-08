@@ -21,12 +21,6 @@ if [ -z "$MAKEJOBS" ]; then
     MAKEJOBS=$($NPROC)
 fi
 
-if [ ! -d "$BUILD" ]; then
-    mkdir -p "$BUILD"
-fi
-
-BUILD=$($REALPATH "$BUILD")
-
 echo PREFIX is "$PREFIX"
 
 mkdir -p "$DIR/Tarballs"
