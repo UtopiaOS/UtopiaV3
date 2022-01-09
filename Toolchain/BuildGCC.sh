@@ -7,7 +7,13 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo $DIR
 
 PREFIX="$DIR/Local/gcc/"
-CROSSTOLS="$DIR/CrossTools"
+CROSSTOOLS="$DIR/CrossTools"
+ARCH="x86_64"
+CPU="x86-64"
+UTOPIA_TARGET="$ARCH-pc-linux-utopia"
+
+UTOPA_BUILDER=""$(echo $MACHTYPE | \
+    sed "s/$(echo $MACHTYPE | cut -d- -f2)/cross/")""
 
 
 SHA256SUM="sha256sum"
@@ -200,11 +206,30 @@ pushd "$DIR/Tarballs"
     popd
 popd
 
+# == PATCHES ==
+
 pushd "$DIR/Tarballs/$GCC_NAME"
     buildstep patching echo "Patching GCC"
     patch -Np1 -i "$DIR/Patches/gnu/gcc/config.addutopia.patch"
     patch -Np0 -i "$DIR/Patches/gnu/gcc/gcc_valid_utopia.patch"
-    patch -Np0 -i "$DIR/Patches/gnu/gcc/utopiahighlevel.patch"
+    patch -Np1 -i "$DIR/Patches/gnu/gcc/utopiahighlevel.patch"
     patch -Np1 -i "$DIR/Patches/gnu/gcc/utopialinuxcommon.patch"
 popd
 
+
+# == BUILD ==
+
+pushd "$DIR/Tarballs/$GCC_NAME"
+    buildstep gcc/configure ./configure --prefix=${CROSSTOOLS} --build=${UTOPIA_BUILDER} \
+    --host=${UTOPIA_BUILDER} --target=${UTOPIA_TARGET} \
+    --with-sysroot=${CROSSTOOLS}/${UTOPIA_TARGET} --disable-nls \
+    --with-newlib --disable-libitm --disable-libvtv --disable-libssp --disable-shared  \
+    --disable-libgomp --without-headers --disable-threads --disable-multilib \
+    --disable-libatomic --disable-libstdcxx  --enable-languages=c --disable-libquadmath \
+    --disable-libsanitizer --with-arch=${CPU} \
+    --disable-decimal-float --enable-clocale=generic
+
+    buildstep gcc/libgcc make all-gcc all-target-libgcc
+
+    buildstep gcc/install make install-gcc install-target-libgcc
+popd
