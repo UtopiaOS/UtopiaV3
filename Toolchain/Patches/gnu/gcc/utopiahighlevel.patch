@@ -55,10 +55,10 @@ index 000000000000..cc713b42c476
 +#endif
 +
 +#define LINUX_OR_UTOPIA_CC(LINUX_SPEC, UTOPIA_SPEC) \
-+    "%{" NOUTOPIA "|tno-utopia-cc:"  LINUX_SPEC ";;" UTOPIA_SPEC "}"
++    "%{" NOUTOPIA "|tno-utopia-cc:"  LINUX_SPEC ";:" UTOPIA_SPEC "}"
 +
 +#define LINUX_OR_UTOPIA_LD(LINUX_SPEC, UTOPIA_SPEC) \
-+    "%{" NOUTOPIA "|tno-utopia-ld:"  LINUX_SPEC ";;" UTOPIA_SPEC "}"
++    "%{" NOUTOPIA "|tno-utopia-ld:"  LINUX_SPEC ";:" UTOPIA_SPEC "}"
 +
 +/*
 + *  

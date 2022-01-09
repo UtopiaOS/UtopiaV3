@@ -219,8 +219,10 @@ popd
 
 # == BUILD ==
 
-pushd "$DIR/Tarballs/$GCC_NAME"
-    buildstep gcc/configure ./configure --prefix=${CROSSTOOLS} --build=${UTOPIA_BUILDER} \
+mkdir -p $DIR/Build/gcc
+
+pushd "$DIR/Build/gcc"
+    buildstep gcc/configure $DIR/Tarballs/$GCC_NAME/configure --prefix=${CROSSTOOLS} --build=${UTOPIA_BUILDER} \
     --host=${UTOPIA_BUILDER} --target=${UTOPIA_TARGET} \
     --with-sysroot=${CROSSTOOLS}/${UTOPIA_TARGET} --disable-nls \
     --with-newlib --disable-libitm --disable-libvtv --disable-libssp --disable-shared  \
