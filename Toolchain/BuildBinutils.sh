@@ -7,7 +7,7 @@ echo "$DIR"
 
 PREFIX="$DIR/CrossTools"
 ARCH="x86_64"
-UTOPIA_TARGET="$ARCH-pc-linux-utopia"
+UTOPIA_TARGET="$ARCH-pc-linux-musl"
 
 SHA256SUM="sha256sum"
 AWK="awk"
@@ -94,14 +94,6 @@ pushd "$DIR/Tarballs"
     echo "Extracting binutils..."
     tar -xvf "$BINUTILS_PKG"
 popd
-
-# === Start patching binutils so it detects Utopia, reference: https://wiki.osdev.org/Hosted_GCC_Cross-Compiler ===
-pushd "$DIR/Tarballs/$BINUTILS_NAME"
-    buildstep patching echo "Patching Binutils so they build for Utopia"
-    patch -Np0 -i "$DIR/Patches/gnu/binutils/config.rpath.patch"
-    patch -Np0 -i "$DIR/Patches/gnu/binutils/config.sub.patch"
-popd
-
 
 # === Build phase ===
 pushd "$DIR/Tarballs/$BINUTILS_NAME"

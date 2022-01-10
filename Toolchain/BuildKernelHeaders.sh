@@ -118,12 +118,12 @@ mkdir -p "$CROSSTOOLS"
 pushd "$DIR/Tarballs/linux-$KERNEL_HEADERS_VERSION"
     buildstep "kernel-headers/clean" make mrproper
     make ARCH=x86 headers
-    mkdir -pv "$CROSSTOOLS/x86_64-pc-linux-utopia/include"
-    cp -rv usr/include/* "$CROSSTOOLS/x86_64-pc-linux-utopia/include"
+    mkdir -pv "$CROSSTOOLS/x86_64-pc-linux-musl/include"
+    cp -rv usr/include/* "$CROSSTOOLS/x86_64-pc-linux-musl/include"
 popd
 
 
-pushd "$CROSSTOOLS/x86_64-pc-linux-utopia/include"
+pushd "$CROSSTOOLS/x86_64-pc-linux-musl/include"
     find . -name '.*.cmd' -exec rm -vf {} \;
     rm -v . Makefile
 popd

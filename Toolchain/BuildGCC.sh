@@ -10,7 +10,7 @@ PREFIX="$DIR/Local/gcc/"
 CROSSTOOLS="$DIR/CrossTools"
 ARCH="x86_64"
 CPU="x86-64"
-UTOPIA_TARGET="$ARCH-pc-linux-utopia"
+UTOPIA_TARGET="$ARCH-pc-linux-musl"
 
 UTOPA_BUILDER=""$(echo $MACHTYPE | \
     sed "s/$(echo $MACHTYPE | cut -d- -f2)/cross/")""
@@ -205,17 +205,6 @@ pushd "$DIR/Tarballs"
         mv ${MPC_NAME} "mpc"
     popd
 popd
-
-# == PATCHES ==
-
-pushd "$DIR/Tarballs/$GCC_NAME"
-    buildstep patching echo "Patching GCC"
-    patch -Np1 -i "$DIR/Patches/gnu/gcc/config.addutopia.patch"
-    patch -Np0 -i "$DIR/Patches/gnu/gcc/gcc_valid_utopia.patch"
-    patch -Np1 -i "$DIR/Patches/gnu/gcc/utopiahighlevel.patch"
-    patch -Np1 -i "$DIR/Patches/gnu/gcc/utopialinuxcommon.patch"
-popd
-
 
 # == BUILD ==
 
