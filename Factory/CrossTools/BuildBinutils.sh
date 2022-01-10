@@ -5,7 +5,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo "$DIR"
 
-PREFIX="$DIR/CrossTools"
+CROSSTOOLS="$DIR/Cross"
 ARCH="x86_64"
 UTOPIA_TARGET="$ARCH-pc-linux-musl"
 
@@ -20,8 +20,6 @@ SED="sed"
 if [ -z "$MAKEJOBS" ]; then
     MAKEJOBS=$($NPROC)
 fi
-
-echo PREFIX is "$PREFIX"
 
 mkdir -p "$DIR/Tarballs"
 
@@ -97,9 +95,9 @@ popd
 
 # === Build phase ===
 pushd "$DIR/Tarballs/$BINUTILS_NAME"
-    buildstep binutils/configure ./configure --prefix=${PREFIX} \
+    buildstep binutils/configure ./configure --prefix=${CROSSTOOLS} \
     --target=${UTOPIA_TARGET} \
-    --with-sysroot="${PREFIX}/${UTOPIA_TARGET}" \
+    --with-sysroot="${CROSSTOOLS}/${UTOPIA_TARGET}" \
     --disable-nls \
     --disable-multilib \
     --disable-werror \

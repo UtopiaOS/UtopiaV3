@@ -7,7 +7,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo $DIR
 
 PREFIX="$DIR/Local/gcc/"
-CROSSTOOLS="$DIR/CrossTools"
+CROSSTOOLS="$DIR/Cross"
 ARCH="x86_64"
 CPU="x86-64"
 UTOPIA_TARGET="$ARCH-pc-linux-musl"

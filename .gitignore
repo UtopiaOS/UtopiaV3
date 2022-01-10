@@ -1,7 +1,11 @@
 build/
 builddir/
-Toolchain/Tarballs
-Toolchain/Build
-Toolchain/Local
-Toolchain/CrossTools
+Factory/CrossTools/Tarballs
+Factory/CrossTools/Build
+Factory/CrossTools/Local
+Factory/CrossTools/Cross
+Factory/Toolchain/Tarballs
+Factory/Toolchain/Build
+Factory/Toolchain/Local
+Factory/Toolchain/Tools
 .vscode

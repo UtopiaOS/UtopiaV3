@@ -7,7 +7,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo $DIR
 
-CROSSTOOLS="$DIR/CrossTools"
+CROSSTOOLS="$DIR/Cross"
 ARCH="x86_64"
 TOOLS=$(realpath "$DIR/../Toolchain")/Tools
 UTOPIA_TARGET="$ARCH-pc-linux-musl"
@@ -98,7 +98,7 @@ popd
 mkdir -p $DIR/Build/musl
 
 pushd "$DIR/Build/musl"
-    export PATH=$DIR/CrossTools/bin:/bin:/usr/bin
+    export PATH=$DIR/Cross/bin:/bin:/usr/bin
     buildstep musl/configure $DIR/Tarballs/$MUSL_NAME/configure CROSS_COMPILEs=${UTOPIA_TARGET}- \
     --prefix=/ \
     --target=${UTOPIA_TARGET}

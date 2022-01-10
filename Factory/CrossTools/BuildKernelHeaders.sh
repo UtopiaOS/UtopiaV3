@@ -8,7 +8,7 @@ echo $DIR
 
 PREFIX="$DIR/Local/kernel-headers/"
 BUILD="$DIR/../Build"
-CROSSTOOLS="$DIR/CrossTools"
+CROSSTOOLS="$DIR/Cross"
 
 
 SHA256SUM="sha256sum"
