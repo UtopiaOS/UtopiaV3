@@ -1,0 +1,22 @@
+LICENSE
+
+The Utopia project is made out of different components, each might have its different license.
+
+It's recommended to read the LICENSE and Copyright file on the subdirectories when present.
+In case the files mentioned above aren't present, it is recommended to read the first lines of each file to determine the license.
+
+## Common licensing information:
+
+The following subdirectories, contain code licensed under the FreeBSD terms, which are established and specified in the COPYRIGHT file, located in the project's subdirectory.
+
+- /Core/Libraries/libfetch
+- /Core/Binaries/unixcmds
+
+The following subdirectories, contain code licensed under the MIT license.
+
+- /Core/Libraries/libSystem
+
+The following subdirectories, contain code licensed under the GPL v2 license.
+
+- /Core/Libraries/libigloo
+- /Core/Binaries/Winter
