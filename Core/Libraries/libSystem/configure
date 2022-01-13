@@ -591,6 +591,21 @@ tryldflag LDFLAGS_AUTO -Wl,--exclude-libs=ALL
 # control over what symbols are left unbound.
 tryldflag LDFLAGS_AUTO -Wl,--dynamic-list="$srcdir/dynamic.list"
 
+
+# Detect if we are cross-compiling to an Utopia target and rename ourselves
+# to libSystem
+CROSS_TRIPLE_ARR=(${CROSS_COMPILE//-/ })
+if [ "${CROSS_TRIPLE_ARR[3]}" = "utopia" ]; then
+  STATIC_LIB_NAME="lib/libSystem.a"
+  SHARED_LIB_NAME="lib/libSystem.so"
+else
+  STATIC_LIB_NAME="lib/libc.a"
+  SHARED_LIB_NAME="lib/libc.so"
+fi
+
+printf "%s\n" "$STATIC_LIB_NAME"
+printf "%s\n" "$SHARED_LIB_NAME"
+
 # Find compiler runtime library
 test -z "$LIBCC" && tryldflag LIBCC -lgcc && tryldflag LIBCC -lgcc_eh
 test -z "$LIBCC" && tryldflag LIBCC -lcompiler_rt
@@ -801,6 +816,8 @@ ALL_TOOLS = $tools
 TOOL_LIBS = $tool_libs
 ADD_CFI = $ADD_CFI
 MALLOC_DIR = $malloc_dir
+STATIC_LIBS = $STATIC_LIB_NAME
+SHARED_LIBS = $SHARED_LIB_NAME
 EOF
 test "x$static" = xno && echo "STATIC_LIBS ="
 test "x$shared" = xno && echo "SHARED_LIBS ="
