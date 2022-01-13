@@ -7,6 +7,10 @@ CROSSTOOLS="$DIR/Cross"
 UTOPIA_BUILDER=""$(echo $MACHTYPE | \
     sed "s/$(echo $MACHTYPE | cut -d- -f2)/cross/")""
 
+ARCH="x86_64"
+CPU="x86-64"
+UTOPIA_TARGET="$ARCH-pc-linux-musl"
+
 SHA256SUM="sha256sum"
 REALPATH="realpath"
 MAKE="make"
@@ -19,9 +23,6 @@ buildstep() {
     shift
     "$@" 2>&1 | "$SED" $'s|^|\e[34m['"${NAME}"$']\e[39m |'
 }
-
-
-
 
 GCC_VERSION="11.2.0"
 GCC_NAME="gcc-$GCC_VERSION"
@@ -109,7 +110,7 @@ mkdir -p $DIR/Build/gccTwo
 
 pushd "$DIR/Build/gccTwo"
     AR=ar \
-    LDFLAGS="-Wl,-rpath,/cross-tools/lib" \
+    LDFLAGS="-Wl,-rpath,$CROSSTOOLS/lib" \
     $DIR/Tarballs/$GCC_NAME/configure \
     --prefix=$CROSSTOOLS --build=${UTOPIA_BUILDER} --host=${UTOPIA_BUILDER} --target=${UTOPIA_TARGET} --disable-multilib \
     --with-sysroot=${CROSSTOOLS} --disable-nls --enable-shared --enable-languages=c,c++ --enable-threads=posix --enable-clocale=generic \
