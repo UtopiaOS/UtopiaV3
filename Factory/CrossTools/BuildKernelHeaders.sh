@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eo pipefail
 
 # === CONFIGURATION AND SETUP === 
 
@@ -9,6 +10,11 @@ echo $DIR
 PREFIX="$DIR/Local/kernel-headers/"
 BUILD="$DIR/../Build"
 CROSSTOOLS="$DIR/Cross"
+
+## TODO: Stop hardcoding x86 here
+
+ARCH="x86_64"
+UTOPIA_TARGET="$ARCH-pc-linux-utopia"
 
 
 SHA256SUM="sha256sum"
@@ -113,17 +119,15 @@ mkdir -p "$CROSSTOOLS"
 
 # === COMPILE AND INSTALL ===
 
-## TODO: Stop hardcoding x86 here
-
 pushd "$DIR/Tarballs/linux-$KERNEL_HEADERS_VERSION"
     buildstep "kernel-headers/clean" make mrproper
     make ARCH=x86 headers
-    mkdir -pv "$CROSSTOOLS/x86_64-pc-linux-musl/include"
-    cp -rv usr/include/* "$CROSSTOOLS/x86_64-pc-linux-musl/include"
+    mkdir -pv "$CROSSTOOLS/$UTOPIA_TARGET/include"
+    cp -rv usr/include/* "$CROSSTOOLS/$UTOPIA_TARGET/include"
 popd
 
 
-pushd "$CROSSTOOLS/x86_64-pc-linux-musl/include"
+pushd "$CROSSTOOLS/$UTOPIA_TARGET/include"
     find . -name '.*.cmd' -exec rm -vf {} \;
-    rm -v . Makefile
+    rm -v Makefile
 popd
