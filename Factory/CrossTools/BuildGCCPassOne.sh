@@ -12,7 +12,7 @@ ARCH="x86_64"
 CPU="x86-64"
 UTOPIA_TARGET="$ARCH-pc-linux-musl"
 
-UTOPA_BUILDER=""$(echo $MACHTYPE | \
+UTOPIA_BUILDER=""$(echo $MACHTYPE | \
     sed "s/$(echo $MACHTYPE | cut -d- -f2)/cross/")""
 
 
@@ -208,9 +208,9 @@ popd
 
 # == BUILD ==
 
-mkdir -p $DIR/Build/gcc
+mkdir -p $DIR/Build/gccOne
 
-pushd "$DIR/Build/gcc"
+pushd "$DIR/Build/gccOne"
     buildstep gcc/configure $DIR/Tarballs/$GCC_NAME/configure --prefix=${CROSSTOOLS} --build=${UTOPIA_BUILDER} \
     --host=${UTOPIA_BUILDER} --target=${UTOPIA_TARGET} \
     --with-sysroot=${CROSSTOOLS}/${UTOPIA_TARGET} --disable-nls \
