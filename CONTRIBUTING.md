@@ -10,6 +10,20 @@ The following is a set of guidelines and recommendations in order to contribute 
 
 [I don't want to read this whole thing, I just have a question!!!](#i-dont-want-to-read-this-whole-thing-i-just-have-a-question)
 
+[Issue policy](#issue-policy)
+
+[Human language and communication](#human-language-and-communication)
+
+[Code submission policy](#code-submission-policy)
+
+[Pull request Q&A](#pull-request-qa)
+
+[General recommendations](#general-recommendations)
+
+[Find documentation](#find-documentation)
+
+[Credits](#credits)
+
 ## Code of conduct
 
 This project and everyone participating in it is governed by the [Utopia Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [contact@utopiaos.org](mailto:contact@utopiaos.org).
