@@ -9,7 +9,7 @@ UTOPIA_BUILDER=""$(echo $MACHTYPE | \
 
 ARCH="x86_64"
 CPU="x86-64"
-UTOPIA_TARGET="$ARCH-pc-linux-musl"
+UTOPIA_TARGET="$ARCH-pc-linux-utopia"
 
 SHA256SUM="sha256sum"
 REALPATH="realpath"
@@ -27,9 +27,18 @@ buildstep() {
 GCC_VERSION="11.2.0"
 GCC_NAME="gcc-$GCC_VERSION"
 GCC_PKG="$GCC_NAME.tar.xz"
-GCC_URL="https://ftp.gnu.org/gnu/gcc/$GCC_NAME/$GCC_PKG"
-GCC_SHA256SUM="d08edc536b54c372a1010ff6619dd274c0f1603aa49212ba20f7aa2cda36fa8b"
 
+MPFR_VERSION="4.1.0"
+MPFR_NAME="mpfr-$MPFR_VERSION"
+MPFR_PKG="$MPFR_NAME.tar.xz"
+
+GMP_VERSION="6.2.1"
+GMP_NAME="gmp-$GMP_VERSION"
+GMP_PKG="$GMP_NAME.tar.xz"
+
+MPC_VERSION="1.2.1"
+MPC_NAME="mpc-$MPC_VERSION"
+MPC_PKG="$MPC_NAME.tar.gz"
 
 # === Lets check if we have all the proper dependencies === 
 
@@ -65,9 +74,49 @@ fi
 
 ## Since this is phase two, we go directly to building, except in a new directory
 
+pushd "$DIR/Tarballs/"
+    if [ -d "$GCC_NAME" ]; then
+        rm -rf "${GCC_NAME}"
+    else
+        echo "Critical! There was no $GCC_NAME in Tarballs, are you sure you built phase one?"
+        exit 1
+    fi
+
+    echo "Cleanly extracting GCC"
+
+    tar -xvf "$GCC_PKG"
+
+    echo "Extracting the GCC boostrap"
+
+    echo "Extracting MPFR"
+
+    pushd "$GCC_NAME"
+        xz -cd ../${MPFR_PKG} | tar -xvf -
+        mv ${MPFR_NAME} "mpfr"
+    popd
+
+    echo "Extracting gmp"
+
+    pushd "$GCC_NAME"
+        xz -cd ../${GMP_PKG} | tar -xvf -
+        mv ${GMP_NAME} "gmp"
+    popd
+
+    echo "Extracting mpc"
+
+    pushd "$GCC_NAME"
+        gzip -cd ../${MPC_PKG} | tar -xvf -
+        mv ${MPC_NAME} "mpc"
+    popd
+popd
+
 # == Patch gcc ==
 pushd "$DIR/Tarballs/$GCC_NAME"
     patches="$DIR/Patches/gnu/gcc"
+    patch -Np1 -i $patches/config.addutopia.patch
+    patch -Np0 -i $patches/gcc_valid_utopia.patch
+    patch -Np1 -i $patches/utopiahighlevel.patch
+    patch -Np1 -i $patches/utopialinuxcommon.patch
     patch -Np1 -i $patches/0001-posix_memalign.patch
     patch -Np1 -i $patches/0002-gcc-poison-system-directories.patch
     patch -Np1 -i $patches/0003-Turn-on-Wl-z-relro-z-now-by-default.patch
