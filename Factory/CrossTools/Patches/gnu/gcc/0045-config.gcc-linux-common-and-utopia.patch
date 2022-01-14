@@ -1,0 +1,47 @@
+--- config.gcc.orig	2022-01-14 14:16:11.496272476 -0600
++++ config.gcc	2022-01-14 14:14:28.377454173 -0600
+@@ -854,6 +854,9 @@
+     *-*-*android*)
+       tm_defines="$tm_defines DEFAULT_LIBC=LIBC_BIONIC"
+       ;;
++	*-*-*utopia*)
++	  tm_defines="$tm_defines DEFAULT_LIBC=LIBC_MUSL"
++	  ;;
+     *-*-*uclibc* | *-*-uclinuxfdpiceabi)
+       tm_defines="$tm_defines DEFAULT_LIBC=LIBC_UCLIBC"
+       ;;
+@@ -878,6 +881,14 @@
+       tm_defines="$tm_defines ANDROID_DEFAULT=0"
+       ;;
+   esac
++  case $target in
++	*-*-*utopia*)
++       tm_defines="$tm_defines UTOPIA_DEFAULT=1"
++	   ;;
++	*)
++       tm_defines="$tm_defines UTOPIA_DEFAULT=0"
++	   ;;
++  esac
+   c_target_objs="${c_target_objs} glibc-c.o"
+   cxx_target_objs="${cxx_target_objs} glibc-c.o"
+   d_target_objs="${d_target_objs} glibc-d.o"
+@@ -2009,8 +2020,8 @@
+ 		 i386/x86-64.h i386/gnu-user-common.h i386/gnu-user64.h"
+ 	case ${target} in
+ 	x86_64-*-linux*)
+-		tm_file="${tm_file} linux.h linux-android.h i386/linux-common.h i386/linux64.h"
+-		extra_options="${extra_options} linux-android.opt"
++		tm_file="${tm_file} linux.h linux-android.h linux-utopia.h i386/linux-common.h i386/linux64.h linux-decisions.h"
++		extra_options="${extra_options} linux-android.opt linux-utopia.opt"
+ 	  	;;
+ 	x86_64-*-kfreebsd*-gnu)
+ 		tm_file="${tm_file} kfreebsd-gnu.h i386/kfreebsd-gnu64.h"
+@@ -3622,7 +3633,7 @@
+ # Assume the existence of indirect function support and allow the use of the
+ # resolver attribute.
+ case ${target} in
+-*-*-linux*android*|*-*-linux*uclibc*|*-*-linux*musl*)
++*-*-linux*android*|*-*-linux*uclibc*|*-*-linux*musl*|*-*-linux*utopia*)
+         ;;
+ *-*-kfreebsd*-gnu | *-*-kopensolaris*-gnu)
+         ;;

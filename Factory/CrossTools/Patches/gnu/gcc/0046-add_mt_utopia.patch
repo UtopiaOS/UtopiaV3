@@ -1,0 +1,4 @@
+--- /dev/null	2022-01-14 10:25:43.905183662 -0600
++++ config/mt-utopia	2022-01-14 10:45:06.947393622 -0600
+@@ -0,0 +1 @@
++CXXFLAGS_FOR_TARGET += -D_GNU_SOURCE

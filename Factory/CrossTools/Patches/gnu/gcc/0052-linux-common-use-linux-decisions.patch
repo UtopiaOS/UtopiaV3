@@ -1,0 +1,63 @@
+--- gcc/config/i386/linux-common.h.orig	2022-01-14 14:35:52.619509891 -0600
++++ gcc/config/i386/linux-common.h	2022-01-14 14:33:56.657466555 -0600
+@@ -1,19 +1,15 @@
+ /* Definitions for Intel 386 running Linux-based GNU systems with ELF format.
+    Copyright (C) 2012-2021 Free Software Foundation, Inc.
+    Contributed by Ilya Enkovich.
+-
+ This file is part of GCC.
+-
+ GCC is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 3, or (at your option)
+ any later version.
+-
+ GCC is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+-
+ You should have received a copy of the GNU General Public License
+ along with GCC; see the file COPYING3.  If not see
+ <http://www.gnu.org/licenses/>.  */
+@@ -24,16 +20,18 @@
+     {                                          \
+       GNU_USER_TARGET_OS_CPP_BUILTINS();       \
+       ANDROID_TARGET_OS_CPP_BUILTINS();	       \
+-    }                                          \
++      UTOPIA_TARGET_OS_CPP_BUILTINS();         \
++    }                                            \
+   while (0)
+ 
+ #define EXTRA_TARGET_D_OS_VERSIONS()		\
+-  ANDROID_TARGET_D_OS_VERSIONS();
++  ANDROID_TARGET_D_OS_VERSIONS(); \
++  UTOPIA_TARGET_D_OS_VERSIONS();
+ 
+ #undef CC1_SPEC
+ #define CC1_SPEC \
+-  LINUX_OR_ANDROID_CC (GNU_USER_TARGET_CC1_SPEC, \
+-		       GNU_USER_TARGET_CC1_SPEC " " ANDROID_CC1_SPEC)
++  LINUX_CHOOSE_SPEC_CC(GNU_USER_TARGET_CC1_SPEC, \
++        GNU_USER_TARGET_CC1_SPEC " " ANDROID_CC1_SPEC " " UTOPIA_CC1_SPEC)
+ 
+ #undef	LINK_SPEC
+ #define LINK_SPEC \
+@@ -42,8 +40,8 @@
+ 
+ #undef  LIB_SPEC
+ #define LIB_SPEC \
+-  LINUX_OR_ANDROID_LD (GNU_USER_TARGET_LIB_SPEC, \
+-		    GNU_USER_TARGET_NO_PTHREADS_LIB_SPEC " " ANDROID_LIB_SPEC)
++  LINUX_CHOOSE_SPEC_LD (GNU_USER_TARGET_LIB_SPEC, \
++          GNU_USER_TARGET_NO_PTHREADS_LIB_SPEC " " ANDROID_LINK_SPEC " " UTOPIA_LINK_SPEC)
+ 
+ #undef  STARTFILE_SPEC
+ #define STARTFILE_SPEC \
+@@ -68,4 +66,4 @@
+ extern void file_end_indicate_exec_stack_and_gnu_property (void);
+ 
+ #undef TARGET_ASM_FILE_END
+-#define TARGET_ASM_FILE_END file_end_indicate_exec_stack_and_gnu_property
++#define TARGET_ASM_FILE_END file_end_indicate_exec_stack_and_gnu_property
+\ No newline at end of file

@@ -1,0 +1,12 @@
+--- configure.ac.orig	2022-01-14 14:26:57.810133561 -0600
++++ configure.ac	2022-01-14 10:45:06.950393637 -0600
+@@ -2637,6 +2637,9 @@
+   *-*-linux-android*)
+     target_makefile_frag="config/mt-android"
+     ;;
++  *-*-linux-utopia*)
++    target_makefile_frag="config/mt-utopia"
++    ;;
+   *-*-linux* | *-*-gnu* | *-*-k*bsd*-gnu | *-*-kopensolaris*-gnu)
+     target_makefile_frag="config/mt-gnu"
+     ;;
