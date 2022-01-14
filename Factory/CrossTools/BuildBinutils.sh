@@ -7,7 +7,7 @@ echo "$DIR"
 
 CROSSTOOLS="$DIR/Cross"
 ARCH="x86_64"
-UTOPIA_TARGET="$ARCH-pc-linux-musl"
+UTOPIA_TARGET="$ARCH-pc-linux-utopia"
 
 SHA256SUM="sha256sum"
 AWK="awk"
@@ -91,6 +91,12 @@ pushd "$DIR/Tarballs"
     
     echo "Extracting binutils..."
     tar -xvf "$BINUTILS_PKG"
+popd
+
+# === Patch phase ===
+pushd "$DIR/Tarballs/$BINUTILS_NAME"
+    buildstep patching echo "Patching binutils"
+    patch -Np0 -i "$DIR/Patches/gnu/binutils/config.sub.patch"
 popd
 
 # === Build phase ===

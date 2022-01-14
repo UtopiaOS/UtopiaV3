@@ -75,6 +75,9 @@ WRAPCC_CLANG = clang
 
 LDSO_PATHNAME = $(syslibdir)/ld-musl-$(ARCH)$(SUBARCH).so.1
 
+LIBC_STATIC_NAME = libc.a
+LIBC_SHARED_NAME = libc.so
+
 -include config.mak
 -include $(srcdir)/arch/$(ARCH)/arch.mak
 
@@ -158,11 +161,11 @@ obj/%.lo: $(srcdir)/%.S
 obj/%.lo: $(srcdir)/%.c $(GENH) $(IMPH)
 	$(CC_CMD)
 
-lib/libc.so: $(LOBJS) $(LDSO_OBJS)
+lib/$(LIBC_SHARED_NAME): $(LOBJS) $(LDSO_OBJS)
 	$(CC) $(CFLAGS_ALL) $(LDFLAGS_ALL) -nostdlib -shared \
 	-Wl,-e,_dlstart -o $@ $(LOBJS) $(LDSO_OBJS) $(LIBCC)
 
-lib/libc.a: $(AOBJS)
+lib/$(LIBC_STATIC_NAME): $(AOBJS)
 	rm -f $@
 	$(AR) rc $@ $(AOBJS)
 	$(RANLIB) $@
@@ -209,8 +212,8 @@ $(DESTDIR)$(includedir)/bits/%: obj/include/bits/%
 $(DESTDIR)$(includedir)/%: $(srcdir)/include/%
 	$(INSTALL) -D -m 644 $< $@
 
-$(DESTDIR)$(LDSO_PATHNAME): $(DESTDIR)$(libdir)/libc.so
-	$(INSTALL) -D -l $(libdir)/libc.so $@ || true
+$(DESTDIR)$(LDSO_PATHNAME): $(DESTDIR)$(libdir)/$(LIBC_SHARED_NAME)
+	$(INSTALL) -D -l $(libdir)/$(LIBC_SHARED_NAME) $@ || true
 
 install-libs: $(ALL_LIBS:lib/%=$(DESTDIR)$(libdir)/%) $(if $(SHARED_LIBS),$(DESTDIR)$(LDSO_PATHNAME),)
 

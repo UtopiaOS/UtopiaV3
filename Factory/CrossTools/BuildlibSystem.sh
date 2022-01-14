@@ -10,7 +10,7 @@ echo $DIR
 CROSSTOOLS="$DIR/Cross"
 ARCH="x86_64"
 TOOLS=$(realpath "$DIR/../Toolchain")/Tools
-UTOPIA_TARGET="$ARCH-pc-linux-musl"
+UTOPIA_TARGET="$ARCH-pc-linux-utopia"
 
 SHA256SUM="sha256sum"
 REALPATH="realpath"
@@ -28,18 +28,6 @@ buildstep() {
     shift
     "$@" 2>&1 | "$SED" $'s|^|\e[34m['"${NAME}"$']\e[39m |'
 }
-
-echo PREFIX is "$PREFIX"
-
-mkdir -p "$DIR/Tarballs"
-
-# == MUSL SOURCE == 
-
-MUSL_VERSION="1.2.2"
-MUSL_NAME="musl-$MUSL_VERSION"
-MUSL_PKG="$MUSL_NAME.tar.gz"
-MUSL_URL="https://musl.libc.org/releases/$MUSL_PKG"
-MUSL_SHA256SUM="9b969322012d796dc23dda27a35866034fa67d8fb67e0e2c45c913c3d43219dd"
 
 # == Dependency checking ==
 
@@ -73,25 +61,13 @@ then
     exit 1
 fi
 
-# == DOWNLOAD PHASE ==
 
-pushd "$DIR/Tarballs"
-    sha256=""
-    if [ -e "$MUSL_PKG" ]; then
-        sha256="$($SHA256SUM ${MUSL_PKG} | cut -f1 -d ' ')"
-        echo "musl sha256='$sha256'"
-    fi
+# == ACQUIRE SOURCE ==
 
-    if [ "$sha256" != "$MUSL_SHA256SUM" ]; then
-        rm -rf "$MUSL_PKG"
-        curl -LO "$MUSL_URL"
-    else
-        echo "Skipping downloading musl"
-    fi
+# In reality we just cp the files from Core/Libraries/libSystem
 
-    echo "Extracting musl..."
-    tar -xvf ${MUSL_PKG}
-popd
+ROOT=$(${REALPATH} $DIR/../../)
+cp -vr $ROOT/Core/Libraries/libSystem $DIR/Tarballs/libSystem
 
 # == BUILD ==
 
@@ -99,7 +75,7 @@ mkdir -p $DIR/Build/musl
 
 pushd "$DIR/Build/musl"
     export PATH=$DIR/Cross/bin:/bin:/usr/bin
-    buildstep musl/configure $DIR/Tarballs/$MUSL_NAME/configure CROSS_COMPILEs=${UTOPIA_TARGET}- \
+    buildstep musl/configure $DIR/Tarballs/libSystem/configure CROSS_COMPILEs=${UTOPIA_TARGET}- \
     --prefix=/ \
     --target=${UTOPIA_TARGET}
 
@@ -111,10 +87,10 @@ popd
 
 pushd "$CROSSTOOLS"
     mkdir -v usr
-    ln -sv ../include ./usr/include
+    ln -sfv ../include ./usr/include
 
     rm -vf lib/ld-musl-${ARCH}.so.1
-    ln -sv libc.so lib/ld-musl-${ARCH}.so.1
+    ln -sv libSystem.so lib/ld-musl-${ARCH}.so.1
 
     ln -sv ../lib/ld-musl-$ARCH.so.1 bin/ldd
 
