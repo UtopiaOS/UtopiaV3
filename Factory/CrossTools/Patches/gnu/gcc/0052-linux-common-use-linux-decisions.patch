@@ -1,5 +1,5 @@
---- gcc/config/i386/linux-common.h.orig	2022-01-14 14:35:52.619509891 -0600
-+++ gcc/config/i386/linux-common.h	2022-01-14 14:33:56.657466555 -0600
+--- gcc/config/i386/linux-common.h.orig	2022-01-14 15:56:18.724052267 -0600
++++ gcc/config/i386/linux-common.h	2022-01-14 15:37:39.372699690 -0600
 @@ -1,19 +1,15 @@
  /* Definitions for Intel 386 running Linux-based GNU systems with ELF format.
     Copyright (C) 2012-2021 Free Software Foundation, Inc.
@@ -20,7 +20,7 @@
  You should have received a copy of the GNU General Public License
  along with GCC; see the file COPYING3.  If not see
  <http://www.gnu.org/licenses/>.  */
-@@ -24,16 +20,18 @@
+@@ -24,16 +20,19 @@
      {                                          \
        GNU_USER_TARGET_OS_CPP_BUILTINS();       \
        ANDROID_TARGET_OS_CPP_BUILTINS();	       \
@@ -39,22 +39,24 @@
 -  LINUX_OR_ANDROID_CC (GNU_USER_TARGET_CC1_SPEC, \
 -		       GNU_USER_TARGET_CC1_SPEC " " ANDROID_CC1_SPEC)
 +  LINUX_CHOOSE_SPEC_CC(GNU_USER_TARGET_CC1_SPEC, \
-+        GNU_USER_TARGET_CC1_SPEC " " ANDROID_CC1_SPEC " " UTOPIA_CC1_SPEC)
++        GNU_USER_TARGET_CC1_SPEC " " ANDROID_CC1_SPEC, \
++        UTOPIA_CC1_SPEC)
  
  #undef	LINK_SPEC
  #define LINK_SPEC \
-@@ -42,8 +40,8 @@
+@@ -42,8 +41,9 @@
  
  #undef  LIB_SPEC
  #define LIB_SPEC \
 -  LINUX_OR_ANDROID_LD (GNU_USER_TARGET_LIB_SPEC, \
 -		    GNU_USER_TARGET_NO_PTHREADS_LIB_SPEC " " ANDROID_LIB_SPEC)
 +  LINUX_CHOOSE_SPEC_LD (GNU_USER_TARGET_LIB_SPEC, \
-+          GNU_USER_TARGET_NO_PTHREADS_LIB_SPEC " " ANDROID_LINK_SPEC " " UTOPIA_LINK_SPEC)
++          GNU_USER_TARGET_NO_PTHREADS_LIB_SPEC " " ANDROID_LIB_SPEC, \
++          UTOPIA_LIB_SPEC)
  
  #undef  STARTFILE_SPEC
  #define STARTFILE_SPEC \
-@@ -68,4 +66,4 @@
+@@ -68,4 +68,4 @@
  extern void file_end_indicate_exec_stack_and_gnu_property (void);
  
  #undef TARGET_ASM_FILE_END

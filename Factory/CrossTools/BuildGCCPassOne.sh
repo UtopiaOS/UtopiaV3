@@ -211,10 +211,15 @@ popd
 
 pushd "$DIR/Tarballs/$GCC_NAME"
     buildstep patching echo "Patching GCC"
-    patch -Np1 -i "$DIR/Patches/gnu/gcc/config.addutopia.patch"
-    patch -Np0 -i "$DIR/Patches/gnu/gcc/gcc_valid_utopia.patch"
-    patch -Np1 -i "$DIR/Patches/gnu/gcc/utopiahighlevel.patch"
-    patch -Np1 -i "$DIR/Patches/gnu/gcc/utopialinuxcommon.patch"
+    patch -Np0 -i "$DIR/Patches/gnu/gcc/0044-linux_decisions.patch"
+    patch -Np0 -i "$DIR/Patches/gnu/gcc/0045-config.gcc-linux-common-and-utopia.patch"
+    patch -Np0 -i "$DIR/Patches/gnu/gcc/0046-add_mt_utopia.patch"
+    patch -Np0 -i "$DIR/Patches/gnu/gcc/0047-configure_support_utopia.patch"
+    patch -Np0 -i "$DIR/Patches/gnu/gcc/0048-configure_ac_support_utopia.patch"
+    patch -Np0 -i "$DIR/Patches/gnu/gcc/0049-config-sub-utopia.patch"
+    patch -Np0 -i "$DIR/Patches/gnu/gcc/0050-utopia-basic-definition.patch"
+    patch -Np0 -i "$DIR/Patches/gnu/gcc/0051-utopia-driver.patch"
+    patch -Np0 -i "$DIR/Patches/gnu/gcc/0052-linux-common-use-linux-decisions.patch"
 popd
 
 # == BUILD ==

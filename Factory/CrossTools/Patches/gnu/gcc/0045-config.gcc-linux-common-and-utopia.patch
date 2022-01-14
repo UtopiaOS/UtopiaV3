@@ -1,5 +1,5 @@
 --- config.gcc.orig	2022-01-14 14:16:11.496272476 -0600
-+++ config.gcc	2022-01-14 14:14:28.377454173 -0600
++++ gcc/config.gcc	2022-01-14 14:14:28.377454173 -0600
 @@ -854,6 +854,9 @@
      *-*-*android*)
        tm_defines="$tm_defines DEFAULT_LIBC=LIBC_BIONIC"
