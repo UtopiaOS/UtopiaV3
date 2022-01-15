@@ -90,7 +90,9 @@ pushd "$CROSSTOOLS"
     ln -sfv ../include ./usr/include
 
     rm -vf lib/ld-musl-${ARCH}.so.1
-    ln -sv libSystem.so lib/ld-musl-${ARCH}.so.1
+    ln -sfv libSystem.so lib/ld-musl-${ARCH}.so.1
+    # For legacy applications and portability
+    ln -sfv libSystem.so lib/libc.so
 
     ln -sv ../lib/ld-musl-$ARCH.so.1 bin/ldd
 

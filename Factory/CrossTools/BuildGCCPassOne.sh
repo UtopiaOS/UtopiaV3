@@ -227,6 +227,7 @@ popd
 mkdir -p $DIR/Build/gccOne
 
 pushd "$DIR/Build/gccOne"
+    export PATH=$DIR/Cross/bin:/bin:/usr/bin
     CFLAGS='-g0 -O0' \
     CXXFLAGS='-g0 -O0' \
     $DIR/Tarballs/$GCC_NAME/configure \
