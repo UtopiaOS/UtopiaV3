@@ -113,10 +113,15 @@ popd
 # == Patch gcc ==
 pushd "$DIR/Tarballs/$GCC_NAME"
     patches="$DIR/Patches/gnu/gcc"
-    patch -Np1 -i $patches/config.addutopia.patch
-    patch -Np0 -i $patches/gcc_valid_utopia.patch
-    patch -Np1 -i $patches/utopiahighlevel.patch
-    patch -Np1 -i $patches/utopialinuxcommon.patch
+    patch -Np0 -i "$DIR/Patches/gnu/gcc/0044-linux_decisions.patch"
+    patch -Np0 -i "$DIR/Patches/gnu/gcc/0045-config.gcc-linux-common-and-utopia.patch"
+    patch -Np0 -i "$DIR/Patches/gnu/gcc/0046-add_mt_utopia.patch"
+    patch -Np0 -i "$DIR/Patches/gnu/gcc/0047-configure_support_utopia.patch"
+    patch -Np0 -i "$DIR/Patches/gnu/gcc/0048-configure_ac_support_utopia.patch"
+    patch -Np0 -i "$DIR/Patches/gnu/gcc/0049-config-sub-utopia.patch"
+    patch -Np0 -i "$DIR/Patches/gnu/gcc/0050-utopia-basic-definition.patch"
+    patch -Np0 -i "$DIR/Patches/gnu/gcc/0051-utopia-driver.patch"
+    patch -Np0 -i "$DIR/Patches/gnu/gcc/0052-linux-common-use-linux-decisions.patch"
     patch -Np1 -i $patches/0001-posix_memalign.patch
     patch -Np1 -i $patches/0002-gcc-poison-system-directories.patch
     patch -Np1 -i $patches/0003-Turn-on-Wl-z-relro-z-now-by-default.patch
@@ -168,4 +173,4 @@ pushd "$DIR/Build/gccTwo"
     buildstep gcc/stageTwo/make make AS_FOR_TARGET="${UTOPIA_TARGET}-as" LD_FOR_TARGET="${UTOPIA_TARGET}-ld"
 
     buildstep gcc/stageTwo/install make install
-popd 
+popd
