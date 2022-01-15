@@ -158,6 +158,7 @@ pushd "$DIR/Tarballs/$GCC_NAME"
     buildstep gcc/stageTwo/patch/0041 patch -Np1 -i $patches/0041-Use-generic-errstr.go-implementation-on-musl.patch
     buildstep gcc/stageTwo/patch/0042 patch -Np1 -i $patches/0042-Disable-ssp-on-nostdlib-nodefaultlibs-and-ffreestand.patch
     buildstep gcc/stageTwo/patch/0043 patch -Np1 -i $patches/0043-configure-Add-enable-autolink-libatomic-use-in-LINK_.patch
+    buildstep gcc/stageTwo/patch/0053 patch -Np0 -i $patches/0053-utopia_is_generic.patch
     #buildstep gcc/stageTwo/patch/0022 patch -Np1 -i $patches/0022-DP-Use-push-state-pop-state-for-gold-as-well-when-li.patch
 popd
 
