@@ -10,7 +10,7 @@ echo $DIR
 CROSSTOOLS="$DIR/Cross"
 ARCH="x86_64"
 TOOLS=$(realpath "$DIR/../Toolchain")/Tools
-UTOPIA_TARGET="$ARCH-pc-linux-utopia"
+UTOPIA_TARGET="$ARCH-trip-linux-utopia"
 
 SHA256SUM="sha256sum"
 REALPATH="realpath"

@@ -14,7 +14,7 @@ CROSSTOOLS="$DIR/Cross"
 ## TODO: Stop hardcoding x86 here
 
 ARCH="x86_64"
-UTOPIA_TARGET="$ARCH-pc-linux-utopia"
+UTOPIA_TARGET="$ARCH-trip-linux-utopia"
 
 
 SHA256SUM="sha256sum"
@@ -120,6 +120,8 @@ mkdir -p "$CROSSTOOLS"
 # === COMPILE AND INSTALL ===
 
 pushd "$DIR/Tarballs/linux-$KERNEL_HEADERS_VERSION"
+    unset CFLAGS
+    unset CXXFLAGS
     buildstep "kernel-headers/clean" make mrproper
     make ARCH=x86 headers
     mkdir -pv "$CROSSTOOLS/$UTOPIA_TARGET/include"

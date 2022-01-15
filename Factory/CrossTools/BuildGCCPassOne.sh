@@ -10,7 +10,7 @@ PREFIX="$DIR/Local/gcc/"
 CROSSTOOLS="$DIR/Cross"
 ARCH="x86_64"
 CPU="x86-64"
-UTOPIA_TARGET="$ARCH-pc-linux-utopia"
+UTOPIA_TARGET="$ARCH-trip-linux-utopia"
 
 UTOPIA_BUILDER=""$(echo $MACHTYPE | \
     sed "s/$(echo $MACHTYPE | cut -d- -f2)/cross/")""
@@ -227,7 +227,10 @@ popd
 mkdir -p $DIR/Build/gccOne
 
 pushd "$DIR/Build/gccOne"
-    buildstep gcc/configure $DIR/Tarballs/$GCC_NAME/configure --prefix=${CROSSTOOLS} --build=${UTOPIA_BUILDER} \
+    CFLAGS='-g0 -O0' \
+    CXXFLAGS='-g0 -O0' \
+    $DIR/Tarballs/$GCC_NAME/configure \
+    --prefix=${CROSSTOOLS} --build=${UTOPIA_BUILDER} \
     --host=${UTOPIA_BUILDER} --target=${UTOPIA_TARGET} \
     --with-sysroot=${CROSSTOOLS}/${UTOPIA_TARGET} --disable-nls \
     --with-newlib --disable-libitm --disable-libvtv --disable-libssp --disable-shared  \
@@ -236,7 +239,7 @@ pushd "$DIR/Build/gccOne"
     --disable-libsanitizer --with-arch=${CPU} \
     --disable-decimal-float --enable-clocale=generic
 
-    buildstep gcc/libgcc make all-gcc all-target-libgcc
+    make all-gcc all-target-libgcc
 
     buildstep gcc/install make install-gcc install-target-libgcc
 popd

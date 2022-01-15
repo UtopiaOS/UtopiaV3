@@ -7,7 +7,7 @@ echo "$DIR"
 
 CROSSTOOLS="$DIR/Cross"
 ARCH="x86_64"
-UTOPIA_TARGET="$ARCH-pc-linux-utopia"
+UTOPIA_TARGET="$ARCH-trip-linux-utopia"
 
 SHA256SUM="sha256sum"
 AWK="awk"
@@ -101,6 +101,8 @@ popd
 
 # === Build phase ===
 pushd "$DIR/Tarballs/$BINUTILS_NAME"
+    unset CFLAGS
+    unset CXXFLAGS
     buildstep binutils/configure ./configure --prefix=${CROSSTOOLS} \
     --target=${UTOPIA_TARGET} \
     --with-sysroot="${CROSSTOOLS}/${UTOPIA_TARGET}" \
