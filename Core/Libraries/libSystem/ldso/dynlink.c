@@ -1006,8 +1006,13 @@ static struct dso *load_library(const char *name, struct dso *needed_by)
 
 	/* Catch and block attempts to reload the implementation itself */
 	if (name[0]=='l' && name[1]=='i' && name[2]=='b') {
+		#ifdef __UTOPIA__
+		static const char reserved[] =
+			"System.pthread.rt.m.dl.util.xnet.";
+		#else
 		static const char reserved[] =
 			"c.pthread.rt.m.dl.util.xnet.";
+		#endif
 		const char *rp, *next;
 		for (rp=reserved; *rp; rp=next) {
 			next = strchr(rp, '.') + 1;
@@ -1127,7 +1132,11 @@ static struct dso *load_library(const char *name, struct dso *needed_by)
 	if (find_sym(&temp_dso, "__libc_start_main", 1).sym &&
 	    find_sym(&temp_dso, "stdin", 1).sym) {
 		unmap_library(&temp_dso);
+		#ifdef __UTOPIA__
+		return load_library("libSystem.so", needed_by);
+		#else
 		return load_library("libc.so", needed_by);
+		#endif
 	}
 	/* Past this point, if we haven't reached runtime yet, ldso has
 	 * committed either to use the mapped library or to abort execution.
@@ -1659,7 +1668,11 @@ hidden void __dls2(unsigned char *base, size_t *sp)
 		ldso.base = base;
 	}
 	Ehdr *ehdr = (void *)ldso.base;
+	#ifdef __UTOPIA__
+	ldso.name = ldso.shortname = "libSystem.so";
+	#else
 	ldso.name = ldso.shortname = "libc.so";
+	#endif
 	ldso.phnum = ehdr->e_phnum;
 	ldso.phdr = laddr(&ldso, ehdr->e_phoff);
 	ldso.phentsize = ehdr->e_phentsize;
