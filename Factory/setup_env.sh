@@ -1,0 +1,64 @@
+#!/bin/bash
+# 
+# UtopiaBuilder -> Deploy Utopia stage 1 crosstools and toolchain
+#
+# Setup env script
+#
+# This script is under the public Domain
+# Originally written by Diego Magdaleno in 2021
+#
+
+CROSS_ENV_SIGNATURE=${CROSS_ENV_SIGNATURE:-"UNDEFINED"}
+if [ $CROSS_ENV_SIGNATURE = "CROSS_ENV_SIGNATURE" ]; then
+    echo "Cannot set build environment!"
+    echo "Build environment already set!"
+    exit 1
+fi
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+PARENT=$(realpath $DIR/..)
+CONFIG="$DIR/config.json"
+
+VALID_VENDORS=("trip")
+VALID_ARCHITECTURES=("x86_64")
+
+if [ ! -f "$CONFIG" ]; then
+    echo "No configuration file has been detected! Please write your own or copy the example over"
+    echo "$(realpath $DIR/../Meta/Build/example_config.json) as config.json"
+    exit 1
+fi
+
+# TODO: Verify that vendors are valid
+CONFIG_VENDOR=$(cat $CONFIG | jq ".vendor")
+
+# TODO: Verify that the architecture is valid
+CONFIG_ARCHITECTURE=$(cat $CONFIG | jq ".arch")
+
+CROSS_LOCATION="$PARENT/Build/CrossTools"
+TOOLS_LOCATION="$PARENT/Build/Tools"
+OPERATION_CREATION="$PARENT/Build/Creation"
+TARBALLS_DIR="$OPERATION_CREATION/tarballs"
+SOURCES_DIR="$OPERATION_CREATION/sources"
+BUILD_DIR=$"$OPERATION_CREATION/build"
+NAMES=( "KERNEL_HEADERS" "BINUTILS" "MPFR" "GMP" "MPC" "GCC" )
+
+
+export PATH=$CROSS_LOCATION/bin:/bin/:/usr/bin:/$TOOLS_LOCATION/bin
+
+echo "Making directories..."
+mkdir -p $CROSS_LOCATION
+mkdir -p $TOOLS_LOCATION
+mkdir -p $OPERATION_CREATION/{tarballs,sources,build}
+
+source $DIR/sources.sh
+source $DIR/functions.sh
+
+for name in "${NAMES[@]}"
+do
+    lpkg="${name}_PKG"
+    lsha256sum="${name}_SHA256SUM"
+    lurl="${name}_URL"
+    lname="${name}_NAME"
+    download_package $TARBALLS_DIR ${!lpkg} ${!lsha256sum} ${!lurl} ${!lname}
+    extract_package $SOURCES_DIR ${!lpkg} $TARBALLS_DIR
+done
