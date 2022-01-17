@@ -62,19 +62,24 @@ mkdir -p $BUILD_DIR/binutils
 
 # === Build phase ===
 pushd "$BUILD_DIR/binutils"
-    unset CFLAGS
-    unset CXXFLAGS
-    $SOURCES_DIR/$BINUTILS_NAME/configure --prefix=${CROSS_LOCATION} \
-    --target=${TARGET_TRIPLE} \
-    --with-sysroot="${CROSS_LOCATION}/${TARGET_TRIPLE}" \
-    --disable-nls \
-    --disable-multilib \
-    --disable-werror \
-    --enable-deterministic-archives \
-    --disable-compressed-debug-sections
+    if [ ! -f ".built_$PHASE" ]; then
+        unset CFLAGS
+        unset CXXFLAGS
+        $SOURCES_DIR/$BINUTILS_NAME/configure --prefix=${CROSS_LOCATION} \
+        --target=${TARGET_TRIPLE} \
+        --with-sysroot="${CROSS_LOCATION}/${TARGET_TRIPLE}" \
+        --disable-nls \
+        --disable-multilib \
+        --disable-werror \
+        --enable-deterministic-archives \
+        --disable-compressed-debug-sections
 
-    buildstep binutils/configure_host make configure-host
+        buildstep binutils/configure_host make configure-host
 
-    buildstep binutils/make make
-    buildstep binutils/install make install
+        buildstep binutils/make make
+        buildstep binutils/install make install
+        touch .built_$PHASE
+    else
+        echo "Binutils has been built already"
+    fi
 popd

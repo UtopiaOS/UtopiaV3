@@ -11,6 +11,7 @@ NPROC="nproc"
 INSTALL="install"
 SED="sed"
 
+
 buildstep() {
     NAME=$1
     shift
@@ -53,16 +54,24 @@ fi
 # === COMPILE AND INSTALL ===
 
 pushd $SOURCES_DIR/$KERNEL_HEADERS_NAME
-    unset CFLAGS
-    unset CXXFLAGS
-    buildstep "kernel-headers/clean" make mrproper
-    make ARCH=x86 headers
-    mkdir -pv "$CROSS_LOCATION/$TARGET_TRIPLE/include"
-    cp -rv usr/include/* "$CROSS_LOCATION/$TARGET_TRIPLE/include"
+    if [ ! -f ".built_$PHASE" ]; then
+        buildstep "kernel-headers/clean" make mrproper
+        make ARCH=x86 headers
+        mkdir -pv "$CROSS_LOCATION/$TARGET_TRIPLE/include"
+        cp -rv usr/include/* "$CROSS_LOCATION/$TARGET_TRIPLE/include"
+        touch .built_$PHASE
+    else
+        echo "Kernel headers has been built already"
+    fi
 popd
 
 
 pushd "$CROSS_LOCATION/$TARGET_TRIPLE/include"
-    find . -name '.*.cmd' -exec rm -vf {} \;
-    rm -v Makefile
+    if [ ! -f ".cleaned_$PHASE" ]; then
+        find . -name '.*.cmd' -exec rm -vf {} \;
+        rm -v Makefile
+        touch .cleaned_$PHASE
+    else
+        echo "Kernel headers has been cleaned already"
+    fi
 popd
