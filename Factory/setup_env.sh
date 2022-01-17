@@ -97,3 +97,4 @@ PHASE="toolchain"
 
 source $DIR/Toolchain/BuildlibSystem.sh
 source $DIR/Toolchain/AdjustToolchain.sh
+source $DIR/Toolchain/BuildBinutils.sh
