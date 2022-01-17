@@ -12,3 +12,4 @@ Factory/Toolchain/Tools
 .vscode
 stdin.info
 **/stdin.info
+Factory/config.json
