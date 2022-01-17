@@ -92,3 +92,8 @@ source $DIR/CrossTools/BuildBinutils.sh
 source $DIR/CrossTools/BuildGCCPassOne.sh
 source $DIR/CrossTools/BuildlibSystem.sh
 source $DIR/CrossTools/BuildGCCPassTwo.sh
+
+PHASE="toolchain"
+
+source $DIR/Toolchain/BuildlibSystem.sh
+source $DIR/Toolchain/AdjustToolchain.sh
