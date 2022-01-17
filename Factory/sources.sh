@@ -15,7 +15,7 @@ BINUTILS_VERSION="2.37"
 BINUTILS_SHA256SUM="820d9724f020a3e69cb337893a0b63c2db161dadcb0e06fc11dc29eb1e84a32c"
 BINUTILS_NAME="binutils-$BINUTILS_VERSION"
 BINUTILS_PKG="$BINUTILS_NAME.tar.xz"
-BINUTILS_URL="https://ftp.gnu.org/gnu/binutils/$BINUTILS_PKG"
+BINUTILS_URL="http://gnu.mirrors.hoobly.com/binutils/$BINUTILS_PKG"
 
 # == GCC == 
 
@@ -38,7 +38,7 @@ MPFR_SHA256SUM="0c98a3f1732ff6ca4ea690552079da9c597872d30e96ec28414ee23c95558a7f
 GMP_VERSION="6.2.1"
 GMP_NAME="gmp-$GMP_VERSION"
 GMP_PKG="$GMP_NAME.tar.xz"
-GMP_URL="https://ftp.gnu.org/gnu/gmp/$GMP_PKG"
+GMP_URL="http://gnu.mirrors.hoobly.com/gmp/$GMP_PKG"
 GMP_SHA256SUM="fd4829912cddd12f84181c3451cc752be224643e87fac497b69edddadc49b4f2"
 
 # == MPC ==
@@ -46,5 +46,5 @@ GMP_SHA256SUM="fd4829912cddd12f84181c3451cc752be224643e87fac497b69edddadc49b4f2"
 MPC_VERSION="1.2.1"
 MPC_NAME="mpc-$MPC_VERSION"
 MPC_PKG="$MPC_NAME.tar.gz"
-MPC_URL="https://ftp.gnu.org/gnu/mpc/$MPC_PKG"
+MPC_URL="http://gnu.mirrors.hoobly.com/mpc/$MPC_PKG"
 MPC_SHA256SUM="17503d2c395dfcf106b622dc142683c1199431d095367c6aacba6eec30340459"
