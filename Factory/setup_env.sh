@@ -29,10 +29,22 @@ if [ ! -f "$CONFIG" ]; then
 fi
 
 # TODO: Verify that vendors are valid
-CONFIG_VENDOR=$(cat $CONFIG | jq ".vendor")
+CONFIG_VENDOR=$(cat $CONFIG | jq -r ".vendor")
 
 # TODO: Verify that the architecture is valid
-CONFIG_ARCHITECTURE=$(cat $CONFIG | jq ".arch")
+CONFIG_ARCHITECTURE=$(cat $CONFIG | jq -r ".targets")
+
+ALWAYS_REEXTRACT=$( [[ $(cat $CONFIG | jq -r ".reextract") == "true" ]] &&  printf %d "1" || printf %d "0")
+
+echo $ALWAYS_REEXTRACT
+
+# TODO: Make a function that converts targets architecture to CPU syntax
+CPU="x86-64"
+
+BUILDER==""$(echo $MACHTYPE | \
+    sed "s/$(echo $MACHTYPE | cut -d- -f2)/cross/")""
+
+TARGET_TRIPLE="$CONFIG_ARCHITECTURE-$CONFIG_VENDOR-linux-utopia"
 
 CROSS_LOCATION="$PARENT/Build/CrossTools"
 TOOLS_LOCATION="$PARENT/Build/Tools"
@@ -42,8 +54,16 @@ SOURCES_DIR="$OPERATION_CREATION/sources"
 BUILD_DIR=$"$OPERATION_CREATION/build"
 NAMES=( "KERNEL_HEADERS" "BINUTILS" "MPFR" "GMP" "MPC" "GCC" )
 
+PHASE="crosstools"
 
-export PATH=$CROSS_LOCATION/bin:/bin/:/usr/bin:/$TOOLS_LOCATION/bin
+
+export PATH=$CROSS_LOCATION/bin:/bin:/usr/bin:/$TOOLS_LOCATION/bin
+
+NPROC="nproc"
+
+if [ -z "$MAKEJOBS" ]; then
+    export MAKEJOBS=$($NPROC)
+fi
 
 echo "Making directories..."
 mkdir -p $CROSS_LOCATION
@@ -60,5 +80,13 @@ do
     lurl="${name}_URL"
     lname="${name}_NAME"
     download_package $TARBALLS_DIR ${!lpkg} ${!lsha256sum} ${!lurl} ${!lname}
-    extract_package $SOURCES_DIR ${!lpkg} $TARBALLS_DIR
+    if [ ! -d $SOURCES_DIR/${!lname} ] || [ "$ALWAYS_REEXTRACT" == "1" ]; then
+        extract_package $SOURCES_DIR ${!lpkg} $TARBALLS_DIR
+    else
+        echo "${!lpkg} has already been extracted"
+    fi
 done
+
+
+source $DIR/CrossTools/BuildKernelHeaders.sh
+source $DIR/CrossTools/BuildBinutils.sh
