@@ -1,0 +1,20 @@
+--- build-aux/config.sub.orig	2022-01-17 16:41:22.019245257 -0600
++++ build-aux/config.sub	2022-01-17 16:44:13.401698971 -0600
+@@ -131,7 +131,7 @@
+ 		# parts
+ 		maybe_os=$field2-$field3
+ 		case $maybe_os in
+-			nto-qnx* | linux-gnu* | linux-android* | linux-dietlibc \
++			nto-qnx* | linux-gnu* | linux-android* | linux-dietlibc | linux-utopia* \
+ 			| linux-newlib* | linux-musl* | linux-uclibc* | uclinux-uclibc* \
+ 			| uclinux-gnu* | kfreebsd*-gnu* | knetbsd*-gnu* | netbsd*-gnu* \
+ 			| netbsd*-eabi* | kopensolaris*-gnu* | cloudabi*-eabi* \
+@@ -1338,7 +1338,7 @@
+ 	# The portable systems comes first.
+ 	# Each alternative MUST end in a * to match a version number.
+ 	# sysv* is not here because it comes later, after sysvr4.
+-	gnu* | bsd* | mach* | minix* | genix* | ultrix* | irix* \
++	gnu* | bsd* | mach* | minix* | genix* | ultrix* | irix* | utopia* \
+ 	     | *vms* | esix* | aix* | cnk* | sunos | sunos[34]*\
+ 	     | hpux* | unos* | osf* | luna* | dgux* | auroraux* | solaris* \
+ 	     | sym* | kopensolaris* | plan9* \
