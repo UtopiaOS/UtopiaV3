@@ -91,19 +91,24 @@ popd
 mkdir -p $BUILD_DIR/gcc/passone
 
 pushd "$BUILD_DIR/gcc/passone"
-    CFLAGS='-g0 -O0' \
-    CXXFLAGS='-g0 -O0' \
-    $SOURCES_DIR/$GCC_NAME/configure \
-    --prefix=${CROSS_LOCATION} --build=${BUILDER} \
-    --host=${BUILDER} --target=${TARGET_TRIPLE} \
-    --with-sysroot=${CROSS_LOCATION}/${TARGET_TRIPLE} --disable-nls \
-    --with-newlib --disable-libitm --disable-libvtv --disable-libssp --disable-shared  \
-    --disable-libgomp --without-headers --disable-threads --disable-multilib \
-    --disable-libatomic --disable-libstdcxx  --enable-languages=c --disable-libquadmath \
-    --disable-libsanitizer --with-arch=${CPU} \
-    --disable-decimal-float --enable-clocale=generic
+    if [ ! -f ".built_$PHASE" ]; then
+        CFLAGS='-g0 -O0' \
+        CXXFLAGS='-g0 -O0' \
+        $SOURCES_DIR/$GCC_NAME/configure \
+        --prefix=${CROSS_LOCATION} --build=${BUILDER} \
+        --host=${BUILDER} --target=${TARGET_TRIPLE} \
+        --with-sysroot=${CROSS_LOCATION}/${TARGET_TRIPLE} --disable-nls \
+        --with-newlib --disable-libitm --disable-libvtv --disable-libssp --disable-shared  \
+        --disable-libgomp --without-headers --disable-threads --disable-multilib \
+        --disable-libatomic --disable-libstdcxx  --enable-languages=c --disable-libquadmath \
+        --disable-libsanitizer --with-arch=${CPU} \
+        --disable-decimal-float --enable-clocale=generic
 
-    make all-gcc all-target-libgcc
+        make all-gcc all-target-libgcc
 
-    buildstep gcc/install make install-gcc install-target-libgcc
+        buildstep gcc/install make install-gcc install-target-libgcc
+        touch .built_$PHASE
+    else
+        echo "GCC for $PHASE already built"
+    fi
 popd

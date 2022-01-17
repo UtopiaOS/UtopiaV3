@@ -4,8 +4,6 @@
 #
 # Setup env script
 #
-# This script is under the public Domain
-# Originally written by Diego Magdaleno in 2021
 #
 
 CROSS_ENV_SIGNATURE=${CROSS_ENV_SIGNATURE:-"UNDEFINED"}
@@ -41,7 +39,7 @@ echo $ALWAYS_REEXTRACT
 # TODO: Make a function that converts targets architecture to CPU syntax
 CPU="x86-64"
 
-BUILDER==""$(echo $MACHTYPE | \
+BUILDER=""$(echo $MACHTYPE | \
     sed "s/$(echo $MACHTYPE | cut -d- -f2)/cross/")""
 
 TARGET_TRIPLE="$CONFIG_ARCHITECTURE-$CONFIG_VENDOR-linux-utopia"
@@ -52,6 +50,7 @@ OPERATION_CREATION="$PARENT/Build/Creation"
 TARBALLS_DIR="$OPERATION_CREATION/tarballs"
 SOURCES_DIR="$OPERATION_CREATION/sources"
 BUILD_DIR=$"$OPERATION_CREATION/build"
+ROOT=$(realpath $DIR/../)
 NAMES=( "KERNEL_HEADERS" "BINUTILS" "MPFR" "GMP" "MPC" "GCC" )
 
 PHASE="crosstools"
@@ -90,3 +89,5 @@ done
 
 source $DIR/CrossTools/BuildKernelHeaders.sh
 source $DIR/CrossTools/BuildBinutils.sh
+source $DIR/CrossTools/BuildGCCPassOne.sh
+source $DIR/CrossTools/BuildlibSystem.sh
