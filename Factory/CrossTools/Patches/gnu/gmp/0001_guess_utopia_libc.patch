@@ -1,0 +1,11 @@
+--- configfsf.guess.orig	2022-01-17 16:14:57.181296985 -0600
++++ configfsf.guess	2022-01-17 16:15:34.445178204 -0600
+@@ -151,7 +151,7 @@
+ 	LIBC=dietlibc
+ 	#else
+ 	#include <stdarg.h>
+-	#ifdef __DEFINED_va_list
++	#if defined(__DEFINED_va_list) || defined(__UTOPIA__)
+ 	LIBC=musl
+ 	#else
+ 	LIBC=gnu
