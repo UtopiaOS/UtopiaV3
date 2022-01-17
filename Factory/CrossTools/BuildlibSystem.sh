@@ -62,7 +62,7 @@ mkdir -p $BUILD_DIR/libSystem
 
 pushd "$BUILD_DIR/libSystem"
     if [ ! -f ".built_$PHASE" ]; then
-        $SOURCES_DIR/libSystem/configure CROSS_COMPILEs=${TARGET_TRIPLE}- \
+        $SOURCES_DIR/libSystem/configure CROSS_COMPILE=${TARGET_TRIPLE}- \
         --prefix=/ \
         --target=${TARGET_TRIPLE}
 
