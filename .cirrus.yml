@@ -1,7 +1,7 @@
-build_crosstoolchain_task:
+build_cross_toolchain_task :
   container:
     image: ubuntu:latest
   install_deps_script:
     - echo "Installing dependencies"
-    - sudo apt-get update
-    - sudo apt-get install build-essential jq bash cmake git awk grep
+    - apt-get update
+    - apt-get install build-essential jq bash cmake git awk grep
