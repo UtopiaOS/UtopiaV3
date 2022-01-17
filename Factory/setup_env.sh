@@ -56,7 +56,7 @@ NAMES=( "KERNEL_HEADERS" "BINUTILS" "MPFR" "GMP" "MPC" "GCC" )
 PHASE="crosstools"
 
 
-export PATH=$CROSS_LOCATION/bin:/bin:/usr/bin:/$TOOLS_LOCATION/bin
+export PATH=$CROSS_LOCATION/bin:/bin:/usr/bin:$TOOLS_LOCATION/bin
 
 NPROC="nproc"
 
@@ -91,3 +91,4 @@ source $DIR/CrossTools/BuildKernelHeaders.sh
 source $DIR/CrossTools/BuildBinutils.sh
 source $DIR/CrossTools/BuildGCCPassOne.sh
 source $DIR/CrossTools/BuildlibSystem.sh
+source $DIR/CrossTools/BuildGCCPassTwo.sh
