@@ -1,0 +1,18 @@
+--- config.guess.orig	2022-01-17 16:34:29.040561641 -0600
++++ config.guess	2022-01-17 16:36:53.875099977 -0600
+@@ -145,12 +145,15 @@
+ 	LIBC=uclibc
+ 	#elif defined(__dietlibc__)
+ 	LIBC=dietlibc
++	#elif defined(__UTOPIA__)
++	LIBC=musl
+ 	#else
+ 	LIBC=gnu
+ 	#endif
+ 	EOF
+ 	eval "`$CC_FOR_BUILD -E "$dummy.c" 2>/dev/null | grep '^LIBC' | sed 's, ,,g'`"
+ 
++
+ 	# If ldd exists, use it to detect musl libc.
+ 	if command -v ldd >/dev/null && \
+ 		ldd --version 2>&1 | grep -q ^musl
