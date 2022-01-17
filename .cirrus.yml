@@ -1,6 +1,8 @@
 build_cross_toolchain_task :
   container:
     image: ubuntu:latest
+  env:
+    DEBIAN_FRONTEND: noninteractive
   install_deps_script:
     - echo "Installing dependencies"
     - apt-get update
