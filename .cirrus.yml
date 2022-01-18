@@ -1,20 +1,13 @@
-compute_engine_instance:
-  platform: linux
-  cpu: 8
-  memory: 16G
-  disk: 100
-
 container:
   image: ubuntu:latest
+  cpu: 8
+  memory: 16G
 
-dependencies_task:
+build_toolchain_task:
   env: 
     DEBIAN_FRONTEND: noninteractive
   script:
     - apt-get update
-    - apt-get -y install build-essential jq bash cmake git gawk grep
-
-build_toolchain_task:
-  depends_on:
-    - dependencies
-  script: ./Factory/set_env.sh
+    - apt-get -y install build-essential jq bash cmake git gawk grep curl xz-utils make texinfo automake autotools-dev autoconf-archive
+    - cp Meta/Build/example_config.json ./Factory/config.json
+    - ./Factory/setup_env.sh

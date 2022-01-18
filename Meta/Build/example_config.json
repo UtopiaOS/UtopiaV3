@@ -1,0 +1,6 @@
+{
+    "vendor": "trip",
+    "targets": "x86_64",
+    "verify_downloads": true,
+    "reextract": false
+}
