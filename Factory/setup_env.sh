@@ -100,3 +100,4 @@ source $DIR/Toolchain/BuildlibSystem.sh
 source $DIR/Toolchain/AdjustToolchain.sh
 source $DIR/Toolchain/BuildBinutils.sh
 source $DIR/Toolchain/BuildGCC.sh
+source $DIR/Toolchain/BuildKernelHeaders.sh
