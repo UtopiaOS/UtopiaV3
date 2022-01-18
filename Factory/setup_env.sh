@@ -89,6 +89,7 @@ done
 
 source $DIR/CrossTools/BuildKernelHeaders.sh
 source $DIR/CrossTools/BuildBinutils.sh
+source $DIR/CrossTools/PatchGCCBootstrap.sh
 source $DIR/CrossTools/BuildGCCPassOne.sh
 source $DIR/CrossTools/BuildlibSystem.sh
 source $DIR/CrossTools/BuildGCCPassTwo.sh
