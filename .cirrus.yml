@@ -4,16 +4,16 @@ compute_engine_instance:
   memory: 16G
   disk: 100
 
+container:
+  image: ubuntu:latest
+
+dependencies_task:
+  env: DEBIAN_FRONTEND: noninteractive
+  script:
+    - apt-get update
+    - apt-get -y install build-essential jq bash cmake git gawk grep
+
 build_toolchain_task:
-  container:
-    image: ubuntu:latest
-  env:
-    DEBIAN_FRONTEND: noninteractive
-  matrix:
-    - name: Install dependencies
-      install_deps_script:
-        - echo "Installing dependencies"
-        - apt-get update
-        - apt-get -y install build-essential jq bash cmake git gawk grep
-    - name: Build the toolchain
-      build_script: ./Factory/set_env.sh
+  depends_on:
+    - dependencies
+  script: ./Factory/set_env.sh
