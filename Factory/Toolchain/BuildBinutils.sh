@@ -9,7 +9,7 @@ LD="${TARGET_TRIPLE}-ld"
 STRIP="${TARGET_TRIPLE}-strip"
 
 case $(uname -m) in
-        x86_64) ln -sv lib $TOOLS_LOCATION/lib64 ;;
+        x86_64) ln -sfv lib $TOOLS_LOCATION/lib64 ;;
 esac
 
 BUILD_LOCATION="$BUILD_DIR/toolchain/binutils"
