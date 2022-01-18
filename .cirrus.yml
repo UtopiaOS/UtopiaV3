@@ -1,9 +1,19 @@
-build_cross_toolchain_task :
+compute_engine_instance:
+  platform: linux
+  cpu: 16
+  memory: 16G
+  disk: 100
+
+build_toolchain_task:
   container:
     image: ubuntu:latest
   env:
     DEBIAN_FRONTEND: noninteractive
-  install_deps_script:
-    - echo "Installing dependencies"
-    - apt-get update
-    - apt-get -y install build-essential jq bash cmake git gawk grep
+  matrix:
+    - name: Install dependencies
+      install_deps_script:
+        - echo "Installing dependencies"
+        - apt-get update
+        - apt-get -y install build-essential jq bash cmake git gawk grep
+    - name: Build the toolchain
+      build_script: ./Factory/set_env.sh
