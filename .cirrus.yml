@@ -1,6 +1,6 @@
 compute_engine_instance:
   platform: linux
-  cpu: 16
+  cpu: 8
   memory: 16G
   disk: 100
 
