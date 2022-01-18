@@ -28,6 +28,13 @@ pushd $SOURCES_DIR/$GCC_NAME
 done
 popd
 
+pushd $SOURCES_DIR/$GCC_NAME
+    if [ ! -f ".fixed_regression_cxx" ]; then
+        patch -Np0 -i "$DIR/CrossTools/Patches/gnu/gcc/0055-Fix_regresion_nostdinc_makefile_in.patch"
+        patch -Np0 -i "$DIR/CrossTools/Patches/gnu/gcc/0056-Fix_regresion_nostdinc_makefile_am.patch"
+    fi
+popd
+
 BUILD_LOCATION="$BUILD_DIR/toolchain/gcc"
 
 mkdir -p $BUILD_LOCATION
