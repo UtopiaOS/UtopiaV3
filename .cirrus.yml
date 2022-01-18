@@ -8,7 +8,8 @@ container:
   image: ubuntu:latest
 
 dependencies_task:
-  env: DEBIAN_FRONTEND: noninteractive
+  env: 
+    DEBIAN_FRONTEND: noninteractive
   script:
     - apt-get update
     - apt-get -y install build-essential jq bash cmake git gawk grep
