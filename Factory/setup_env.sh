@@ -101,3 +101,4 @@ source $DIR/Toolchain/AdjustToolchain.sh
 source $DIR/Toolchain/BuildBinutils.sh
 source $DIR/Toolchain/BuildGCC.sh
 source $DIR/Toolchain/BuildKernelHeaders.sh
+source $DIR/Toolchain/ReadjustToolchain.sh
