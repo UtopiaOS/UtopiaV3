@@ -128,11 +128,12 @@ target_include_directories(crt1 PRIVATE ${COMMON_CRT_INCLUDE_DIRECTORIES}
 add_dependencies(crt1 alltypes.h syscall.h)
 add_custom_command(
     TARGET crt1
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_OBJECTS:crt1> ${CMAKE_INSTALL_PREFIX}/Core/Libraries/libSystem/crt1.o
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_OBJECTS:crt1> ${CMAKE_INSTALL_PREFIX}/Core/Libraries/crt1.o
 )
 
 if ("${UTOPIA_ARCH}" STREQUAL "x86_64")
     set(CRTI_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/crt/x86_64/crti.s")
+    set(CRTN_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/crt/x86_64/crtn.s")
 endif()
 
 add_library(crti STATIC ${CRTI_SOURCE})
@@ -143,7 +144,18 @@ add_dependencies(crti alltypes.h syscall.h)
 
 add_custom_command(
     TARGET crti
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_OBJECTS:crti> ${CMAKE_INSTALL_PREFIX}/Core/Libraries/libSystem/crti.o   
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_OBJECTS:crti> ${CMAKE_INSTALL_PREFIX}/Core/Libraries/crti.o   
+)
+
+add_library(crtn STATIC ${CRTN_SOURCE})
+set_property(TARGET crtn PROPERTY POSITION_INDEPENDENT_CODE ON)
+target_compile_definitions(crtn PRIVATE ${GENERIC_CRT_DEFINITIONS})
+target_include_directories(crtn PRIVATE ${COMMON_CRT_INCLUDE_DIRECTORIES})
+add_dependencies(crtn alltypes.h syscall.h)
+
+add_custom_command(
+    TARGET crtn
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_OBJECTS:crtn> ${CMAKE_INSTALL_PREFIX}/Core/Libraries/crtn.o   
 )
 
 # These are the translation of the makefile targets that replace types
