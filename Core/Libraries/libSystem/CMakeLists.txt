@@ -169,6 +169,18 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_OBJECTS:rcrt1> ${CMAKE_INSTALL_PREFIX}/Core/Libraries/rcrt1.o
 )
 
+add_library(Scrt1 STATIC crt/Scrt1.c)
+set_property(TARGET Scrt1 PROPERTY POSITION_INDEPENDENT_CODE ON)
+target_compile_definitions(Scrt1 PRIVATE ${GENERIC_CRT_DEFINITIONS})
+target_include_directories(Scrt1 PRIVATE ${COMMON_CRT_INCLUDE_DIRECTORIES})
+add_dependencies(Scrt1 alltypes.h syscall.h)
+
+add_custom_command(
+    TARGET Scrt1
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_OBJECTS:Scrt1> ${CMAKE_INSTALL_PREFIX}/Core/Libraries/Scrt1.o
+)
+
+
 # These are the translation of the makefile targets that replace types
 # you shouldn't need to touch these
 add_custom_target(alltypes.h
