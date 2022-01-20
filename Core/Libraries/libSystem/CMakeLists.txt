@@ -180,6 +180,19 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_OBJECTS:Scrt1> ${CMAKE_INSTALL_PREFIX}/Core/Libraries/Scrt1.o
 )
 
+set(EMPTY_LEGACY_POSIX_NAMES m rt pthread crypt util xnet resolve dl c)
+foreach(LIBRARY IN LISTS EMPTY_LEGACY_POSIX_NAMES)
+    add_custom_command(
+        OUTPUT ${CMAKE_INSTALL_PREFIX}/Core/Libraries/lib${LIBRARY}.a
+        COMMAND ${CMAKE_AR} crs ${CMAKE_INSTALL_PREFIX}/Core/Libraries/lib${LIBRARY}.a
+    )
+    add_custom_target(
+        ${LIBRARY} 
+        ALL 
+        DEPENDS ${CMAKE_INSTALL_PREFIX}/Core/Libraries/lib${LIBRARY}.a
+    )
+endforeach()
+
 install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/libSystem.so 
     PERMISSIONS OWNER_EXECUTE
