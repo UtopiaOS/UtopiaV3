@@ -110,22 +110,40 @@ target_link_options(System PRIVATE "-nostdlib"
 
 # === Build crt.o and friends ===
 
+set(GENERIC_CRT_DEFINTIONS CRT _XOPEN_SOURCE=700)
+set(COMMON_CRT_INCLUDE_DIRECTORIES                 
+            ${CMAKE_CURRENT_SOURCE_DIR}/arch/${UTOPIA_ARCH}
+            ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/src/internal
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_BINARY_DIR}/include
+            )
+
 add_library(crt1 STATIC crt/crt1.c)
 set_property(TARGET crt1 PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_compile_definitions(crt1 PRIVATE
-                CRT
-                _XOPEN_SOURCE=700)
-target_include_directories(crt1 PRIVATE 
-                ${CMAKE_CURRENT_SOURCE_DIR}/arch/${UTOPIA_ARCH}
-                ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-                ${CMAKE_CURRENT_SOURCE_DIR}/src/internal
-                ${CMAKE_CURRENT_SOURCE_DIR}/include
-                ${CMAKE_CURRENT_BINARY_DIR}/include
+            ${GENERIC_CRT_DEFINTIONS})
+target_include_directories(crt1 PRIVATE ${COMMON_CRT_INCLUDE_DIRECTORIES}
                 )
 add_dependencies(crt1 alltypes.h syscall.h)
 add_custom_command(
     TARGET crt1
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_OBJECTS:crt1> ${CMAKE_INSTALL_PREFIX}/Core/Libraries/libSystem/crt1.o
+)
+
+if ("${UTOPIA_ARCH}" STREQUAL "x86_64")
+    set(CRTI_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/crt/x86_64/crti.s")
+endif()
+
+add_library(crti STATIC ${CRTI_SOURCE})
+set_property(TARGET crti PROPERTY POSITION_INDEPENDENT_CODE ON)
+target_compile_definitions(crti PRIVATE ${GENERIC_CRT_DEFINITIONS})
+target_include_directories(crti PRIVATE ${COMMON_CRT_INCLUDE_DIRECTORIES})
+add_dependencies(crti alltypes.h syscall.h)
+
+add_custom_command(
+    TARGET crti
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_OBJECTS:crti> ${CMAKE_INSTALL_PREFIX}/Core/Libraries/libSystem/crti.o   
 )
 
 # These are the translation of the makefile targets that replace types
