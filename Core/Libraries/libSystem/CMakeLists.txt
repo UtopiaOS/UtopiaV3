@@ -199,6 +199,11 @@ install(
     DESTINATION ${CMAKE_INSTALL_PREFIX}/Core/Libraries/
 )
 
+add_custom_command(
+    TARGET System
+    COMMAND ${CMAKE_COMMAND} -E create_symlink libSystem.so ${CMAKE_INSTALL_PREFIX}/Core/Libraries/ld-musl-${UTOPIA_ARCH}.so.1
+)
+
 # These are the translation of the makefile targets that replace types
 # you shouldn't need to touch these
 add_custom_target(alltypes.h
