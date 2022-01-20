@@ -180,6 +180,11 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_OBJECTS:Scrt1> ${CMAKE_INSTALL_PREFIX}/Core/Libraries/Scrt1.o
 )
 
+install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/libSystem.so 
+    PERMISSIONS OWNER_EXECUTE
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/Core/Libraries/
+)
 
 # These are the translation of the makefile targets that replace types
 # you shouldn't need to touch these
