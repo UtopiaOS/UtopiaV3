@@ -13,3 +13,7 @@ list(APPEND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES
     /Core/Libraries
     /System/Index/lib
 )
+
+list(APPEND CMAKE_PLATFORM_IMPLICIT_INCLUDE_DIRECTORIES
+    /Core/Headers
+    /System/Index/include)
