@@ -1,6 +1,8 @@
 # By default musl generates this on its own makefile, we can use the power of cmake to do it ourselves
 set(LIBSYSTEM_VERSION "1.2.2")
 
+# === Build libSystem shared library ===
+
 # A copy of the C_FLAGS musl makefile uses
 set(CMAKE_C_FLAGS 
     "-std=c99 -nostdinc -ffreestanding -fexcess-precision=standard \
@@ -106,6 +108,25 @@ target_link_options(System PRIVATE "-nostdlib"
                                     "-Wl,--dynamic-list=${CMAKE_CURRENT_SOURCE_DIR}/dynamic.list"
                                     "-Wl,-e,_dlstart")
 
+# === Build crt.o and friends ===
+
+add_library(crt1 STATIC crt/crt1.c)
+set_property(TARGET crt1 PROPERTY POSITION_INDEPENDENT_CODE ON)
+target_compile_definitions(crt1 PRIVATE
+                CRT
+                _XOPEN_SOURCE=700)
+target_include_directories(crt1 PRIVATE 
+                ${CMAKE_CURRENT_SOURCE_DIR}/arch/${UTOPIA_ARCH}
+                ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+                ${CMAKE_CURRENT_SOURCE_DIR}/src/internal
+                ${CMAKE_CURRENT_SOURCE_DIR}/include
+                ${CMAKE_CURRENT_BINARY_DIR}/include
+                )
+add_dependencies(crt1 alltypes.h syscall.h)
+add_custom_command(
+    TARGET crt1
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_OBJECTS:crt1> ${CMAKE_INSTALL_PREFIX}/Core/Libraries/libSystem/crt1.o
+)
 
 # These are the translation of the makefile targets that replace types
 # you shouldn't need to touch these
