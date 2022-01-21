@@ -1,6 +1,12 @@
 #ifndef _FEATURES_H
 #define _FEATURES_H
 
+/* Define that we are using an operating system that
+ * contains libSystem as its default libc.
+ */
+
+#define __LIBSYSTEM__ 1
+
 #if defined(_ALL_SOURCE) && !defined(_GNU_SOURCE)
 #define _GNU_SOURCE 1
 #endif
