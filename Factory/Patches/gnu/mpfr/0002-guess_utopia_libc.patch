@@ -4,8 +4,8 @@
  	LIBC=uclibc
  	#elif defined(__dietlibc__)
  	LIBC=dietlibc
-+	#elif defined(__UTOPIA__)
-+	LIBC=musl
++	#elif defined(__LIBSYSTEM__)
++	LIBC=libsystem
  	#else
  	LIBC=gnu
  	#endif

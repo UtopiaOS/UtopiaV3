@@ -1,0 +1,11 @@
+--- build-aux/config.guess.orig	2022-01-21 16:11:38.908501170 -0600
++++ build-aux/config.guess	2022-01-21 16:12:32.435221174 -0600
+@@ -149,6 +149,8 @@
+ 	LIBC=uclibc
+ 	#elif defined(__dietlibc__)
+ 	LIBC=dietlibc
++	#elif defined(__LIBSYSTEM__)
++	LIBC=libsystem
+ 	#else
+ 	LIBC=gnu
+ 	#endif

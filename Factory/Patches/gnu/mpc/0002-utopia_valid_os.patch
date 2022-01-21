@@ -1,5 +1,5 @@
---- build-aux/config.sub.orig	2022-01-17 16:41:22.019245257 -0600
-+++ build-aux/config.sub	2022-01-17 16:44:13.401698971 -0600
+--- build-aux/config.sub.orig	2022-01-21 16:07:24.113833976 -0600
++++ build-aux/config.sub	2022-01-21 16:11:02.133693530 -0600
 @@ -131,7 +131,7 @@
  		# parts
  		maybe_os=$field2-$field3
