@@ -1,0 +1,22 @@
+From ee0024614a4388579795ead7309c930132a5f962 Mon Sep 17 00:00:00 2001
+From: Diego Magdaleno <diegomagdaleno@protonmail.com>
+Date: Fri, 21 Jan 2022 13:26:34 -0600
+Subject: [PATCH] [Options] Add libsystem to the options
+
+---
+ gcc/config/linux.opt | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/gcc/config/linux.opt b/gcc/config/linux.opt
+index 716d6b7a0..ffb7d6047 100644
+--- a/gcc/config/linux.opt
++++ b/gcc/config/linux.opt
+@@ -34,3 +34,7 @@ Use uClibc C library.
+ mmusl
+ Target RejectNegative Var(linux_libc,LIBC_MUSL) Negative(mbionic)
+ Use musl C library.
++
++mlibsystem
++Target RejectNegative Var(linux_libc,LIBC_LIBSYSTEM) Negavite(mmusl)
++Use libSystem C library.
+\ No newline at end of file

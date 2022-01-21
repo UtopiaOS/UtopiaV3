@@ -1,0 +1,38 @@
+From 069ea8e4cce663e220e61b36d1f30d7fbc01b08a Mon Sep 17 00:00:00 2001
+From: Diego Magdaleno <diegomagdaleno@protonmail.com>
+Date: Fri, 21 Jan 2022 13:33:29 -0600
+Subject: [PATCH] [x86_64] Add our linker paths in the x86_64 architecture
+
+---
+ gcc/config/i386/linux.h   | 3 +++
+ gcc/config/i386/linux64.h | 7 +++++++
+ 2 files changed, 10 insertions(+)
+
+diff --git a/gcc/config/i386/linux.h b/gcc/config/i386/linux.h
+index 04b274f16..6d7d47c98 100644
+--- a/gcc/config/i386/linux.h
++++ b/gcc/config/i386/linux.h
+@@ -24,3 +24,6 @@ along with GCC; see the file COPYING3.  If not see
+ 
+ #undef MUSL_DYNAMIC_LINKER
+ #define MUSL_DYNAMIC_LINKER "/lib/ld-musl-i386.so.1"
++
++#undef LIBSYSTEM_DYNAMIC_LINKER
++#define LIBSYSTEM_DYNAMIC_LINKER "/Core/Binaries/linkeri368"
+\ No newline at end of file
+diff --git a/gcc/config/i386/linux64.h b/gcc/config/i386/linux64.h
+index b3822ced5..b139e6a70 100644
+--- a/gcc/config/i386/linux64.h
++++ b/gcc/config/i386/linux64.h
+@@ -37,3 +37,10 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+ #define MUSL_DYNAMIC_LINKER64 "/lib/ld-musl-x86_64.so.1"
+ #undef MUSL_DYNAMIC_LINKERX32
+ #define MUSL_DYNAMIC_LINKERX32 "/lib/ld-musl-x32.so.1"
++
++#undef LIBSYSTEM_DYNAMIC_LINKER32
++#define LIBSYSTEM_DYNAMIC_LINKER32 "/Core/Binaries/linkeri386"
++#undef LIBSYSTEM_DYNAMIC_LINKER64
++#define LIBSYSTEM_DYNAMIC_LINKER64 "/Core/Binaries/linkerx86_64"
++#undef LIBSYSTEM_DYNAMIC_LINKERX32
++#define LIBSYSTEM_DYNAMIC_LINKERX32 "/Core/Binaries/linkerx32"
+\ No newline at end of file

@@ -1,31 +1,48 @@
---- config.gcc.orig	2022-01-14 14:16:11.496272476 -0600
-+++ gcc/config.gcc	2022-01-14 14:14:28.377454173 -0600
-@@ -854,6 +854,9 @@
+From 679447e037c981220925c1b305f17d5e68e831c8 Mon Sep 17 00:00:00 2001
+From: Diego Magdaleno <diegomagdaleno@protonmail.com>
+Date: Fri, 21 Jan 2022 12:27:22 -0600
+Subject: [PATCH] [Config] Add our Utopia changes and libSystem
+
+---
+diff --git a/gcc/config.gcc b/gcc/config.gcc
+index 357b0bed0..aaab8da0b 100644
+--- a/gcc/config.gcc
++++ b/gcc/config.gcc
+@@ -659,7 +659,7 @@ case ${target} in
+ esac
+ 
+ # Common C libraries.
+-tm_defines="$tm_defines LIBC_GLIBC=1 LIBC_UCLIBC=2 LIBC_BIONIC=3 LIBC_MUSL=4"
++tm_defines="$tm_defines LIBC_GLIBC=1 LIBC_UCLIBC=2 LIBC_BIONIC=3 LIBC_MUSL=4 LIBC_LIBSYSTEM=5"
+ 
+ # 32-bit x86 processors supported by --with-arch=.  Each processor
+ # MUST be separated by exactly one space.
+@@ -854,6 +854,9 @@ case ${target} in
      *-*-*android*)
        tm_defines="$tm_defines DEFAULT_LIBC=LIBC_BIONIC"
        ;;
-+	*-*-*utopia*)
-+	  tm_defines="$tm_defines DEFAULT_LIBC=LIBC_MUSL"
++	*-*-*libsystem* | *-*-*utopia*)
++	  tm_defines="$tm_defines DEFAULT_LIBC=LIBC_LIBSYSTEM"
 +	  ;;
      *-*-*uclibc* | *-*-uclinuxfdpiceabi)
        tm_defines="$tm_defines DEFAULT_LIBC=LIBC_UCLIBC"
        ;;
-@@ -878,6 +881,14 @@
+@@ -878,6 +881,14 @@ case ${target} in
        tm_defines="$tm_defines ANDROID_DEFAULT=0"
        ;;
    esac
 +  case $target in
-+	*-*-*utopia*)
-+       tm_defines="$tm_defines UTOPIA_DEFAULT=1"
-+	   ;;
-+	*)
-+       tm_defines="$tm_defines UTOPIA_DEFAULT=0"
-+	   ;;
++    *-*-*utopia*)
++	  tm_defines="$tm_defines UTOPIA_DEFAULT=1"
++      ;;
++    *)
++	  tm_defines="$tm_defines UTOPIA_DEFAULT=0"
++      ;;
 +  esac
    c_target_objs="${c_target_objs} glibc-c.o"
    cxx_target_objs="${cxx_target_objs} glibc-c.o"
    d_target_objs="${d_target_objs} glibc-d.o"
-@@ -2009,8 +2020,8 @@
+@@ -2009,8 +2020,8 @@ x86_64-*-linux* | x86_64-*-kfreebsd*-gnu)
  		 i386/x86-64.h i386/gnu-user-common.h i386/gnu-user64.h"
  	case ${target} in
  	x86_64-*-linux*)
@@ -36,12 +53,31 @@
  	  	;;
  	x86_64-*-kfreebsd*-gnu)
  		tm_file="${tm_file} kfreebsd-gnu.h i386/kfreebsd-gnu64.h"
-@@ -3622,7 +3633,7 @@
+@@ -3041,7 +3052,7 @@ powerpc*-*-linux*)
+ 		tm_file="${tm_file} rs6000/linuxaltivec.h" ;;
+ 	esac
+ 	case ${target} in
+-	    *-linux*-musl*)
++	    *-linux*-musl* | *-linux*-libsystem* | *-linux*-utopia*)
+ 		enable_secureplt=yes ;;
+ 	esac
+ 	if test x${enable_secureplt} = xyes; then
+@@ -3614,6 +3625,9 @@ case ${target} in
+ *-linux-musl*)
+ 	tmake_file="${tmake_file} t-musl"
+ 	;;
++*-linux-libsystem*)
++	tmake_file="${tmake_file} t-libsystem"
++	;;
+ *-linux-uclibc*)
+ 	tmake_file="${tmake_file} t-uclibc"
+ 	;;
+@@ -3622,7 +3636,7 @@ esac
  # Assume the existence of indirect function support and allow the use of the
  # resolver attribute.
  case ${target} in
 -*-*-linux*android*|*-*-linux*uclibc*|*-*-linux*musl*)
-+*-*-linux*android*|*-*-linux*uclibc*|*-*-linux*musl*|*-*-linux*utopia*)
++*-*-linux*android*|*-*-linux*uclibc*|*-*-linux*musl*|*-*-linux*utopia*|*-*-linux*libsystem*)
          ;;
  *-*-kfreebsd*-gnu | *-*-kopensolaris*-gnu)
          ;;
