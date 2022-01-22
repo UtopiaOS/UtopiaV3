@@ -1,0 +1,195 @@
+From fde73f643401144fc780645c52cead57c9b0ef24 Mon Sep 17 00:00:00 2001
+From: Diego Magdaleno <diegomagdaleno@protonmail.com>
+Date: Fri, 21 Jan 2022 13:24:17 -0600
+Subject: [PATCH] [linux.h] Add support for libSystem in the default config
+
+---
+ gcc/config/linux.h | 129 +++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 106 insertions(+), 23 deletions(-)
+
+diff --git a/gcc/config/linux.h b/gcc/config/linux.h
+index 4e1db60fc..fb8c7e178 100644
+--- a/gcc/config/linux.h
++++ b/gcc/config/linux.h
+@@ -29,17 +29,21 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+ 
+ /* C libraries supported on Linux.  */
+ #ifdef SINGLE_LIBC
+-#define OPTION_GLIBC  (DEFAULT_LIBC == LIBC_GLIBC)
+-#define OPTION_UCLIBC (DEFAULT_LIBC == LIBC_UCLIBC)
+-#define OPTION_BIONIC (DEFAULT_LIBC == LIBC_BIONIC)
++#define OPTION_GLIBC      (DEFAULT_LIBC == LIBC_GLIBC)
++#define OPTION_UCLIBC     (DEFAULT_LIBC == LIBC_UCLIBC)
++#define OPTION_BIONIC     (DEFAULT_LIBC == LIBC_BIONIC)
++#undef  OPTION_LIBSYSTEM
++#define OPTION_LIBSYSTEM  (DEFAULT_LIBC == LIBC_LIBSYSTEM)
+ #undef OPTION_MUSL
+-#define OPTION_MUSL   (DEFAULT_LIBC == LIBC_MUSL)
++#define OPTION_MUSL       (DEFAULT_LIBC == LIBC_MUSL)
+ #else
+-#define OPTION_GLIBC  (linux_libc == LIBC_GLIBC)
+-#define OPTION_UCLIBC (linux_libc == LIBC_UCLIBC)
+-#define OPTION_BIONIC (linux_libc == LIBC_BIONIC)
++#define OPTION_GLIBC      (linux_libc == LIBC_GLIBC)
++#define OPTION_UCLIBC     (linux_libc == LIBC_UCLIBC)
++#define OPTION_BIONIC     (linux_libc == LIBC_BIONIC)
++#undef OPTION_LIBSYSTEM
++#define OPTION_LIBSYSTEM  (linux_libc == LIBC_LIBSYSTEM)
+ #undef OPTION_MUSL
+-#define OPTION_MUSL   (linux_libc == LIBC_MUSL)
++#define OPTION_MUSL       (linux_libc == LIBC_MUSL)
+ #endif
+ 
+ #define GNU_USER_TARGET_OS_CPP_BUILTINS()			\
+@@ -64,28 +66,33 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+ 	  builtin_version ("CRuntime_Bionic");			\
+ 	else if (OPTION_MUSL)					\
+ 	  builtin_version ("CRuntime_Musl");			\
++  else if (OPTION_LIBSYSTEM)    \
++    builtin_version ("CRuntime_libSystem"); \
+     } while (0)
+ 
+ /* Determine which dynamic linker to use depending on whether GLIBC or
+    uClibc or Bionic or musl is the default C library and whether
+-   -muclibc or -mglibc or -mbionic or -mmusl has been passed to change
++   -muclibc or -mglibc or -mbionic or -mmusl or -mlibsystem has been passed to change
+    the default.  */
+ 
+-#define CHOOSE_DYNAMIC_LINKER1(LIBC1, LIBC2, LIBC3, LIBC4, LD1, LD2, LD3, LD4)	\
+-  "%{" LIBC2 ":" LD2 ";:%{" LIBC3 ":" LD3 ";:%{" LIBC4 ":" LD4 ";:" LD1 "}}}"
++#define CHOOSE_DYNAMIC_LINKER1(LIBC1, LIBC2, LIBC3, LIBC4, LIBC5, LD1, LD2, LD3, LD4, LD5)	\
++  "%{" LIBC2 ":" LD2 ";:%{" LIBC3 ":" LD3 ";:%{" LIBC4 ":" LD4 ";:%{" LIBC5 ":" LD5 ";:" LD1 "}}}}"
+ 
+ #if DEFAULT_LIBC == LIBC_GLIBC
+-#define CHOOSE_DYNAMIC_LINKER(G, U, B, M) \
+-  CHOOSE_DYNAMIC_LINKER1 ("mglibc", "muclibc", "mbionic", "mmusl", G, U, B, M)
++#define CHOOSE_DYNAMIC_LINKER(G, U, B, M, L) \
++  CHOOSE_DYNAMIC_LINKER1 ("mglibc", "muclibc", "mbionic", "mmusl", "mlibsystem", G, U, B, M, L)
+ #elif DEFAULT_LIBC == LIBC_UCLIBC
+-#define CHOOSE_DYNAMIC_LINKER(G, U, B, M) \
+-  CHOOSE_DYNAMIC_LINKER1 ("muclibc", "mglibc", "mbionic", "mmusl", U, G, B, M)
++#define CHOOSE_DYNAMIC_LINKER(G, U, B, M, L) \
++  CHOOSE_DYNAMIC_LINKER1 ("muclibc", "mglibc", "mbionic", "mmusl", "mlibsystem", U, G, B, M, L)
+ #elif DEFAULT_LIBC == LIBC_BIONIC
+-#define CHOOSE_DYNAMIC_LINKER(G, U, B, M) \
+-  CHOOSE_DYNAMIC_LINKER1 ("mbionic", "mglibc", "muclibc", "mmusl", B, G, U, M)
++#define CHOOSE_DYNAMIC_LINKER(G, U, B, M, L) \
++  CHOOSE_DYNAMIC_LINKER1 ("mbionic", "mglibc", "muclibc", "mmusl", "mlibsystem", B, G, U, M, L)
+ #elif DEFAULT_LIBC == LIBC_MUSL
+-#define CHOOSE_DYNAMIC_LINKER(G, U, B, M) \
+-  CHOOSE_DYNAMIC_LINKER1 ("mmusl", "mglibc", "muclibc", "mbionic", M, G, U, B)
++#define CHOOSE_DYNAMIC_LINKER(G, U, B, M, L) \
++  CHOOSE_DYNAMIC_LINKER1 ("mmusl", "mglibc", "muclibc", "mbionic", "mlibsystem", M, G, U, B, L)
++#elif DEFAULT_LIBC == LIBC_LIBSYSTEM
++#define CHOOSE_DYNAMIC_LINKER(G, U, B, M, L) \
++  CHOOSE_DYNAMIC_LINKER1 ("mlibsystem", "mglibc", "muclibc", "mbionic", "mmusl", L, G, U, B, M)
+ #else
+ #error "Unsupported DEFAULT_LIBC"
+ #endif /* DEFAULT_LIBC */
+@@ -107,19 +114,24 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+ #define MUSL_DYNAMIC_LINKER32 "/dev/null"
+ #define MUSL_DYNAMIC_LINKER64 "/dev/null"
+ #define MUSL_DYNAMIC_LINKERX32 "/dev/null"
++/* Should be redefined for each target that supports libSystem */
++#define LIBSYSTEM_DYNAMIC_LINKER "/dev/null"
++#define LIBSYSTEM_DYNAMIC_LINKER32 "/dev/null"
++#define LIBSYSTEM_DYNAMIC_LINKER64 "/dev/null"
++#define LIBSYSTEM_DYNAMIC_LINKERX32 "/dev/null"
+ 
+ #define GNU_USER_DYNAMIC_LINKER						\
+   CHOOSE_DYNAMIC_LINKER (GLIBC_DYNAMIC_LINKER, UCLIBC_DYNAMIC_LINKER,	\
+-			 BIONIC_DYNAMIC_LINKER, MUSL_DYNAMIC_LINKER)
++			 BIONIC_DYNAMIC_LINKER, MUSL_DYNAMIC_LINKER, LIBSYSTEM_DYNAMIC_LINKER)
+ #define GNU_USER_DYNAMIC_LINKER32					\
+   CHOOSE_DYNAMIC_LINKER (GLIBC_DYNAMIC_LINKER32, UCLIBC_DYNAMIC_LINKER32, \
+-			 BIONIC_DYNAMIC_LINKER32, MUSL_DYNAMIC_LINKER32)
++			 BIONIC_DYNAMIC_LINKER32, MUSL_DYNAMIC_LINKER32, LIBSYSTEM_DYNAMIC_LINKER32)
+ #define GNU_USER_DYNAMIC_LINKER64					\
+   CHOOSE_DYNAMIC_LINKER (GLIBC_DYNAMIC_LINKER64, UCLIBC_DYNAMIC_LINKER64, \
+-			 BIONIC_DYNAMIC_LINKER64, MUSL_DYNAMIC_LINKER64)
++			 BIONIC_DYNAMIC_LINKER64, MUSL_DYNAMIC_LINKER64, LIBSYSTEM_DYNAMIC_LINKER64)
+ #define GNU_USER_DYNAMIC_LINKERX32					\
+   CHOOSE_DYNAMIC_LINKER (GLIBC_DYNAMIC_LINKERX32, UCLIBC_DYNAMIC_LINKERX32, \
+-			 BIONIC_DYNAMIC_LINKERX32, MUSL_DYNAMIC_LINKERX32)
++			 BIONIC_DYNAMIC_LINKERX32, MUSL_DYNAMIC_LINKERX32, LIBSYSTEM_DYNAMIC_LINKERX32)
+ 
+ /* Whether we have Bionic libc runtime */
+ #undef TARGET_HAS_BIONIC
+@@ -197,6 +209,77 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+   }
+ #endif
+ 
++#if DEFAULT_LIBC == LIBC_LIBSYSTEM
++#define INCLUDE_DEFAULTS_LIBSYSTEM_GPP      \
++     { GPLUSPLUS_INCLUDE_DIR, "G++", 1, 1,    \
++       GPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT, 0 },  \
++     { GPLUSPLUS_TOOL_INCLUDE_DIR, "G++", 1, 1,  \
++       GPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT, 1 },   \
++     { GPLUSPLUS_BACKWARD_INCLUDE_DIR, "G++", 1, 1, \
++       GPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT,  0},
++
++#ifdef LOCAL_INCLUDE_DIR
++#define INCLUDE_DEFAULTS_LIBSYSTEM_LOCAL    \
++      { LOCAL_INCLUDE_DIR, 0, 0, 1, 1, 2},    \
++      { LOCAL_INCLUDE_DIR, 0, 0, 1, 1, 0},
++#else
++#define INCLUDE_DEFAULTS_LIBSYSTEM_LOCAL
++#endif
++
++#ifdef PREFIX_INCLUDE_DIR
++#define INCLUDE_DEFAULTS_LIBSYSTEM_PREFIX    \
++     { PREFIX_INCLUDE_DIR, 0, 0, 1, 0, 0},
++#else
++#define INCLUDE_DEFAULTS_LIBSYSTEM_PREFIX
++#endif
++
++#ifdef CROSS_INCLUDE_DIR
++#define INCLUDE_DEFAULTS_LIBSYSTEM_CROSS   \
++      { CROSS_INCLUDE_DIR, "GCC", 0, 0, 0, 0},
++#else
++#define INCLUDE_DEFAULTS_LIBSYSTEM_CROSS
++#endif
++
++#ifdef TOOL_INCLUDE_DIR
++#define INCLUDE_DEFAULTS_LIBSYSTEM_TOOL			\
++    { TOOL_INCLUDE_DIR, "BINUTILS", 0, 1, 0, 0},
++#else
++#define INCLUDE_DEFAULTS_LIBSYSTEM_TOOL
++#endif
++
++#ifdef NATIVE_SYSTEM_HEADER_DIR
++#define INCLUDE_DEFAULTS_LIBSYSTEM_NATIVE			\
++    { NATIVE_SYSTEM_HEADER_DIR, 0, 0, 0, 1, 2 },	\
++    { NATIVE_SYSTEM_HEADER_DIR, 0, 0, 0, 1, 0 },
++#else
++#define INCLUDE_DEFAULTS_LIBSYSTEM_NATIVE
++#endif
++
++#if defined (CROSS_DIRECTORY_STRUCTURE) && !defined (TARGET_SYSTEM_ROOT)
++# undef INCLUDE_DEFAULTS_LIBSYSTEM_LOCAL
++# define INCLUDE_DEFAULTS_LIBSYSTEM_LOCAL
++# undef INCLUDE_DEFAULTS_LIBSYSTEM_NATIVE
++# define INCLUDE_DEFAULTS_LIBSYSTEM_NATIVE
++#else
++# undef INCLUDE_DEFAULTS_LIBSYSTEM_CROSS
++# define INCLUDE_DEFAULTS_LIBSYSTEM_CROSS
++#endif
++
++#undef INCLUDE_DEFAULTS
++#define INCLUDE_DEFAULTS				\
++  {							\
++    INCLUDE_DEFAULTS_LIBSYSTEM_GPP				\
++    INCLUDE_DEFAULTS_LIBSYSTEM_LOCAL				\
++    INCLUDE_DEFAULTS_LIBSYSTEM_PREFIX			\
++    INCLUDE_DEFAULTS_LIBSYSTEM_CROSS				\
++    INCLUDE_DEFAULTS_LIBSYSTEM_TOOL				\
++    INCLUDE_DEFAULTS_LIBSYSTEM_NATIVE			\
++    { GCC_INCLUDE_DIR, "GCC", 0, 1, 0, 0 },		\
++    { 0, 0, 0, 0, 0, 0 }				\
++  }
++
++#endif
++
+ #if (DEFAULT_LIBC == LIBC_UCLIBC) && defined (SINGLE_LIBC) /* uClinux */
+ /* This is a *uclinux* target.  We don't define below macros to normal linux
+    versions, because doing so would require *uclinux* targets to include

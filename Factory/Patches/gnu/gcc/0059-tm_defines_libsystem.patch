@@ -1,0 +1,8 @@
+diff --git a/gcc/config/t-libsystem b/gcc/config/t-libsystem
+new file mode 100644
+index 000000000..3c486b441
+--- /dev/null
++++ b/gcc/config/t-libsystem
+@@ -0,0 +1,2 @@
++MULTIARCH_DIRNAME := $(subst -linux-gnu,-linux-libsystem,$(MULTIARCH_DIRNAME))
++MULTILIB_OSDIRNAMES := $(subst -linux-gnu,-linux-libsystem,$(MULTILIB_OSDIRNAMES))

@@ -81,12 +81,11 @@ pushd "$CROSS_LOCATION"
         mkdir -pv usr
         ln -sfv ../include ./usr/include
 
-        rm -vf lib/ld-musl-${CONFIG_ARCHITECTURE}.so.1
-        ln -sfv libSystem.so lib/ld-musl-${CONFIG_ARCHITECTURE}.so.1
+        rm -vf Core/Binaries/linker${CONFIG_ARCHITECTURE}
+        ln -sfv ../../lib/libSystem.so Core/Binaries/linker${CONFIG_ARCHITECTURE}
+        
         # For legacy applications and portability
-        ln -sfv libSystem.so lib/libc.so
-
-        ln -sfv ../lib/ld-musl-$CONFIG_ARCHITECTURE.so.1 bin/ldd
+        ln -sfv linker${CONFIG_ARCHITECTURE} Core/Binaries/ldd
 
         mkdir -pv etc
         if [ -f $CROSS_LOCATION/etc/ld-musl-$CONFIG_ARCHITECTURE.path ]; then

@@ -1,0 +1,22 @@
+From 811cce9ff6e1765acc847092826d729b71721855 Mon Sep 17 00:00:00 2001
+From: Diego Magdaleno <diegomagdaleno@protonmail.com>
+Date: Fri, 21 Jan 2022 13:35:01 -0600
+Subject: [PATCH] [libstdcxx] Refer to libSystem and Utopia as generic
+
+---
+ libstdc++-v3/configure.host | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libstdc++-v3/configure.host b/libstdc++-v3/configure.host
+index ec32980aa..e02f19be4 100644
+--- a/libstdc++-v3/configure.host
++++ b/libstdc++-v3/configure.host
+@@ -255,7 +255,7 @@ case "${host_os}" in
+   freebsd*)
+     os_include_dir="os/bsd/freebsd"
+     ;;
+-  linux-musl*)
++  linux-musl* | linux-libsystem* | linux-utopia*)
+     os_include_dir="os/generic"
+     ;;
+   gnu* | linux* | kfreebsd*-gnu | uclinux*)

@@ -2,7 +2,7 @@ SPECFILE=`dirname $(${TARGET_TRIPLE}-gcc -print-libgcc-file-name)`/specs &&
 ${TARGET_TRIPLE}-gcc -dumpspecs > tempspecfile
 
 case $(uname -m) in
-    x86_64) sed -i "s|\/lib\/ld-musl-${CONFIG_ARCHITECTURE}.so.1|${TOOLS_LOCATION}\/lib\/ld-musl-${CONFIG_ARCHITECTURE}.so.1|g" tempspecfile
+    x86_64) sed -i "s|\/Core\/Binaries\/linker${CONFIG_ARCHITECTURE}|${TOOLS_LOCATION}\/Core\/Binaries\/linker${CONFIG_ARCHITECTURE}|g" tempspecfile
             ;;
 esac
 
@@ -13,7 +13,7 @@ echo 'int main(){}' > dummy.c
 ${TARGET_TRIPLE}-gcc dummy.c
 interpreter_path=$(${TARGET_TRIPLE}-readelf -l a.out | grep Requesting | awk '{split($0,a," "); print a[4]}' | sed 's/]//')
 
-expected=$TOOLS_LOCATION/lib/ld-musl-${CONFIG_ARCHITECTURE}.so.1
+expected=$TOOLS_LOCATION/Core/Binaries/linker${CONFIG_ARCHITECTURE}
 
 if [ $interpreter_path != $expected ]; then
     echo "Could not verify that the interpreter path got path critical"

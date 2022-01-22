@@ -13,3 +13,4 @@ Factory/Toolchain/Tools
 stdin.info
 **/stdin.info
 Factory/config.json
+quick_rebuild.sh

@@ -1,0 +1,34 @@
+--- configfsf.sub.orig	2022-01-21 16:03:03.504197226 -0600
++++ configfsf.sub	2022-01-21 16:05:02.751573440 -0600
+@@ -1682,7 +1682,7 @@
+ # Now, validate our (potentially fixed-up) OS.
+ case $os in
+ 	# Sometimes we do "kernel-abi", so those need to count as OSes.
+-	musl* | newlib* | uclibc*)
++	musl* | newlib* | uclibc* | libsystem*)
+ 		;;
+ 	# Likewise for "kernel-libc"
+ 	eabi | eabihf | gnueabi | gnueabihf)
+@@ -1690,7 +1690,7 @@
+ 	# Now accept the basic system types.
+ 	# The portable systems comes first.
+ 	# Each alternative MUST end in a * to match a version number.
+-	gnu* | android* | bsd* | mach* | minix* | genix* | ultrix* | irix* \
++	gnu* | android* | bsd* | mach* | minix* | genix* | ultrix* | irix* | utopia* \
+ 	     | *vms* | esix* | aix* | cnk* | sunos | sunos[34]* \
+ 	     | hpux* | unos* | osf* | luna* | dgux* | auroraux* | solaris* \
+ 	     | sym* |  plan9* | psp* | sim* | xray* | os68k* | v88r* \
+@@ -1737,11 +1737,11 @@
+ # As a final step for OS-related things, validate the OS-kernel combination
+ # (given a valid OS), if there is a kernel.
+ case $kernel-$os in
+-	linux-gnu* | linux-dietlibc* | linux-android* | linux-newlib* | linux-musl* | linux-uclibc* )
++	linux-gnu* | linux-dietlibc* | linux-android* | linux-newlib* | linux-musl* | linux-uclibc* | linux-libsystem* | linux-utopia* )
+ 		;;
+ 	uclinux-uclibc* )
+ 		;;
+-	-dietlibc* | -newlib* | -musl* | -uclibc* )
++	-dietlibc* | -newlib* | -musl* | -uclibc* | -libsystem* )
+ 		# These are just libc implementations, not actual OSes, and thus
+ 		# require a kernel.
+ 		echo "Invalid configuration \`$1': libc \`$os' needs explicit kernel." 1>&2

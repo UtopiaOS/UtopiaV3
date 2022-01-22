@@ -17,9 +17,8 @@ pushd "$BUILD_LOCATION"
 popd
 
 pushd "$TOOLS_LOCATION"
-    rm -fv $TOOLS_LOCATION/lib/ld-musl-${CONFIG_ARCHITECTURE}.so.1
-    ln -sfv libSystem.so $TOOLS_LOCATION/lib/libc.so
-    ln -sfv libSystem.so $TOOLS_LOCATION/lib/ld-musl-${CONFIG_ARCHITECTURE}.so.1
+    rm -fv $TOOLS_LOCATION/Core/Binaries/linker${CONFIG_ARCHITECTURE}
+    ln -sfv ../../lib/libSystem.so $TOOLS_LOCATION/Core/Binaries/linker${CONFIG_ARCHITECTURE}
 
     mkdir -pv $TOOLS_LOCATION/etc
     if [ -f $TOOLS_LOCATION/etc/ld-musl-$CONFIG_ARCHITECTURE.path ]; then

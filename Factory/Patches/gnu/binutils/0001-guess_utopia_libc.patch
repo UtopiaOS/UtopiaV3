@@ -1,0 +1,11 @@
+--- config.guess.orig	2022-01-21 15:37:02.235378339 -0600
++++ config.guess	2022-01-21 15:32:37.565783694 -0600
+@@ -149,6 +149,8 @@
+ 	LIBC=dietlibc
+ 	#elif defined(__GLIBC__)
+ 	LIBC=gnu
++	#elif defined(__LIBSYSTEM__)
++	LIBC=libsystem
+ 	#else
+ 	#include <stdarg.h>
+ 	/* First heuristic to detect musl libc.  */

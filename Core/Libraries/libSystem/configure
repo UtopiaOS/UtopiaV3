@@ -596,15 +596,19 @@ tryldflag LDFLAGS_AUTO -Wl,--dynamic-list="$srcdir/dynamic.list"
 # to libSystem
 CROSS_TRIPLE_ARR=(${CROSS_COMPILE//-/ })
 if [ "${CROSS_TRIPLE_ARR[3]}" = "utopia" ]; then
-  STATIC_LIB_NAME="lib/libSystem.a"
-  SHARED_LIB_NAME="lib/libSystem.so"
-  CANONICAL_STATIC_LIB_NAME="libSystem.a"
-  CANONICAL_SHARED_LIB_NAME="libSystem.so"
+  STATIC_LIB_NAME='lib/libSystem.a'
+  SHARED_LIB_NAME='lib/libSystem.so'
+  CANONICAL_STATIC_LIB_NAME=' libSystem.a'
+  CANONICAL_SHARED_LIB_NAME='libSystem.so'
+  EMPTY_OS_LIB_NAMES='m rt pthread crypt util xnet resolv dl c'
+  LDSO_OS_PATHNAME='$(prefix)/Core/Binaries/linker$(ARCH)$(SUBARCH)'
 else
-  STATIC_LIB_NAME="lib/libc.a"
-  SHARED_LIB_NAME="lib/libc.so"
-  CANONICAL_STATIC_LIB_NAME="libc.a"
-  CANONICAL_SHARED_LIB_NAME="libc.so"
+  STATIC_LIB_NAME='lib/libc.a'
+  SHARED_LIB_NAME='lib/libc.so'
+  CANONICAL_STATIC_LIB_NAME='libc.a'
+  CANONICAL_SHARED_LIB_NAME='libc.so'
+  EMPTY_OS_LIB_NAMES='m rt pthread crypt util xnet resolv dl'
+  LDSO_OS_PATHNAME='$(syslibdir)/ld-musl-$(ARCH)$(SUBARCH).so.1'
 fi
 
 printf "%s\n" "$STATIC_LIB_NAME"
@@ -822,8 +826,10 @@ ADD_CFI = $ADD_CFI
 MALLOC_DIR = $malloc_dir
 STATIC_LIBS = $STATIC_LIB_NAME
 SHARED_LIBS = $SHARED_LIB_NAME
+EMPTY_LIB_NAMES = ${EMPTY_OS_LIB_NAMES}
 LIBC_STATIC_NAME = $CANONICAL_STATIC_LIB_NAME
 LIBC_SHARED_NAME = $CANONICAL_SHARED_LIB_NAME
+LDSO_PATHNAME = ${LDSO_OS_PATHNAME}
 EOF
 test "x$static" = xno && echo "STATIC_LIBS ="
 test "x$shared" = xno && echo "SHARED_LIBS ="

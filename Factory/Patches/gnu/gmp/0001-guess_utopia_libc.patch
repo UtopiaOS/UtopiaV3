@@ -1,0 +1,11 @@
+--- configfsf.guess.orig	2022-01-21 15:54:51.175772535 -0600
++++ configfsf.guess	2022-01-21 15:55:55.886434056 -0600
+@@ -149,6 +149,8 @@
+ 	LIBC=uclibc
+ 	#elif defined(__dietlibc__)
+ 	LIBC=dietlibc
++	#elif defined(__LIBSYSTEM__)
++	LIBC=libsystem
+ 	#else
+ 	#include <stdarg.h>
+ 	#ifdef __DEFINED_va_list

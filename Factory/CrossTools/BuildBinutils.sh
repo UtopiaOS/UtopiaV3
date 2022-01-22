@@ -51,7 +51,8 @@ fi
 pushd "$SOURCES_DIR/$BINUTILS_NAME"
     buildstep patching echo "Patching binutils"
     if [[ ! -f ".patched" ]]; then
-        patch -Np0 -i "$DIR/CrossTools/Patches/gnu/binutils/config.sub.patch"
+        patch -Np0 -i "$DIR/Patches/gnu/binutils/0001-guess_utopia_libc.patch"
+        patch -Np0 -i "$DIR/Patches/gnu/binutils/0002-utopia_valid_os.patch"
         touch .patched
     else 
         echo "Already patched binutils!"
