@@ -201,7 +201,7 @@ install(
 
 add_custom_command(
     TARGET System
-    COMMAND ${CMAKE_COMMAND} -E create_symlink libSystem.so ${CMAKE_INSTALL_PREFIX}/Core/Libraries/ld-musl-${UTOPIA_ARCH}.so.1
+    COMMAND ${CMAKE_COMMAND} -E create_symlink ../Libraries/libSystem.so ${CMAKE_INSTALL_PREFIX}/Core/Binaries/linker${UTOPIA_ARCH}
 )
 
 # These are the translation of the makefile targets that replace types
