@@ -56,7 +56,7 @@ NAMES=( "KERNEL_HEADERS" "BINUTILS" "MPFR" "GMP" "MPC" "GCC" )
 PHASE="crosstools"
 
 
-export PATH=$CROSS_LOCATION/bin:/bin:/usr/bin:$TOOLS_LOCATION/bin
+export PATH=$CROSS_LOCATION/bin:/bin:/usr/bin:$TOOLS_LOCATION/bin:$TOOLS_LOCATION/Core/Binaries:$CROSS_LOCATION/Core/Binaries
 
 NPROC="nproc"
 
