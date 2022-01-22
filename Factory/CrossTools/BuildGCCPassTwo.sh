@@ -48,7 +48,7 @@ fi
 
 # == Patch gcc ==
 pushd "$SOURCES_DIR/$GCC_NAME"
-    patches="$DIR/CrossTools/Patches/gnu/gcc"
+    patches="$DIR/Patches/gnu/gcc"
     if [ ! -f ".support_patch" ]; then
         buildstep gcc/stageTwo/patch/0044 patch -Np0 -i "$patches/0044-linux_decisions.patch"
         buildstep gcc/stageTwo/patch/0045 patch -Np0 -i "$patches/0045-config.gcc-linux-common-and-utopia.patch"
@@ -64,7 +64,7 @@ pushd "$SOURCES_DIR/$GCC_NAME"
         echo "Support patches for Utopia have already been applied"
     fi
     if [ ! -f ".musl_specific_patch" ]; then
-        buildstep gcc/stageTwo/patch/0053 patch -Np0 -i "$patches/0053-utopia_is_generic.patch"
+        buildstep gcc/stageTwo/patch/0053 patch -Np1 -i "$patches/0053-utopia_is_generic.patch"
         buildstep gcc/stageTwo/patch/0001 patch -Np1 -i "$patches/0001-posix_memalign.patch"
         buildstep gcc/stageTwo/patch/0002 patch -Np1 -i "$patches/0002-gcc-poison-system-directories.patch"
         buildstep gcc/stageTwo/patch/0003 patch -Np1 -i "$patches/0003-Turn-on-Wl-z-relro-z-now-by-default.patch"
