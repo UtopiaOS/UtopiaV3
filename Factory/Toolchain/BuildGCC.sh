@@ -17,7 +17,7 @@ pushd $SOURCES_DIR/$GCC_NAME
     for file in gcc/config/{linux,i386/linux{,64}}.h
     do
         cp -uv $file{,.orig}
-        sed -e "s|\/lib\(64\)\?\(32\)\?\/ld|${TOOLS_LOCATION}&|g" \
+        sed -e "s|\/Core\/Binaries\/linker|${TOOLS_LOCATION}&|g" \
             -e "s|\/usr|${TOOLS_LOCATION}|g" ${file}.orig > $file
     echo "
 #undef STANDARD_STARTFILE_PREFIX_1
@@ -29,9 +29,14 @@ done
 popd
 
 pushd $SOURCES_DIR/$GCC_NAME
+    if [ -f ".no_explicit_link" ]; then
+        patch -Np0 "$DIR/Patches/gnu/gcc/0065-dont_explicity_link_libc.patch"
+        touch .no_explicit_link
+    fi
     if [ ! -f ".fixed_regression_cxx" ]; then
-        patch -Np0 -i "$DIR/CrossTools/Patches/gnu/gcc/0055-Fix_regresion_nostdinc_makefile_in.patch"
-        patch -Np0 -i "$DIR/CrossTools/Patches/gnu/gcc/0056-Fix_regresion_nostdinc_makefile_am.patch"
+        patch -Np0 -i "$DIR/Patches/gnu/gcc/0055-Fix_regresion_nostdinc_makefile_in.patch"
+        patch -Np0 -i "$DIR/Patches/gnu/gcc/0056-Fix_regresion_nostdinc_makefile_am.patch"
+        touch .fixed_regression_cxx
     fi
 popd
 

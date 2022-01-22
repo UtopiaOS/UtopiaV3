@@ -1,0 +1,14 @@
+--- lto-plugin/configure.orig	2022-01-22 11:21:06.782863131 -0600
++++ lto-plugin/configure	2022-01-22 11:13:53.971889397 -0600
+@@ -11271,6 +11271,11 @@
+   shlibpath_var=LD_LIBRARY_PATH
+   shlibpath_overrides_runpath=no
+ 
++  case $host_os in
++  utopia*)
++    archive_cmds_need_lc=no
++    ;;
++  esac
+ 
+   # Some binutils ld are patched to set DT_RUNPATH
+   if ${lt_cv_shlibpath_overrides_runpath+:} false; then :
