@@ -2,7 +2,7 @@
 
 pushd $SOURCES_DIR/$GCC_NAME
     if [ ! -f .patched_find_on_host ]; then
-        patch -Np1 -i $DIR/CrossTools/Patches/gnu/gcc/0057-fix_find_fenv_on_host.patch
+        patch -Np1 -i $DIR/Patches/gnu/gcc/0057-fix_find_fenv_on_host.patch
         touch .patched_find_on_host
     fi
 popd
