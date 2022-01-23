@@ -199,6 +199,58 @@ install(
     DESTINATION ${CMAKE_INSTALL_PREFIX}/Core/Libraries/
 )
 
+# Function unique to libSystem due to how it is structured
+function(utopia_install_libsystem_headers)
+    file(GLOB
+        MAIN_INCLUDE_HEADERS
+        RELATIVE
+        ${CMAKE_CURRENT_SOURCE_DIR}
+            include/*.h
+            include/*/*.h
+    )
+
+    list(APPEND MAIN_INCLUDE_HEADERS ${ADDITIONAL_HEADERS})
+    foreach(header ${MAIN_INCLUDE_HEADERS})
+        string(REGEX REPLACE "(include/)" "" header_no_include ${header})
+        get_filename_component(subdirectory ${header_no_include} DIRECTORY)
+        install(FILES ${header} DESTINATION ${CMAKE_INSTALL_PREFIX}/Core/Headers/${subdirectory})
+    endforeach()
+
+    file(GLOB
+        ARCH_SPECIFIC_HEADERS
+        RELATIVE
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        arch/${UTOPIA_ARCH}/bits/*.h)
+    
+    foreach(arch_specific_header ${ARCH_SPECIFIC_HEADERS})
+        if(${UTOPIA_ARCH} STREQUAL "x86_64")
+            string(REGEX REPLACE "(arch/x86_64/)" "" clean_header ${arch_specific_header})
+            get_filename_component(subdir ${clean_header} DIRECTORY)
+            install(FILES ${arch_specific_header} DESTINATION ${CMAKE_INSTALL_PREFIX}/Core/Headers/${subdir})
+        endif()
+    endforeach()
+
+    file(GLOB
+        GENERIC_HEADERS
+        RELATIVE
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        arch/generic/bits/*.h
+    )
+
+    foreach(generic_header ${GENERIC_HEADERS})        
+        string(REGEX REPLACE "(arch/generic/)" "" cleaned_header ${generic_header})
+        get_filename_component(subdir ${cleaned_header} DIRECTORY)
+        install(FILES ${generic_header} DESTINATION ${CMAKE_INSTALL_PREFIX}/Core/Headers/${subdir})
+    endforeach()
+
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/include/bits/alltypes.h DESTINATION ${CMAKE_INSTALL_PREFIX}/Core/Headers/bits)
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/include/bits/syscall.h DESTINATION ${CMAKE_INSTALL_PREFIX}/Core/Headers/bits)
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/include/bits/syscall.h DESTINATION ${CMAKE_INSTALL_PREFIX}/Core/Headers/)
+
+endfunction()
+
+utopia_install_libsystem_headers()
+
 add_custom_command(
     TARGET System
     COMMAND ${CMAKE_COMMAND} -E create_symlink ../Libraries/libSystem.so ${CMAKE_INSTALL_PREFIX}/Core/Binaries/linker${UTOPIA_ARCH}
