@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Report a bug about an Utopia component
-title: "[Component] A brief descrption"
+title: "[Component] A brief description"
 labels: ''
 assignees: ''
 
