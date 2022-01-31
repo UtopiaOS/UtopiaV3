@@ -2,6 +2,8 @@
 
 An Operating System developed as a whole powered by the Linux kernel.
 
+<img src="https://raw.githubusercontent.com/UtopiaOS/Utopia/master/Meta/PromotionalUtopia.png" width="100% ">
+
 ## About
 
 Utopia is a concept Operating System, it is a love letter to various other projects, concepts and ideas.
