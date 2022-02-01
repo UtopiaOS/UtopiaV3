@@ -1,4 +1,4 @@
-## Credits
+# Credits
 
 Utopia is based on so much research, by so many people over the course of the years, that it deserved to have its own file, it might also be useful for those that want some resources in the future.
 
