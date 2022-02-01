@@ -28,11 +28,11 @@ You can read more details about how to build Utopia and it's components on the [
 
 ## How can I contribute?
 
-We have well documented guidelines about how to contribute located [here](https://github.com/UtopiaOS/Utopia/blob/master/Contributing.md)
+We have well documented guidelines about how to contribute located [here](https://github.com/UtopiaOS/Utopia/blob/master/CONTRIBUTING.md)
 
 ## Before opening an issue
 
-- Read the [contributing guidelines](https://github.com/UtopiaOS/Utopia/blob/master/Contributing.md)
+- Read the [contributing guidelines](https://github.com/UtopiaOS/Utopia/blob/master/CONTRIBUTING.md)
 - Make sure to read the [F.A.Q](https://github.com/UtopiaOS/Utopia/blob/master/FAQ.md)
 
 ## Join us
@@ -45,4 +45,4 @@ You can always join the conversation in the [Discord server](https://discord.gg/
 
 ## Credits
 
-The credits are so large it is recommend you read [Credits.md](https://github.com/UtopiaOS/blob/master/Credits.md)
+The credits are so large it is recommend you read [Credits.md](https://github.com/UtopiaOS/Utopia/blob/master/CREDITS.md)
