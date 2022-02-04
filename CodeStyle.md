@@ -3,24 +3,24 @@
 Utopia is a project about _integration_ and _unification_ we believe your code is better if it follows the same style the last developer used. Please review this document entirely 
 in order to ensure your code is the best as it could be for the Utopia project. Thank you for your cooperation.
 
-#### Table Of Contents
+## Table Of Contents
 
 - [C](#C)
 - [Rust](#Rust)
 
-# C
+## C
 
 The following guidelines refer to the C programming language, and are based on code by the BSD and Linux projects.
 
-## Typing conventions
+### Typing conventions
 
 - Use `snake_case` for variables, for example:
 
 ```c
-int my_variable = 0;
+int my_variable;
 ```
 
-- Use `PascalCase` for Structs and Unions, for example: 
+- Use `PascalCase` for structs and unions, for example: 
 
 ```c
 struct HelloWorld {
@@ -39,7 +39,7 @@ union GoodbyeWorld {
 int 
 do_something(int argument) 
 {
-    int something = 0;
+    int something;
     
     something = argument + 1;
     
@@ -47,23 +47,23 @@ do_something(int argument)
 }
 ```
 
-## Naming conventions
+### Naming conventions
 
-- Use descriptive action or propety verbs when possible, for example:
-
-**Checking if a propety or condition value falls into two categories**
+- Use descriptive action or property verbs when possible, for example:
 
 **Variables**
 
 In the following code, we want to check if the _user_ has a certain _property_ in this case, the property is whether the user _is_ root or not.
 
 ```c
-bool is_root = check_root(user);
+bool is_root;
+is_root = check_root(user);
 ```
 In another example, we use the verb _do_ to check if we should or shouldn't execute an action.
 
 ```c
-bool do_a_barrel_roll = should_do_barrel();
+bool do_a_barrel_roll;
+do_a_barrel_roll = should_do_barrel();
 ```
 
 **Functions**
@@ -82,5 +82,48 @@ check_root(user_t *user)
   
    return (user->id == ROOT_USER_ID) ? true : false;
 }
+```
 
+In the following code we do a performative action
 
+```c
+void
+clean_up(some_pointer_t *some)
+{
+  free(some_pointer_t);
+}
+```
+
+### Styling conventions
+
+Declare all the variables at the top, for example:
+
+```c
+bool
+is_one_the_same_as_five()
+{
+  int one;
+  int five;
+
+  one = 1;
+  five = 5;
+
+  return (bool)(one == five);
+}
+```
+
+Write the return type, function declaration and opening bracket on new lines, for example:
+
+```c
+char
+give_back_c()
+{
+  return 'c';
+}
+```
+
+For function prototypes, declare both the name and the datatype, for example:
+
+```c
+char do_random(int randomess);
+```
