@@ -41,7 +41,7 @@ Is a project made for fun, made to showcase how an OS would look like in our vis
 3. Utopia's goal is not be macOS compatible: While it might look like we are striking to redo macOS (After all, we use Mach ports, Mach-O binaries, we have LaunchServices, Frameworks and drag and drop applications), we target the Linux kernel, the Utopia ABI and POSIX exclusively, we do not aim to provide neither _source_ or _binary_ compatibility with macOS, however, we would be very excited if you 
 bring your macOS program to Utopia, if you do want a macOS compatible operating system, check out [AiryxOS](https://airyxos.org).
 
-4. Utopia's goal is not be minimal: We truly believe in simplicity! But simplicity does not equal minimalism, even if used interchangeably in this day and age, Utopia aims to have a unique user experience, and we consider minimalism just for the sake of being minimal limits our creativity.
+4. Utopia's goal is not be minimal: We truly believe in simplicity! But simplicity does not equal minimalism, even if used interchangeably in this day and age, Utopia aims to have a unique user experience, and we consider that minimalism just for the sake of being minimal limits our creativity.
 
 ## Why the Linux kernel?
 
