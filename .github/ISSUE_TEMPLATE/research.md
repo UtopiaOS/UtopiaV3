@@ -1,6 +1,6 @@
 ---
-name: 'Research '
-about: Something that needs investigation and details
+name: 'Research'
+about: 🧪 Something that needs investigation and details
 title: "[Component] A brief description"
 labels: ''
 assignees: ''

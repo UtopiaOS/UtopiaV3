@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Report a bug about an Utopia component
+about: 🪲 Report a bug about an Utopia component
 title: "[Component] A brief description"
 labels: ''
 assignees: ''
@@ -40,7 +40,7 @@ UtopiaVersion: 0.0.1
 Vendor: Trip Technologies
 ```
 
-## Additonal content
+## Additional content
 
 **Additional context**
 Add any other context about the problem here.
