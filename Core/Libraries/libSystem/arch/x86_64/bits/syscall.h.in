@@ -38,9 +38,9 @@
  * Linux and Mach (While acquiring some parts of the BSD operating system)
  * the following nomenclature was established for generation:
  * 
- * __LNX_name - Linux routine syscalls, positive integers
- * __MCH_name - Mach routine syscalls, negative integers
- * __BSD_name - BSD routine syscalls, positive integers
+ * LNX_name - Linux routine syscalls, positive integers
+ * MCH_name - Mach routine syscalls, negative integers
+ * BSD_name - BSD routine syscalls, positive integers
  *
 */
 

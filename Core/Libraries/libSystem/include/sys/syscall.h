@@ -27,29 +27,9 @@
  *
  * $Utopia$
  */
+#ifndef _SYS_SYSCALL_H
+#define _SYS_SYSCALL_H
 
+#include <bits/syscall.h>
 
-/* 
- * The following file defines Utopia API
- * types. Most of them match their POSIX
- * counterparts.
-*/
-
-/* SIGNED */
-
-TYPEDEF signed char     i8;
-TYPEDEF signed short    i16;
-TYPEDEF signed int      i32;
-TYPEDEF signed _Int64   i64;
-
-/* UNSIGNED */
-TYPEDEF unsigned char   u8;
-TYPEDEF unsigned short  u16;
-TYPEDEF unsigned int    u32;
-TYPEDEF unsigned _Int64 u64;
-
-TYPEDEF unsigned short      ushort;
-TYPEDEF unsigned char       uchar;
-TYPEDEF unsigned long       ulong;
-TYPEDEF long long           vlong;
-TYPEDEF unsigned long long  uvlong;
+#endif

@@ -27,29 +27,21 @@
  *
  * $Utopia$
  */
+#ifndef _STDLIB_H
+#define _STDLIB_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-/* 
- * The following file defines Utopia API
- * types. Most of them match their POSIX
- * counterparts.
-*/
+#ifdef __cplusplus
+#define nil 0L
+#else
+#define nil ((void*)0)
+#endif
 
-/* SIGNED */
+#include <bits/saint_alliance.h>
 
-TYPEDEF signed char     i8;
-TYPEDEF signed short    i16;
-TYPEDEF signed int      i32;
-TYPEDEF signed _Int64   i64;
+_Noreturn void c_sys_exit(int);
 
-/* UNSIGNED */
-TYPEDEF unsigned char   u8;
-TYPEDEF unsigned short  u16;
-TYPEDEF unsigned int    u32;
-TYPEDEF unsigned _Int64 u64;
-
-TYPEDEF unsigned short      ushort;
-TYPEDEF unsigned char       uchar;
-TYPEDEF unsigned long       ulong;
-TYPEDEF long long           vlong;
-TYPEDEF unsigned long long  uvlong;
+#endif /* _STDLIB_H */

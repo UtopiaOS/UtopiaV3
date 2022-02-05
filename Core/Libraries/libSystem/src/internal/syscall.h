@@ -90,7 +90,7 @@ static inline long __alt_socketcall(int sys, int sock, int cp, long a, long b, l
 	long r;
 	if (cp) r = __syscall_cp(sys, a, b, c, d, e, f);
 	else r = __syscall(sys, a, b, c, d, e, f);
-	if (r != -ENOSYS) return r;
+	if (r != -C_ENOSYS) return r;
 #ifdef SYS_socketcall
 	if (cp) r = __syscall_cp(SYS_socketcall, sock, ((long[6]){a, b, c, d, e, f}));
 	else r = __syscall(SYS_socketcall, sock, ((long[6]){a, b, c, d, e, f}));

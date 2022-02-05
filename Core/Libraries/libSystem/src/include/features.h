@@ -25,24 +25,14 @@
  *
  * $Utopia$
  */
+#ifndef FEATURES_H
+#define FEATURES_H
 
-#define _Addr long
-#define _Int64 long
-#define _Reg long
+#include "../../include/features.h"
 
-#define __BYTE_ORDER 1234
-#define __LONG_MAX 0x7fffffffffffffffL
+#define weak __attribute__((__weak__))
+#define hidden __attribute__((__visibility__("hidden")))
+#define weak_alias(old, new) \
+    extern __typeof(old) new __attribute__((__weak__, __alias__(#old)))
 
-#ifndef __cplusplus
-TYPEDEF int wchar_t;
-#endif
-
-#if defined(__FLT_EVAL_METHOD__) && __FLT_EVAL_METHOD__ == 2
-TYPEDEF long double float_t;
-TYPEDEF long double double_t;
-#else
-TYPEDEF float float_t;
-TYPEDEF double double_t;
-#endif
-
-TYPEDEF struct { long long __ll; long double __ld; } max_align_t;
+#endif /* FEATURES_H */
