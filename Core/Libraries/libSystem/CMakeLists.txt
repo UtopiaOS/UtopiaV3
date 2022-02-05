@@ -2,11 +2,17 @@
 
 
 
+# Utopia POSIX-like/UNIX like types and struct generataion
 add_custom_target(alltypes.h
     COMMAND mdkdir -p ${CMAKE_CURRENT_BINARY_DIR}/include/bits
     COMMAND sed -f ${PROJECT_META_DIR}/mkalltypes.sed
         ${CMAKE_CURRENT_SOURCE_DIR}/arch/${UTOPIA_ARCH}/bits/alltypes.h.in
-        ${CMAKE_CURRENT_SOURCE_DIR}/arch/)
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/alltypes.h.in
+        > ${CMAKE_CURRENT_BINARY_DIR}/include/bits/alltypes.h
+    COMMENT include/bits/alltypes.h
+    BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/include/bits/alltypes.h
+    SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/arch/${UTOPIA_ARCH}/bits/alltypes.h.in
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/alltypes.h.in)
 
 
 # Utopia syscall interface generation
