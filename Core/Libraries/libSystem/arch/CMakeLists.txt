@@ -1,7 +1,12 @@
+
+
+
+
+
 # Utopia syscall interface generation
 add_custom_target(syscall.h
     COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/include/bits
-    COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/arch/${UTOPIA_ARCH}/${UTOPIA_ARCH}/bits/syscall.h.in
+    COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/arch/${UTOPIA_ARCH}/bits/syscall.h.in
         ${CMAKE_CURRENT_BINARY_DIR}/include/bits/syscall.h
     COMMAND sed -n -e s|__LNX_|SYS_|p < ${CMAKE_CURRENT_SOURCE_DIR}/arch/${UTOPIA_ARCH}/bits/syscall.h.in
         >> ${CMAKE_CURRENT_BINARY_DIR}/include/bits/syscall.h
