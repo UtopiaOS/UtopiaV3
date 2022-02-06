@@ -16,6 +16,9 @@ list(APPEND CMAKE_C_SOURCE_FILE_EXTENSIONS lo)
 
 set(PROJECT_META_DIR ${PROJECT_SOURCE_DIR}/Meta)
 
+# Headers that are used during the build process, some might be installed
+set(UNIVERSAL_BUILD_UTOPIA_HEADERS ${PROJECT_SOURCE_DIR}/Core/Headers)
+
 # Create our NeoFHS file tree
 file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/Core)
 file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/Core/Libraries)
