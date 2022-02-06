@@ -53,3 +53,4 @@ TYPEDEF unsigned char       uchar;
 TYPEDEF unsigned long       ulong;
 TYPEDEF long long           vlong;
 TYPEDEF unsigned long long  uvlong;
+TYPEDEF unsigned long       usize;
