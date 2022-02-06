@@ -91,7 +91,7 @@ extern "C" {
 
 #include <stdbool.h>
 #include <stdlib.h> /* Poor implementation... */
-#include <stdint.h> /* No implementation... */
+#include <stdint.h>
 #include <limits.h> /* Different names... */
 #include <strings.h> /* Non existant in Utopia... */
 
