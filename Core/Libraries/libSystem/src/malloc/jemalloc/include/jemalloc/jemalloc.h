@@ -89,7 +89,7 @@ extern "C" {
 
 #include "jemalloc_Utopia.h"
 
-#include <stdbool.h> /* Not availible in Utopia yet... */
+#include <stdbool.h>
 #include <stdlib.h> /* Poor implementation... */
 #include <stdint.h> /* No implementation... */
 #include <limits.h> /* Different names... */
