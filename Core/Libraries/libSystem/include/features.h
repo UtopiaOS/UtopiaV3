@@ -30,6 +30,18 @@
 
 #define __COVENANT__ 1
 
+
+/*
+ * Macro to test if we're using a specific version of gcc or later.
+ */
+#if defined(__GNUC__)
+#define	__GNUC_PREREQ__(ma, mi)	\
+	(__GNUC__ > (ma) || __GNUC__ == (ma) && __GNUC_MINOR__ >= (mi))
+#else
+#define	__GNUC_PREREQ__(ma, mi)	0
+#endif /* __GNUC_PREREQ__ DEFINITION */
+
+
 #if defined(_ALL_SOURCES) && !defined(_GNU_SOURCE)
 #define _GNU_SOURCE
 #endif /* ALL_SOURCES && !GNU_SOURCE */
@@ -67,6 +79,14 @@
 #else
 #define _Noreturn
 #endif /* _Noreturn */
+
+#if __GNUC_PREREQ__(2, 96)
+#define __malloc_like       __attribute__((__malloc__))
+#define __pure              __attribute__((__pure__))
+#else
+#define __malloc_like
+#define __pure
+#endif /* __GNUC_PREREQ__ */
 
 #define __REDIR(x,y) __typeof__(x) x __asm__(#y)
 
