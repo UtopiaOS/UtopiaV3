@@ -1,6 +1,8 @@
 
 set(STATIC_LIB_COVENANT_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/sys/exit.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/mem/chr.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/str/len.c
 )
 
 set(COMMON_INCLUDE_DIRECTORIES
