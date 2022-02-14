@@ -1,0 +1,4 @@
+#!/bin/sh
+
+export LD_DYLD_PATH=/System/Core/Libraries/mdlk
+@REAL_LD_PATH@ "$@"
