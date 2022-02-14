@@ -12,15 +12,17 @@ get_filename_component(
 )
 
 set(UTOPIA_ARCH "x86_64" CACHE STRING "Target Architecture for UtopiaOS")
-set(UTOPIA_TOOLCHAIN "GNU" CACHE STRING "Compiler and set of utils to use for Utopia (For now only GNU is supported)")
-set(UTOPIA_VENDOR "trip" CACHE STRING "The company that is distributing Utopia, default trip")
+# Ironic now that GNU is the only one that isn't supported
+#set(UTOPIA_TOOLCHAIN "GNU" CACHE STRING "Compiler and set of utils to use for Utopia (For now only GNU is supported)")
+# trip is hardcoded for now
+#set(UTOPIA_VENDOR "trip" CACHE STRING "The company that is distributing Utopia, default trip")
 
 set(UTOPIA_BUILD_DIR "${PROJECT_BINARY_DIR}/../${UTOPIA_ARCH}")
 
 if (CMAKE_HOST_SYSTEM_NAME MATCHES "UtopiaOS")
     message(STATUS "Thank you for using Utopia :D")
 else()
-    configure_file("${UTOPIA_SOURCE_DIR}/Factory/Toolchain/CMake/${UTOPIA_TOOLCHAIN}Toolchain.txt.in" "${UTOPIA_BUILD_DIR}/CMakeToolchain.txt" @ONLY)
+    configure_file("${UTOPIA_SOURCE_DIR}/Factory/Toolchain/CMake/${UTOPIA_TOOLCHAIN}UtopiaStageOne.txt.in" "${UTOPIA_BUILD_DIR}/CMakeToolchain.txt" @ONLY)
     set(UTOPIA_TOOLCHAIN_FILE "${UTOPIA_BUILD_DIR}/CMakeToolchain.txt" CACHE PATH "Toolchain file to use for cross-compilation")
     # Support non-cross builds by stuffing this in a variable
     set(UTOPIA_TOOLCHAIN_FILE_ARG "-DCMAKE_TOOLCHAIN_FILE:STRING=${UTOPIA_TOOLCHAIN_FILE}")
