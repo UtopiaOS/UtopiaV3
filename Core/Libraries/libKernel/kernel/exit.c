@@ -27,7 +27,7 @@
  *
  * $Utopia$
  */
-#include <ukernel.h>
+#include <covenant/kernel/basic.h>
 #include "syscall.h"
 
 _Noreturn void

@@ -27,9 +27,9 @@
  *
  * $Utopia$
  */
-#ifndef _UKERNEL_H
-#define _UKERNEL_H
+#ifndef _COVENANT_KERNEL_BASIC_H
+#define _COVENANT_KERNEL_BASIC_H
 
 _Noreturn void c_kernel_exit(int);
 
-#endif /* _UKERNEL_H */
+#endif /* _COVENANT_KERNEL_BASIC_H */

@@ -27,9 +27,9 @@
  *
  * $Utopia$
  */
-#ifndef _SYS_SYSCALL_H
-#define _SYS_SYSCALL_H
+#ifndef _COVENANT_SYS_SYSCALL_H
+#define _COVENANT_SYS_SYSCALL_H
 
-#include <bits/syscall.h>
+#include <covenant/bits/syscall.h>
 
-#endif
+#endif /* _COVENANT_SYS_SYSCALL_H */

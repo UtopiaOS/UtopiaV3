@@ -27,8 +27,8 @@
  *
  * $Utopia$
  */
-#ifndef _ERRNO_H
-#define _ERRNO_H
+#ifndef _ERRCODE_H
+#define _ERRCODE_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -36,10 +36,11 @@ extern "C" {
 
 #include <features.h>
 
-#include <bits/errnum.h>
+#include <covenant/bits/errcode.h>
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif
+
+#endif /* _ERRCODE_H */

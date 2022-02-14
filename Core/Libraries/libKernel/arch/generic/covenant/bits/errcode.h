@@ -33,8 +33,10 @@
  * read the Utopia documentation in order to understand what each one
  * might refer to.
  * 
- * It is defined as errnum to prevent qualitions with our POSIX compatibility
+ * It is defined as errcode to prevent collitions with our POSIX compatibility
  * layer.
+ * 
+ * However, they exist in different include namespaces...
  * 
 */
 
