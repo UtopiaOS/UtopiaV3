@@ -1,19 +1,6 @@
 set(LIBKERNEL_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/kernel/exit.c)
 
-set(LIBKERNEL_INCLUDE_DIRECTORIES
-    ${CMAKE_CURRENT_SOURCE_DIR}/arch/${UTOPIA_ARCH}
-    ${CMAKE_CURRENT_BINARY_DIR}/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/arch/generic
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/internal
-    ${UNIVERSAL_BUILD_UTOPIA_HEADERS})
-
-add_library(kernel_static STATIC ${LIBKERNEL_SOURCES})
-target_include_directories(kernel_static PRIVATE ${LIBKERNEL_INCLUDE_DIRECTORIES})
-
-add_dependencies(kernel_static syscall.h)
-
 # Utopia syscall interface generation
 add_custom_target(syscall.h
     COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/include/covenant/bits
@@ -25,3 +12,11 @@ add_custom_target(syscall.h
     BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/include/covenant/bits/syscall.h
     SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/arch/${UTOPIA_ARCH}/covenant/bits/syscall.h.in
 )
+
+set(SOURCES ${LIBKERNEL_SOURCES})
+
+covenant_static_component(libKernel_static kernel_static)
+
+target_include_directories(libKernel_static PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/include)
+
+add_dependencies(libKernel_static syscall.h)

@@ -13,7 +13,6 @@ set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/Root)
 set(CMAKE_STAGING_PREFIX ${CMAKE_BINARY_DIR}/Root)
 list(APPEND CMAKE_C_SOURCE_FILE_EXTENSIONS lo)
 
-
 set(PROJECT_META_DIR ${PROJECT_SOURCE_DIR}/Meta)
 
 # Headers that are used during the build process, some might be installed
@@ -24,5 +23,18 @@ file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/Core)
 file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/Core/Libraries)
 file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/Core/Binaries)
 file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/Core/Headers)
+
+include(covenant)
+
+set(COVENANT_COMPONENTS "libKernel")
+
+covenant_bootstrap_all_include_directories(${COVENANT_COMPONENTS})
+
+# Configure include directories
+include_directories(.)
+include_directories(Core/Headers)
+include_directories(Core/Libraries)
+include_directories(Core/Libraries/libKernel)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_subdirectory(Core)
