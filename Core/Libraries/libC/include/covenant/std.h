@@ -32,6 +32,8 @@
 #define __NEED_u32
 #include <covenant/bits/everytype.h>
 #include <covenant/fn.h>
-#include <covenant/u.h>
+#include <covenant/dat.h>
+
+#define nil ((void *)0)
 
 void *c_std_bsearch(const void *, const void *, size, size, ctype_cmpfn);

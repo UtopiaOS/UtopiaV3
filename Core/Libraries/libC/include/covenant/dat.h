@@ -27,5 +27,36 @@
  *
  * $Utopia$
  */
+#define __NEED_usize
+#define __NEED_ulong
+#define __NEED_u32
+#define __NEED_va_list
+#define __NEED_uchar
+#include <covenant/bits/everytype.h>
 
-#define nil ((void *)0)
+typedef u32 ctype_status;
+
+typedef struct ctype_arr ctype_arr;
+
+struct ctype_arr {
+    usize size;
+    usize end;
+    uchar *members;
+};
+
+
+typedef struct ctype_fmt ctype_fmt;
+typedef ctype_status (*ctype_fmtopfn)(ctype_fmt *, char *, usize);
+typedef ctype_status (*ctype_fmtfn)(ctype_fmt *);
+
+struct ctype_fmt {
+    ctype_arr *array;
+    va_list args;
+    ctype_fmtopfn fn;
+    usize nfmt;
+    u32 prec;
+    u32 r;
+    u32 width;
+    ulong flags;
+    void *fargs;
+};
