@@ -1,5 +1,6 @@
 set(LIBKERNEL_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/kernel/exit.c)
+    kernel/exit.c
+    kernel/write.c)
 
 set(SOURCES ${LIBKERNEL_SOURCES})
 

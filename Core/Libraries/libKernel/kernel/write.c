@@ -27,29 +27,11 @@
  *
  * $Utopia$
  */
+#include <covenant/kernel/basic.h>
+#include "syscall.h"
 
-#define __LITTLE_ENDIAN 1234
-#define __BIG_ENDIAN 3421
-
-TYPEDEF unsigned _Addr      uintptr;
-TYPEDEF _Addr               intptr;
-TYPEDEF unsigned _Addr      usize;
-TYPEDEF _Addr               size;
-
-TYPEDEF signed char         i8;
-TYPEDEF signed short        i16;
-TYPEDEF signed int          i32;
-TYPEDEF signed _Int64       i64;
-
-TYPEDEF unsigned char       u8;
-TYPEDEF unsigned short      u16;
-TYPEDEF unsigned int        u32;
-TYPEDEF unsigned _Int64     u64;
-
-TYPEDEF unsigned short          ushort;
-TYPEDEF unsigned char           uchar;
-TYPEDEF unsigned long           ulong;
-TYPEDEF long long               vlong;
-TYPEDEF unsigned long long      uvlong;
-
-TYPEDEF int                     ctype_fd;
+size
+c_kernel_write(ctype_fd fd, const void *buf, usize count)
+{
+    return syscall_cp(SYS_write, fd, buf, count);
+}

@@ -30,6 +30,13 @@
 #ifndef _COVENANT_KERNEL_BASIC_H
 #define _COVENANT_KERNEL_BASIC_H
 
+#define __NEED_size
+#define __NEED_usize
+#define __NEED_ctype_fd
+#include <covenant/bits/everytype.h>
+
 _Noreturn void c_kernel_exit(int);
+size c_kernel_write(ctype_fd, const void*, usize);
+
 
 #endif /* _COVENANT_KERNEL_BASIC_H */
