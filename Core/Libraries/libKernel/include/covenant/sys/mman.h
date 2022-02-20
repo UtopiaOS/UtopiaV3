@@ -10,6 +10,7 @@ extern "C" {
 #define __NEED_size
 #define __NEED_ctype_fd
 #define __NEED_ctype_fssize
+#define __NEED_i32
 
 #include <covenant/bits/everytype.h>
 
@@ -58,7 +59,7 @@ extern "C" {
 #define C_PROT_GROWSDOWN        0x01000000
 #define C_PROT_GROWSUP          0x02000000
 
-void *c_kernel_mmap(void*, size, u32, u32, ctype_fd, ctype_fssize);
+void *c_kernel_mmap(void*, size, i32, i32, ctype_fd, ctype_fssize);
 
 #ifdef __cplusplus
 "}"

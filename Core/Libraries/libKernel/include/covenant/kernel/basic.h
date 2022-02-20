@@ -33,9 +33,11 @@
 #define __NEED_size
 #define __NEED_usize
 #define __NEED_ctype_fd
+#define __NEED_u32
+#define __NEED_i32
 #include <covenant/bits/everytype.h>
 
-_Noreturn void c_kernel_exit(int);
+_Noreturn void c_kernel_exit(i32);
 size c_kernel_write(ctype_fd, const void*, usize);
 
 /* Write to a file descriptor */

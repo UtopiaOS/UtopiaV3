@@ -1,6 +1,5 @@
 
 
-#include <covenant/kernel/basic.h>
 #include <covenant/shared.h>
 #include <covenant/errcode.h>
 #include <covenant/sys/mman.h>
@@ -13,7 +12,7 @@
 static void __vm_wait(void) { };
 
 void*
-c_kernel_mmap(void *start, size len, u32 prot, u32 flags, ctype_fd fd, ctype_fssize off) 
+c_kernel_mmap(void *start, size len, i32 prot, i32 flags, ctype_fd fd, ctype_fssize off) 
 {
     long ret;
     if (off & KERNEL_OFF_MASK){
@@ -24,7 +23,7 @@ c_kernel_mmap(void *start, size len, u32 prot, u32 flags, ctype_fd fd, ctype_fss
         errno = C_ENOMEM;
         return C_MAP_FAILED;
     }
-    if (flags & MAP_FIXED) {
+    if (flags & C_MAP_FIXED) {
         __vm_wait();
     }
     #ifdef SYS_mmap2
