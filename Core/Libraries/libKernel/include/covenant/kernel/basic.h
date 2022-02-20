@@ -43,5 +43,12 @@ size c_kernel_write(ctype_fd, const void*, usize);
 /* Write to a file descriptor */
 size c_kernel_fdwrite(ctype_fd, const void*, usize);
 
+/* This should be in our thread library
+ * for now covenant doesn't support threads
+ * that is a can of worms nobody wants to open
+ * right now...
+*/
+#define c_kernel_abort() { while (*(volatile i32 *)0); }
+
 
 #endif /* _COVENANT_KERNEL_BASIC_H */
