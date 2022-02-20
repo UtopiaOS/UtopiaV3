@@ -1,0 +1,54 @@
+/*
+ * SPDX-License-Identifier: BSD-2-Clause
+ *
+ * Copyright (c) 2022 Diego Magdaleno
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ *
+ * $Utopia$
+ */
+
+#define __LITTLE_ENDIAN 1234
+#define __BIG_ENDIAN 3421
+
+TYPEDEF unsigned _Addr      uintptr;
+TYPEDEF _Addr               intptr;
+TYPEDEF unsigned _Addr      usize;
+TYPEDEF _Addr               size;
+
+TYPEDEF signed char         i8;
+TYPEDEF signed short        i16;
+TYPEDEF signed int          i32;
+TYPEDEF signed _Int64       i64;
+
+TYPEDEF unsigned char       u8;
+TYPEDEF unsigned short      u16;
+TYPEDEF unsigned int        u32;
+TYPEDEF unsigned _Int64     u64;
+
+TYPEDEF unsigned short          ushort;
+TYPEDEF unsigned char           uchar;
+TYPEDEF unsigned long           ulong;
+TYPEDEF long long               vlong;
+TYPEDEF unsigned long long      uvlong;
+

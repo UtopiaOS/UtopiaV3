@@ -76,6 +76,21 @@ function(covenant_configure_syscalls)
     )
 endfunction()
 
+
+function(covenant_configure_types)
+    add_custom_target(everytype.h
+    COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/Core/Headers/covenant/bits
+    COMMAND sed -f ${PROJECT_META_DIR}/sed/mkalltypes.sed
+        ${PROJECT_SOURCE_DIR}/Core/Libraries/libC/arch/${UTOPIA_ARCH}/covenant/bits/everytype.h.in
+        ${PROJECT_SOURCE_DIR}/Core/Libraries/libC/include/covenant/everytype.h.in
+        > ${CMAKE_CURRENT_BINARY_DIR}/Core/Headers/covenant/bits/everytype.h
+    COMMENT Core/Headers/covenant/bits/everytype.h
+    BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/Core/Headers/bits/covenant/everytype.h
+    SOURCES ${PROJECT_SOURCE_DIR}/Core/Libraries/libC/arch/${UTOPIA_ARCH}/covenant/bits/everytype.h.in
+    ${PROJECT_SOURCE_DIR}/Core/Libraries/libC/include/covenant/everytype.h.in
+    )
+endfunction()
+
 function(covenant_static_component covenant_sublib_name fs_name)
     covenant_install_headers()
     add_library(${covenant_sublib_name} STATIC ${SOURCES})
