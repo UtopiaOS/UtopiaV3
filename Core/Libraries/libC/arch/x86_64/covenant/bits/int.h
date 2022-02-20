@@ -28,24 +28,8 @@
  * $Utopia$
  */
 
-#ifndef _COVENANT_INT_H
-#define _COVENANT_INT_H
-
-#define I8_MIN      (-1-0x7f)
-#define I16_MIN     (-1-0x7fff)
-#define I32_MIN     (-1-0x7fffffff)
-#define I64_MIN     (-1-0x7fffffffffffffff)
-
-#define I8_MAX      (0x7f)
-#define I16_MAX     (0x7fff)
-#define I32_MAX     (-1-0x7fffffff)
-#define I64_MAX     (-1-0x7fffffffffffffff)
-
-#define U8_MAX      (0xff)
-#define U16_MAX     (0xffff)
-#define U32_MAX     (0xffffffffu)
-#define U64_MAX     (0xffffffffffffffffu)
-
-#include <covenant/bits/int.h>
-
-#endif /* _COVENANT_INT_H */
+#define INTPTR_MIN      I64_MIN
+#define INTPTR_MAX      I64_MAX
+#define UINTPTR_MAX     U64_MAX
+#define PTRDIFF_MIN     I64_MIN
+#define PTRDIFF_MAX     I64_MAX
