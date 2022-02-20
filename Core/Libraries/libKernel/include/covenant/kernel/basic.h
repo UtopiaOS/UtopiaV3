@@ -35,13 +35,18 @@
 #define __NEED_ctype_fd
 #define __NEED_u32
 #define __NEED_i32
+#define __NEED_ctype_status
 #include <covenant/bits/everytype.h>
+
 
 _Noreturn void c_kernel_exit(i32);
 size c_kernel_write(ctype_fd, const void*, usize);
 
 /* Write to a file descriptor */
 size c_kernel_fdwrite(ctype_fd, const void*, usize);
+
+ctype_status c_kernel_munmap(void*, size);
+
 
 /* This should be in our thread library
  * for now covenant doesn't support threads

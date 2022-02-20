@@ -1,6 +1,9 @@
 set(LIBKERNEL_SOURCES
     kernel/exit.c
-    kernel/write.c)
+    kernel/write.c
+    kernel/mmap.c
+    kernel/fd_write.c
+    kernel/munmap.c)
 
 set(SOURCES ${LIBKERNEL_SOURCES})
 
