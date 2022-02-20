@@ -27,17 +27,10 @@
  *
  * $Utopia$
  */
+#include <covenant/std.h>
 
-#define __NEED_size
-#define __NEED_u32
-#include <covenant/bits/everytype.h>
-#include <covenant/fn.h>
-#include <covenant/dat.h>
-
-#define nil ((void *)0)
-
-/* Default functions in the std */
-void* c_std_bsearch(const void *, const void *, size, size, ctype_cmpfn);
-
-/* Array manipulation */
-void* c_arr_data(ctype_arr*);
+void *
+c_arr_data(ctype_arr *arr_pointer)
+{
+    return arr_pointer->members;
+}
