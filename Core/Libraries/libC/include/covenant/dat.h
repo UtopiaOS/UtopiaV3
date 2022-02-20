@@ -40,7 +40,7 @@ typedef struct ctype_arr ctype_arr;
 
 struct ctype_arr {
     usize size;
-    usize end;
+    usize length;
     uchar *members;
 };
 
