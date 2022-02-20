@@ -38,5 +38,8 @@
 _Noreturn void c_kernel_exit(int);
 size c_kernel_write(ctype_fd, const void*, usize);
 
+/* Write to a file descriptor */
+size c_kernel_fdwrite(ctype_fd, const void*, usize);
+
 
 #endif /* _COVENANT_KERNEL_BASIC_H */
