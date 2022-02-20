@@ -51,6 +51,13 @@ extern "C" {
 #define C_MAP_HUGE_2GB          ((31 << 26))
 #define C_MAP_HUGE_16GB         ((34U << 26))
 
+#define C_PROT_NONE             0
+#define C_PROT_READ             1
+#define C_PROT_WRITE            2
+#define C_PROT_EXEC             4
+#define C_PROT_GROWSDOWN        0x01000000
+#define C_PROT_GROWSUP          0x02000000
+
 void *c_kernel_mmap(void*, size, u32, u32, ctype_fd, ctype_fssize);
 
 #ifdef __cplusplus
