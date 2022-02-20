@@ -62,6 +62,20 @@ function(covenant_bootstrap_all_include_directories covenant_libraries)
     endforeach()
 endfunction()
 
+
+function(covenant_configure_syscalls)
+    add_custom_target(syscall.h
+    COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/Core/Headers/covenant/bits
+    COMMAND cp ${PROJECT_SOURCE_DIR}/Core/Libraries/libKernel/arch/${UTOPIA_ARCH}/covenant/bits/syscall.h.in
+            ${CMAKE_CURRENT_BINARY_DIR}/Core/Headers/covenant/bits/syscall.h
+    COMMAND sed -n -e s/__LNX_/SYS_/p < ${CMAKE_CURRENT_BINARY_DIR}/Core/Headers/covenant/bits/syscall.h
+                >> ${CMAKE_CURRENT_BINARY_DIR}/Core/Headers/covenant/bits/syscall.h
+    COMMENT Core/Headers/covenant/bits/syscall.h
+    BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/Core/Headers/covenant/bits/syscall.h
+    SOURCES ${PROJECT_SOURCE_DIR}/Core/Libraries/libKernel/arch/${UTOPIA_ARCH}/covenant/bits/syscall.h.in
+    )
+endfunction()
+
 function(covenant_static_component covenant_sublib_name fs_name)
     covenant_install_headers()
     add_library(${covenant_sublib_name} STATIC ${SOURCES})

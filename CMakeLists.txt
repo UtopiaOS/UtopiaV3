@@ -30,11 +30,15 @@ set(COVENANT_COMPONENTS "libKernel")
 
 covenant_bootstrap_all_include_directories(${COVENANT_COMPONENTS})
 
+covenant_configure_syscalls()
+
 # Configure include directories
 include_directories(.)
 include_directories(Core/Headers)
 include_directories(Core/Libraries)
 include_directories(Core/Libraries/libKernel)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/Core/Headers)
+
 
 add_subdirectory(Core)
