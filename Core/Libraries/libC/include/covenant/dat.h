@@ -30,11 +30,12 @@
 #define __NEED_usize
 #define __NEED_ulong
 #define __NEED_u32
+#define __NEED_i32
 #define __NEED_va_list
 #define __NEED_uchar
 #include <covenant/bits/everytype.h>
 
-typedef u32 ctype_status;
+typedef i32 ctype_status;
 
 typedef struct ctype_arr ctype_arr;
 
@@ -44,6 +45,7 @@ struct ctype_arr {
     uchar *members;
 };
 
+#define c_arr_INIT(a) { sizeof((a)), 0, (a) }
 
 typedef struct ctype_fmt ctype_fmt;
 typedef ctype_status (*ctype_fmtopfn)(ctype_fmt *, char *, usize);
@@ -54,9 +56,9 @@ struct ctype_fmt {
     va_list args;
     ctype_fmtopfn fn;
     usize nfmt;
-    u32 prec;
-    u32 r;
-    u32 width;
+    i32 prec;
+    i32 r;
+    i32 width;
     ulong flags;
     void *fargs;
 };
