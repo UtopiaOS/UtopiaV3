@@ -26,9 +26,9 @@ file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/Core/Headers)
 
 include(covenant)
 
-set(COVENANT_COMPONENTS "libKernel" "libC")
+list(APPEND COVENANT_COMPONENTS "libKernel" "libC")
 
-covenant_bootstrap_all_include_directories(${COVENANT_COMPONENTS})
+covenant_bootstrap_all_include_directories("${COVENANT_COMPONENTS}")
 
 covenant_configure_syscalls()
 covenant_configure_types()

@@ -1,1 +1,2 @@
 add_subdirectory(libKernel)
+add_subdirectory(libC)
