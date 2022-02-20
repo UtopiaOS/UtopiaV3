@@ -33,9 +33,8 @@
 #define __NEED_i32
 #define __NEED_va_list
 #define __NEED_uchar
+#define __NEED_ctype_status
 #include <covenant/bits/everytype.h>
-
-typedef i32 ctype_status;
 
 typedef struct ctype_arr ctype_arr;
 

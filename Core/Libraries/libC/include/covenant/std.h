@@ -30,7 +30,12 @@
 
 #define __NEED_size
 #define __NEED_u32
+#define __NEED_i32
+#define __NEED_ushort
+#define __NEED_uintptr
+#define __NEED_ctype_status
 #include <covenant/bits/everytype.h>
+#include <covenant/kernel/basic.h>
 #include <covenant/fn.h>
 #include <covenant/dat.h>
 

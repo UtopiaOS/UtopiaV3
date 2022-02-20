@@ -53,5 +53,7 @@ TYPEDEF long long               vlong;
 TYPEDEF unsigned long long      uvlong;
 
 TYPEDEF int                     ctype_fd;
+TYPEDEF int                     ctype_fssize;
+TYPEDEF int                     ctype_status;
 
 TYPEDEF __builtin_va_list       va_list;
