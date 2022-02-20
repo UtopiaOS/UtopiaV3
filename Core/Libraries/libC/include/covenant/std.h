@@ -42,3 +42,9 @@ void *c_std_bsearch(const void *, const void *, size, size, ctype_cmpfn);
 /* Array manipulation */
 void *c_arr_data(ctype_arr *);
 usize c_arr_len(ctype_arr *, usize);
+
+/* Dynamic */
+ctype_status c_dyn_cat(ctype_arr*, void*, usize, usize);
+
+/* Operations on memory */
+void *c_mem_cpy(void*, usize, void*);
