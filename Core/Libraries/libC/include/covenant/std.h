@@ -34,6 +34,8 @@
 #define __NEED_ushort
 #define __NEED_uintptr
 #define __NEED_ctype_status
+#define __NEED_intptr
+#define __NEED_ulong
 #include <covenant/bits/everytype.h>
 #include <covenant/kernel/basic.h>
 #include <covenant/fn.h>
@@ -43,6 +45,9 @@
 
 /* Default functions in the std */
 void *c_std_bsearch(const void *, const void *, size, size, ctype_cmpfn);
+
+// TODO: Should this stay as a macro?
+#define c_std_offsetof(a, b) (ulong)(&(((a *)0)->b))
 
 /* Array manipulation */
 void *c_arr_data(ctype_arr *);

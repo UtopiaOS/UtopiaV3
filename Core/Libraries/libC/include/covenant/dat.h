@@ -61,3 +61,9 @@ struct ctype_fmt {
     ulong flags;
     void *fargs;
 };
+
+/* Where do I put you? */
+#define C_MIN(a, b) (((a) > (b)) ? (b) : (a))
+
+/* Should you go here? */
+#define C_OFLW_UM(a, b, c) ((b) && (c) > (((a)-1)/(b)))
