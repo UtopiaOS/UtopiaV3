@@ -18,6 +18,7 @@ set(LIBC_SOURCES
     fmt/init.c
     fmt/install.c
     nix/allrw.c
+    arr/trunc.c
     nix/munmap.c)
 
 set(SOURCES ${LIBC_SOURCES})
