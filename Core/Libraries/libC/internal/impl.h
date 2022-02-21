@@ -27,45 +27,13 @@
  *
  * $Utopia$
  */
+#define VFMTLEN 20
 
-#define __NEED_size
-#define __NEED_u32
-#define __NEED_i32
-#define __NEED_ushort
-#define __NEED_uintptr
-#define __NEED_ctype_status
-#define __NEED_intptr
-#define __NEED_ulong
-#include <covenant/bits/everytype.h>
-#include <covenant/kernel/basic.h>
-#include <covenant/fn.h>
-#include <covenant/dat.h>
+struct fmtverb {
+    u32 c;
+    ctype_status (*fn)(ctype_fmt *);
+};
 
-#define nil ((void *)0)
-
-/* Default functions in the std */
-void *c_std_bsearch(const void *, const void *, size, size, ctype_cmpfn);
-void *c_std_realloc(void*, usize, usize);
-void *c_std_alloc(usize, usize);
-void c_std_setalloc(ctype_allocfn);
-
-// TODO: Should this stay as a macro?
-#define c_std_offsetof(a, b) (ulong)(&(((a *)0)->b))
-
-/* Array manipulation */
-void *c_arr_data(ctype_arr *);
-usize c_arr_len(ctype_arr *, usize);
-usize c_arr_avail(ctype_arr *);
-usize c_arr_bytes(ctype_arr *);
-
-/* Dynamic */
-ctype_status c_dyn_cat(ctype_arr*, void*, usize, usize);
-ctype_status c_dyn_ready(ctype_arr*, usize, usize);
-void* c_dyn_alloc(ctype_arr*, usize, usize);
-ctype_status c_dyn_idxcat(ctype_arr*, usize, void *, usize, usize);
-
-/* Operations on memory */
-void *c_mem_cpy(void*, usize, void*);
-
-/* fmt */
-ctype_status c_fmt_install(i32, ctype_fmtfn);
+extern ctype_arr __fmt_Fmts;
+extern struct fmtverb __fmt_VFmts[];
+extern ctype_status __fmt_trycat(ctype_fmt *, char *, usize);

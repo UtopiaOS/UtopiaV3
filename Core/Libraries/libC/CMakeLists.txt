@@ -6,12 +6,15 @@ set(LIBC_SOURCES
     std/realloc.c
     std/alloc.c
     std/setalloc.c
+    arr/data.c
+    arr/len.c
     arr/avail.c
     dyn/ready.c
     dyn/cat.c
     arr/bytes.c
     dyn/alloc.c
     dyn/idxcat.c
+    fmt/install.c
     nix/munmap.c)
 
 set(SOURCES ${LIBC_SOURCES})
