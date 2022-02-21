@@ -46,6 +46,7 @@
 /* Default functions in the std */
 void *c_std_bsearch(const void *, const void *, size, size, ctype_cmpfn);
 void *c_std_realloc(void*, usize, usize);
+void *c_std_alloc(usize, usize);
 
 // TODO: Should this stay as a macro?
 #define c_std_offsetof(a, b) (ulong)(&(((a *)0)->b))
