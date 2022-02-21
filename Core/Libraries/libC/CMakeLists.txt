@@ -5,6 +5,8 @@ set(LIBC_SOURCES
     std/pubrealloc.c
     std/realloc.c
     std/alloc.c
+    std/setalloc.c
+    arr/avail.c
     nix/munmap.c)
 
 set(SOURCES ${LIBC_SOURCES})
