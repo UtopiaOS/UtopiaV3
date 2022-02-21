@@ -111,3 +111,8 @@ struct ctype_ioq {
 
 /* Should you go here? */
 #define C_OFLW_UM(a, b, c) ((b) && (c) > (((a)-1)/(b)))
+
+/* ioq variables */
+extern ctype_ioq *ioq0;
+extern ctype_ioq *ioq1;
+extern ctype_ioq *ioq2;
