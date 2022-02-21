@@ -1,7 +1,10 @@
 
 
 set(LIBC_SOURCES
-    std/bsearch.c)
+    std/bsearch.c
+    std/pubrealloc.c
+    std/realloc.c
+    nix/munmap.c)
 
 set(SOURCES ${LIBC_SOURCES})
 
