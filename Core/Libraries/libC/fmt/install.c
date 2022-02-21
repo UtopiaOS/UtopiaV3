@@ -5,13 +5,13 @@
 #include "impl.h"
 
 static i32
-cmp(void *a, void *b)
+cmp(const void *a, const void *b)
 {
     return (*(char *)a - ((struct fmtverb *)b)->c);
 }
 
 ctype_status
-c_fmt_install(i32 tgt_char, ctype_cmpfn fn)
+c_fmt_install(i32 tgt_char, ctype_fmtfn fn)
 {
     struct fmtverb *l, *p;
     struct fmtverb nf;

@@ -44,6 +44,24 @@ struct ctype_arr {
     uchar *members; // p
 };
 
+/* fmt macros */
+enum {
+    C_FMTWIDTH = 1 << 0,
+    C_FMTLEFT = 1 << 1,
+    C_FMTPREC = 1 << 2,
+    C_FMTSHARP = 1 << 3,
+    C_FMTSPACE = 1 << 4,
+    C_FMTSIGN = 1 << 5,
+    C_FMTZERO = 1 << 6,
+    C_FMTUNSIGNED = 1 << 7,
+    C_FMTSHORT = 1 << 8,
+    C_FMTLONG = 1 << 9,
+    C_FMTVLONG = 1 << 10,
+    C_FMTCOMMA = 1 << 11,
+    C_FMTBYTE = 1 << 12,
+    C_FMTFLAG = 1 << 13,
+};
+
 #define c_arr_INIT(a) { sizeof((a)), 0, (a) }
 
 typedef struct ctype_fmt ctype_fmt;

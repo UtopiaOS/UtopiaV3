@@ -14,6 +14,7 @@ set(LIBC_SOURCES
     arr/bytes.c
     dyn/alloc.c
     dyn/idxcat.c
+    fmt/fmt.c
     fmt/install.c
     nix/munmap.c)
 

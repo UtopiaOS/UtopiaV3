@@ -30,3 +30,5 @@
 
 typedef int (*ctype_cmpfn)(const void *, const void *);
 typedef void *(*ctype_allocfn)(void *, usize, usize);
+
+#define va_arg(a, b) __builtin_va_arg(a, b)

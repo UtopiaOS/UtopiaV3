@@ -69,3 +69,4 @@ void *c_mem_cpy(void*, usize, void*);
 
 /* fmt */
 ctype_status c_fmt_install(i32, ctype_fmtfn);
+size c_fmt_fmt(ctype_fmt*, char*);
