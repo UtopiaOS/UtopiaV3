@@ -9,6 +9,7 @@ set(LIBC_SOURCES
     arr/avail.c
     dyn/ready.c
     dyn/cat.c
+    arr/bytes.c
     nix/munmap.c)
 
 set(SOURCES ${LIBC_SOURCES})

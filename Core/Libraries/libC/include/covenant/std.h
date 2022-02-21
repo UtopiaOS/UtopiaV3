@@ -56,6 +56,7 @@ void c_std_setalloc(ctype_allocfn);
 void *c_arr_data(ctype_arr *);
 usize c_arr_len(ctype_arr *, usize);
 usize c_arr_avail(ctype_arr *);
+usize c_arr_bytes(ctype_arr *);
 
 /* Dynamic */
 ctype_status c_dyn_cat(ctype_arr*, void*, usize, usize);
