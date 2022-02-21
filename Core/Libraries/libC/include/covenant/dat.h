@@ -80,6 +80,15 @@ struct ctype_fmt {
     void *farg;
 };
 
+
+typedef struct ctype_ioq ctype_ioq;
+
+struct ctype_ioq {
+    ctype_arr array;
+    ctype_iofn op;
+    ctype_fd fd;
+};
+
 /* Where do I put you? */
 #define C_MIN(a, b) (((a) > (b)) ? (b) : (a))
 

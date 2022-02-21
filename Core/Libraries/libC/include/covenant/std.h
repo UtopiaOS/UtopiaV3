@@ -72,3 +72,6 @@ void *c_mem_cpy(void*, usize, void*);
 ctype_status c_fmt_install(i32, ctype_fmtfn);
 size c_fmt_fmt(ctype_fmt*, char*);
 void c_fmt_init(ctype_fmt*, void*, ctype_arr*, ctype_fmtopfn);
+
+/* ioq */
+ctype_status c_ioq_flush(ctype_ioq *);
