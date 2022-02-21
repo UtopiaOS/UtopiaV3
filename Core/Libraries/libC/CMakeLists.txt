@@ -11,6 +11,7 @@ set(LIBC_SOURCES
     dyn/cat.c
     arr/bytes.c
     dyn/alloc.c
+    dyn/idxcat.c
     nix/munmap.c)
 
 set(SOURCES ${LIBC_SOURCES})
