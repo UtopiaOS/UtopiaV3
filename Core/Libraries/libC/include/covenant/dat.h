@@ -77,7 +77,7 @@ struct ctype_fmt {
     i32 r;
     i32 width;
     ulong flags;
-    void *fargs;
+    void *farg;
 };
 
 /* Where do I put you? */
