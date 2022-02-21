@@ -59,6 +59,7 @@ usize c_arr_avail(ctype_arr *);
 
 /* Dynamic */
 ctype_status c_dyn_cat(ctype_arr*, void*, usize, usize);
+ctype_status c_dyn_ready(ctype_arr*, usize, usize);
 
 /* Operations on memory */
 void *c_mem_cpy(void*, usize, void*);
