@@ -29,3 +29,4 @@
  */
 
 typedef int (*ctype_cmpfn)(const void *, const void *);
+typedef void *(*ctype_allocfn)(void *, usize, usize);
