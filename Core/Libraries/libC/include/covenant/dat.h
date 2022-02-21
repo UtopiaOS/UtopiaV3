@@ -68,6 +68,23 @@ typedef struct ctype_fmt ctype_fmt;
 typedef ctype_status (*ctype_fmtopfn)(ctype_fmt *, char *, usize);
 typedef ctype_status (*ctype_fmtfn)(ctype_fmt *);
 
+/* ioq macros */
+enum {
+    /* default file descriptors */
+    C_FD0 = 0,
+    C_FD1 = 1,
+    C_FD2 = 2,
+
+    /* Sizes */
+    C_BIOSIZ = 8192,
+    C_SMALLBIOSIZ = 512,
+    C_ERRSIZ = 512,
+
+    /* Flags */
+    C_IOQ_ONOFLUSH = 1 << 0,
+    __IOQ_OALL = 1 << 0,
+};
+
 struct ctype_fmt {
     ctype_arr *array;
     va_list args;
