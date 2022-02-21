@@ -39,9 +39,9 @@
 typedef struct ctype_arr ctype_arr;
 
 struct ctype_arr {
-    usize size;
-    usize length;
-    uchar *members;
+    usize size; // a
+    usize length; // n 
+    uchar *members; // p
 };
 
 #define c_arr_INIT(a) { sizeof((a)), 0, (a) }

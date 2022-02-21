@@ -8,6 +8,7 @@ set(LIBC_SOURCES
     std/setalloc.c
     arr/avail.c
     dyn/ready.c
+    dyn/cat.c
     nix/munmap.c)
 
 set(SOURCES ${LIBC_SOURCES})
