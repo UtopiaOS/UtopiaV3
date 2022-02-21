@@ -20,6 +20,8 @@ set(LIBC_SOURCES
     nix/allrw.c
     arr/trunc.c
     ioq/flush.c
+    ioq/nput.c
+    ioq/vfmt.c
     nix/munmap.c)
 
 set(SOURCES ${LIBC_SOURCES})
