@@ -61,6 +61,7 @@ usize c_arr_bytes(ctype_arr *);
 /* Dynamic */
 ctype_status c_dyn_cat(ctype_arr*, void*, usize, usize);
 ctype_status c_dyn_ready(ctype_arr*, usize, usize);
+void* c_dyn_alloc(ctype_arr*, usize, usize);
 
 /* Operations on memory */
 void *c_mem_cpy(void*, usize, void*);
