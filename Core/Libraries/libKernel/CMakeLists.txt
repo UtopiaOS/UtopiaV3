@@ -3,6 +3,7 @@ set(LIBKERNEL_SOURCES
     kernel/write.c
     kernel/mmap.c
     kernel/fd_write.c
+    internal/syscall_ret.c
     kernel/munmap.c)
 
 set(SOURCES ${LIBKERNEL_SOURCES})

@@ -33,5 +33,8 @@
 size
 c_kernel_write(ctype_fd fd, const void *buf, usize count)
 {
-    return syscall_cp(SYS_write, fd, buf, count);
+    long ret;
+    // TODO: Move to syscall_cp()
+    ret = __syscall(SYS_write, fd, buf, count);
+    (size)__syscall_ret(ret);
 }
