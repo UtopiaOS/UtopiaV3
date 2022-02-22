@@ -77,6 +77,7 @@ ctype_status c_fmt_install(i32, ctype_fmtfn);
 size c_fmt_fmt(ctype_fmt*, char*);
 void c_fmt_init(ctype_fmt*, void*, ctype_arr*, ctype_fmtopfn);
 ctype_status c_fmt_nput(ctype_fmt*, char*, usize);
+ctype_status c_fmt_put(ctype_fmt*, char*);
 
 /* utf8 */
 ctype_status c_utf8_checkrune(ctype_rune);
