@@ -26,6 +26,7 @@ set(LIBC_SOURCES
     std/exit.c
     std/errno.c
     ioq/stderr.c
+    ioq/stdin.c
     mem/cpy.c
     nix/munmap.c)
 
