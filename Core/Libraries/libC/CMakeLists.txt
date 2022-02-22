@@ -24,6 +24,8 @@ set(LIBC_SOURCES
     ioq/vfmt.c
     ioq/fmt.c
     std/exit.c
+    std/errno.c
+    mem/cpy.c
     nix/munmap.c)
 
 set(SOURCES ${LIBC_SOURCES})
