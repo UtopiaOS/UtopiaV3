@@ -25,6 +25,7 @@ set(LIBC_SOURCES
     ioq/fmt.c
     std/exit.c
     std/errno.c
+    ioq/stderr.c
     mem/cpy.c
     nix/munmap.c)
 
