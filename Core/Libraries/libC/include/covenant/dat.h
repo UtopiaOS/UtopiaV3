@@ -118,3 +118,11 @@ struct ctype_ioq {
 extern ctype_ioq *ioq0;
 extern ctype_ioq *ioq1;
 extern ctype_ioq *ioq2;
+
+/* Non standard errors
+ * TODO: Where should these go */
+#define C_RUNEERROR 0xFFFD
+
+/* Non standard limits
+ * TODO: Where should these go? */
+#define C_RUNEMAX 0x10FFFF

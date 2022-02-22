@@ -30,6 +30,7 @@ set(LIBC_SOURCES
     ioq/stdout.c
     mem/cpy.c
     fmt/nput.c
+    utf8/checkrune.c
     nix/munmap.c)
 
 set(SOURCES ${LIBC_SOURCES})
