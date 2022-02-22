@@ -56,5 +56,6 @@ TYPEDEF int                     ctype_fd;
 TYPEDEF int                     ctype_fssize;
 TYPEDEF int                     ctype_status;
 TYPEDEF unsigned                ctype_rune;
+TYPEDEF int                     ctype_error;
 
 TYPEDEF __builtin_va_list       va_list;
