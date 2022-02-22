@@ -5,7 +5,7 @@
 #include <covenant/shared.h>
 
 size 
-c_kernel_fdwrite(ctype_fd fd, const void *buf, usize count)
+c_kernel_fdwrite(ctype_fd fd, void *buf, usize count)
 {
     size res;
 
