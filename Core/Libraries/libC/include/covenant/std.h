@@ -38,6 +38,8 @@
 #define __NEED_ulong
 #define __NEED_ctype_rune
 #define __NEED_ctype_error
+#define __NEED_uvlong
+#define __NEED_vlong
 #include <covenant/bits/everytype.h>
 #include <covenant/kernel/basic.h>
 #include <covenant/fn.h>

@@ -40,6 +40,7 @@ set(LIBC_SOURCES
     fmt/put.c
     std/strerror.c
     std/errstr.c
+    fmt/verb.c
     nix/munmap.c)
 
 set(SOURCES ${LIBC_SOURCES})
