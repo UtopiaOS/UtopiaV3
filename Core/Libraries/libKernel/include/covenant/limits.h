@@ -40,6 +40,8 @@
 #define C_CHAR_MAX 127
 #endif /* if '\xff' > 0 */
 
+#define C_UCHAR_MAX 255
+
 #include <covenant/bits/limits.h>
 
 
