@@ -4,7 +4,7 @@
 #include <covenant/shared.h>
 
 void
-c_str_errstr(char *str_err, usize size)
+c_std_errstr(char *str_err, usize size)
 {
     usize i;
     char *p;
