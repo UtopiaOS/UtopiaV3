@@ -38,6 +38,7 @@ set(LIBC_SOURCES
     str/len.c
     std/getsyserr.c
     fmt/put.c
+    std/strerror.c
     nix/munmap.c)
 
 set(SOURCES ${LIBC_SOURCES})

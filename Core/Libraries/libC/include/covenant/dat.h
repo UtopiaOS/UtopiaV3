@@ -114,6 +114,8 @@ struct ctype_ioq {
 
 #define c_ioq_INIT(a, b, c) { { sizeof((b)), 0, (b) }, (c), (a) }
 
+#define C_NELEM(a)  (sizeof((a))/sizeof((a)[0]))
+
 /* ioq variables */
 extern ctype_ioq *ioq0;
 extern ctype_ioq *ioq1;
