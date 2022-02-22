@@ -35,6 +35,7 @@ set(LIBC_SOURCES
     utf8/mtab.c
     utf8/charntorune.c
     utf8/chartorune.c
+    str/len.c
     nix/munmap.c)
 
 set(SOURCES ${LIBC_SOURCES})

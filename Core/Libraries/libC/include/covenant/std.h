@@ -88,3 +88,6 @@ ctype_status c_ioq_flush(ctype_ioq *);
 ctype_status c_ioq_nput(ctype_ioq *, char*, usize);
 size c_ioq_vfmt(ctype_ioq *, char*, va_list);
 size c_ioq_fmt(ctype_ioq *, char *, ...);
+
+/* str */
+usize c_str_len(char*, usize);
