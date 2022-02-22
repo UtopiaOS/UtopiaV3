@@ -78,6 +78,8 @@ ctype_status c_fmt_nput(ctype_fmt*, char*, usize);
 
 /* utf8 */
 ctype_status c_utf8_checkrune(ctype_rune);
+i32 c_utf8_charntorune(ctype_rune*, char*, usize);
+i32 c_utf8_chartorune(ctype_rune*, char*);
 
 /* ioq */
 ctype_status c_ioq_flush(ctype_ioq *);
