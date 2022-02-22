@@ -77,7 +77,7 @@ void c_fmt_init(ctype_fmt*, void*, ctype_arr*, ctype_fmtopfn);
 ctype_status c_fmt_nput(ctype_fmt*, char*, usize);
 
 /* utf8 */
-ctype_status checkrune(ctype_rune);
+ctype_status c_utf8_checkrune(ctype_rune);
 
 /* ioq */
 ctype_status c_ioq_flush(ctype_ioq *);
