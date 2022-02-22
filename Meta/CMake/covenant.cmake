@@ -74,6 +74,7 @@ function(covenant_configure_syscalls)
     BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/Core/Headers/covenant/bits/syscall.h
     SOURCES ${PROJECT_SOURCE_DIR}/Core/Libraries/libKernel/arch/${UTOPIA_ARCH}/covenant/bits/syscall.h.in
     )
+    INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/Core/Headers/covenant/bits/syscall.h DESTINATION Core/Headers/covenant/bits/)
 endfunction()
 
 
@@ -89,6 +90,7 @@ function(covenant_configure_types)
     SOURCES ${PROJECT_SOURCE_DIR}/Core/Libraries/libC/arch/${UTOPIA_ARCH}/covenant/bits/everytype.h.in
     ${PROJECT_SOURCE_DIR}/Core/Libraries/libC/include/covenant/everytype.h.in
     )
+    INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/Core/Headers/covenant/bits/everytype.h DESTINATION Core/Headers/covenant/bits/)
 endfunction()
 
 function(covenant_static_component covenant_sublib_name fs_name)
