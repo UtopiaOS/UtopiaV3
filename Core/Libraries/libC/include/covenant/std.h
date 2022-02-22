@@ -36,6 +36,7 @@
 #define __NEED_ctype_status
 #define __NEED_intptr
 #define __NEED_ulong
+#define __NEED_ctype_rune
 #include <covenant/bits/everytype.h>
 #include <covenant/kernel/basic.h>
 #include <covenant/fn.h>
@@ -73,6 +74,7 @@ void *c_mem_cpy(void*, usize, void*);
 ctype_status c_fmt_install(i32, ctype_fmtfn);
 size c_fmt_fmt(ctype_fmt*, char*);
 void c_fmt_init(ctype_fmt*, void*, ctype_arr*, ctype_fmtopfn);
+ctype_status c_fmt_nput(ctype_fmt*, char*, usize);
 
 /* ioq */
 ctype_status c_ioq_flush(ctype_ioq *);
