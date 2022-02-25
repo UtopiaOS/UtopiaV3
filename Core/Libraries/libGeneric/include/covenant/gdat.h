@@ -8,8 +8,8 @@ struct ctype_hmap {
     size cap;
     u64 seed_zero;
     u64 seed_one;
-    u64 (*hash)(const void *item, u64 seed_zero, u64 seed_one);
-    u32 (*compare)(const void *a, const void *b, void *data);
+    ctype_hashfn hash;
+    ctype_cmpfn cmp;
     void (*obj_free)(void *item);
     void *data;
     size bucketsz;

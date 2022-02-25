@@ -28,7 +28,14 @@
  * $Utopia$
  */
 
-typedef int (*ctype_cmpfn)(const void *, const void *);
+#define __NEED_u32
+#define __NEED_i32
+#define __NEED_u64
+#define __NEED_usize
+#define __NEED_size
+#include <covenant/bits/everytype.h>
+
+typedef i32 (*ctype_cmpfn)(const void *, const void *);
 typedef void *(*ctype_allocfn)(void *, usize, usize);
 
 typedef size (*ctype_iofn)(i32, void*, usize);
@@ -37,3 +44,5 @@ typedef size (*ctype_iofn)(i32, void*, usize);
 #define va_copy(a, b) __builtin_va_copy(a, b)
 #define va_start(a, b) __builtin_va_start(a, b)
 #define va_end(a)   __builtin_va_end(a)
+
+typedef u64 (*ctype_hashfn)(const void *, u64, u64);
