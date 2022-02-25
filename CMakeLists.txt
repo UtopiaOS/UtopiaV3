@@ -26,7 +26,7 @@ file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/Core/Headers)
 
 include(covenant)
 
-list(APPEND COVENANT_COMPONENTS "libKernel" "libC")
+list(APPEND COVENANT_COMPONENTS "libKernel" "libC" "libGeneric")
 
 covenant_bootstrap_all_include_directories("${COVENANT_COMPONENTS}")
 
@@ -39,6 +39,7 @@ include_directories(Core/Headers)
 include_directories(Core/Libraries)
 include_directories(Core/Libraries/libKernel)
 include_directories(Core/Libraries/libC)
+include_directories(Core/Libraries/libGeneric)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/Core/Headers)
 
