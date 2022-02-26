@@ -1,5 +1,10 @@
 
-#include <covenant/std.h>
+#include <covenant/fn.h>
+#define __NEED_u64
+#define __NEED_i32
+#define __NEED_size
+#define __NEED_uchar
+#include <covenant/bits/everytype.h>
 
 typedef struct ctype_hmap ctype_hmap;
 
@@ -21,4 +26,11 @@ struct ctype_hmap {
     void *buckets;
     void *spare;
     void *obj_data;
+};
+
+typedef struct ctype_hm_bucket ctype_hm_bucket;
+
+struct ctype_hm_bucket {
+    u64 hash;
+    u64 dib;
 };
