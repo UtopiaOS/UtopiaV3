@@ -41,6 +41,7 @@ set(LIBC_SOURCES
     std/strerror.c
     std/errstr.c
     fmt/verb.c
+    std/free.c
     nix/munmap.c)
 
 if(${UTOPIA_ARCH} STREQUAL "x86_64")

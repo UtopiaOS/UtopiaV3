@@ -61,6 +61,9 @@ void c_std_errstr(char *, usize);
 // TODO: Should this stay as a macro?
 #define c_std_offsetof(a, b) (ulong)(&(((a *)0)->b))
 
+// Stay as a macro?
+#define c_std_free(a) a = c_std_free_((a))
+
 /* Array manipulation */
 void *c_arr_data(ctype_arr *);
 usize c_arr_len(ctype_arr *, usize);
