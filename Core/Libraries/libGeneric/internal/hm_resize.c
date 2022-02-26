@@ -26,13 +26,13 @@ hm_resize(ctype_hmap *hm_map, size new_cap)
             ctype_hm_bucket* bucket;
             bucket = c_hm_bucket_at(new_map, j);
             if (bucket->dib == 0) {
-                c_mem_cpy(bucket, entry, hm_map->bucket_size);
+                c_mem_cpy(bucket, hm_map->bucket_size, entry);
                 break;
             }
             if (bucket->dib < entry->dib) {
-                c_mem_cpy(new_map->spare, bucket, hm_map->bucket_size);
-                c_mem_cpy(bucket, entry, hm_map->bucket_size);
-                c_mem_cpy(entry, new_map->spare, hm_map->bucket_size);
+                c_mem_cpy(new_map->spare, hm_map->bucket_size, bucket);
+                c_mem_cpy(bucket, hm_map->bucket_size, entry);
+                c_mem_cpy(entry, hm_map->bucket_size, new_map->spare);
             }
             j = (j + 1) & new_map->mask;
             entry->dib++;
