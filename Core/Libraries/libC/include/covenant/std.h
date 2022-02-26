@@ -39,6 +39,7 @@
 #define __NEED_ctype_rune
 #define __NEED_ctype_error
 #define __NEED_uvlong
+#define __NEED_u64
 #define __NEED_vlong
 #include <covenant/bits/everytype.h>
 #include <covenant/kernel/basic.h>
@@ -76,6 +77,7 @@ ctype_status c_dyn_idxcat(ctype_arr*, usize, void *, usize, usize);
 /* Operations on memory */
 void *c_mem_cpy(void*, usize, void*);
 void *c_mem_chr(const void*, size, i32);
+void *memset(void*, i32, size);
 
 /* fmt */
 ctype_status c_fmt_install(i32, ctype_fmtfn);

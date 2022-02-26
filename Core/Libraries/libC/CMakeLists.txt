@@ -43,6 +43,10 @@ set(LIBC_SOURCES
     fmt/verb.c
     nix/munmap.c)
 
+if(${UTOPIA_ARCH} STREQUAL "x86_64")
+    list(APPEND ${LIBC_SOURCES} mem/set.s)
+endif()
+
 set(SOURCES ${LIBC_SOURCES})
 
 covenant_static_component(libC_static c_static)
