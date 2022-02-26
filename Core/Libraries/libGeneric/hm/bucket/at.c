@@ -1,4 +1,4 @@
-#include <hm.h>
+#include <covenant/hm.h>
 
 ctype_hm_bucket *
 c_hm_bucket_at(ctype_hmap *hm_map, size idx)
