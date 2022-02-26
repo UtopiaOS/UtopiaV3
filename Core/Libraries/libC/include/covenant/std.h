@@ -57,6 +57,7 @@ void c_std_exit(i32);
 char *c_std_getsyserr(void);
 char *c_std_strerror(i32, char*, usize);
 void c_std_errstr(char *, usize);
+void *c_std_free_(void *);
 
 // TODO: Should this stay as a macro?
 #define c_std_offsetof(a, b) (ulong)(&(((a *)0)->b))
