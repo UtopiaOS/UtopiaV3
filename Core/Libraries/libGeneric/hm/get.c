@@ -3,7 +3,6 @@
 #include <covenant/std.h>
 #include <covenant/errcode.h>
 #include <covenant/shared.h>
-#include <covenant/dat.h>
 #include "hm_impl.h"
 
 void *
