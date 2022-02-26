@@ -1,3 +1,6 @@
+#ifndef COVENANT_GDAT_H
+#define COVENANT_GDAT_H
+
 
 #include <covenant/fn.h>
 #define __NEED_u64
@@ -34,3 +37,5 @@ struct ctype_hm_bucket {
     u64 hash;
     u64 dib;
 };
+
+#endif /* COVEANT_GDAT_H */
