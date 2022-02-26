@@ -81,7 +81,7 @@ ctype_status c_dyn_idxcat(ctype_arr*, usize, void *, usize, usize);
 /* Operations on memory */
 void *c_mem_cpy(void*, usize, void*);
 void *c_mem_chr(const void*, size, i32);
-void *c_mem_set(void*, i32, size);
+void *c_mem_set(void*, usize, i32);
 
 /* fmt */
 ctype_status c_fmt_install(i32, ctype_fmtfn);

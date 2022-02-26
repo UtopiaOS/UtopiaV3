@@ -42,11 +42,12 @@ set(LIBC_SOURCES
     std/errstr.c
     fmt/verb.c
     std/free.c
+    mem/set.c
     nix/munmap.c)
 
-if(${UTOPIA_ARCH} STREQUAL "x86_64")
-    list(APPEND ${LIBC_SOURCES} mem/set.s)
-endif()
+#if(${UTOPIA_ARCH} STREQUAL "x86_64")
+#   list(APPEND ${LIBC_SOURCES} mem/set.s)
+#endif()
 
 set(SOURCES ${LIBC_SOURCES})
 
