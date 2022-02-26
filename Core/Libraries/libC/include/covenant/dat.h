@@ -125,6 +125,7 @@ extern ctype_ioq *ioq2;
  * TODO: Where should these go */
 #define C_RUNEERROR 0xFFFD
 #define C_ECSTM 0x66D7C8BA
+#define C_NILOBJ 0x24D8CA
 
 /* Non standard limits
  * TODO: Where should these go? */
