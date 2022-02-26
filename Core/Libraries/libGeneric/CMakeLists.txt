@@ -1,5 +1,6 @@
 set(LIBGENERIC_SOURCES
-    hm/init.c)
+    hm/init.c
+    hm/bucket/init.c)
 
 set(SOURCES ${LIBGENERIC_SOURCES})
 

@@ -17,7 +17,7 @@ struct ctype_hmap {
     ctype_cmpfn cmp;
     void (*obj_free)(void *item);
     void *data;
-    size bucketsz;
+    size bucket_size;
     size nbuckets;
     size count;
     size mask;
