@@ -43,6 +43,7 @@ set(LIBC_SOURCES
     fmt/verb.c
     std/free.c
     mem/set.c
+    str/cmp.c
     hsh/murmur3.c
     nix/munmap.c)
 

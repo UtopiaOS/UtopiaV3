@@ -103,3 +103,4 @@ size c_ioq_fmt(ctype_ioq *, char *, ...);
 
 /* str */
 usize c_str_len(char*, usize);
+i32 c_str_cmp(char*, usize, char*);
