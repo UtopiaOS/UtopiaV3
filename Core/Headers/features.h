@@ -30,7 +30,6 @@
 
 #define __COVENANT__ 1
 
-
 /*
  * Macro to test if we're using a specific version of gcc or later.
  */

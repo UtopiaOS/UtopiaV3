@@ -1,1 +1,3 @@
-add_subdirectory(libSystem)
+add_subdirectory(libKernel)
+add_subdirectory(libC)
+add_subdirectory(libGeneric)

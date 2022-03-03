@@ -27,11 +27,11 @@
  *
  * $Utopia$
  */
-#include <ukernel.h>
+#include <covenant/kernel/basic.h>
 #include "syscall.h"
 
 _Noreturn void
-c_kernel_exit(int ec)
+c_kernel_exit(i32 ec)
 {
     __syscall(SYS_exit_group, ec);
     for (;;) __syscall(SYS_exit, ec);

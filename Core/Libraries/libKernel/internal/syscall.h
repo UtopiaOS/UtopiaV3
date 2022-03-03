@@ -28,10 +28,27 @@
 #ifndef _INTERNAL_SYSCALL_H
 #define _INTERNAL_SYSCALL_H
 
-#include <kfeatures.h>
-#include <errnum.h>
-#include <sys/syscall.h>
-#include "syscall_arch.h"
+#include <features.h>
+#include <covenant/errcode.h>
+#include <covenant/sys/syscall.h>
+#include "covenant/syscall_arch.h"
+
+/* 
+ * This idea is taken directly from Apple
+ * when exploring XNU source code, I found
+ * interesting at least for internal stuff
+ * they redeclare their attributes in every
+ * single file, that way, they avoid
+ * our very hacky "kfeatures.h" file
+ * we used before ;)
+*/
+#ifndef weak
+#define weak __attribute__((__weak__))
+#endif
+
+#ifndef hidden
+#define hidden __attribute__((__visibility__("hidden")))
+#endif
 
 #ifndef SYSCALL_RLIM_INFINITY
 #define SYSCALL_RLIM_INFINITY (~0ULL)

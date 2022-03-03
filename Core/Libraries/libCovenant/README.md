@@ -11,3 +11,5 @@ libCovenant can be seen as an equivalent to macOS libSystem, as it includes insi
 - libJemalloc: Utopia's Jemalloc forked source
 - libKernel: Utopia's syscall interface
 - libMath: Utopia's math library
+- libGeneric: Utopia's generic data structures (like hashmaps, dictionaries, tupples)
+- libPthreads: Utopia's Pthreads implementation

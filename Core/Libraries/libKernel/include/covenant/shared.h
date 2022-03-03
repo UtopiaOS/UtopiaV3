@@ -1,0 +1,5 @@
+
+
+
+
+extern int errno;
