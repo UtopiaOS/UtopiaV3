@@ -9,6 +9,8 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "UtopiaOS")
                         "Please re-read the build instructions and try again!\n")
 endif()
 
+set(CMAKE_BUILD_TYPE Debug)
+
 set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/Root)
 set(CMAKE_STAGING_PREFIX ${CMAKE_BINARY_DIR}/Root)
 list(APPEND CMAKE_C_SOURCE_FILE_EXTENSIONS lo)

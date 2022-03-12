@@ -38,8 +38,8 @@
 
 #define I8_MAX      (0x7f)
 #define I16_MAX     (0x7fff)
-#define I32_MAX     (-1-0x7fffffff)
-#define I64_MAX     (-1-0x7fffffffffffffff)
+#define I32_MAX     (0x7fffffff)
+#define I64_MAX     (0x7fffffffffffffff)
 
 #define U8_MAX      (0xff)
 #define U16_MAX     (0xffff)

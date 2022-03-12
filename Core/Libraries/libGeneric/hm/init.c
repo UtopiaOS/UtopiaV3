@@ -6,6 +6,7 @@
 ctype_hmap *
 c_hm_init(size obj_size, size cap, ctype_hashfn hash, ctype_cmpfn cmp, void(*obj_free)(void *item), void *data) 
 {
+    c_ioq_fmt(ioq2, "????");
     i32 ncap;
     size bucket_size, hm_size;
     ctype_hm_bucket pbucket;
@@ -19,13 +20,19 @@ c_hm_init(size obj_size, size cap, ctype_hashfn hash, ctype_cmpfn cmp, void(*obj
         }
         cap = ncap;
     }
+    c_ioq_fmt(ioq2, "The there");
 
     // TODO: is this ok?, should we initialize like this?
     pbucket = c_hm_bucket_init(0, 0);
     bucket_size = sizeof(pbucket) + obj_size;
+    while (bucket_size & (sizeof(uintptr)-1)) {
+        bucket_size++;
+    }
 
     hm_size = sizeof(ctype_hmap)+bucket_size*2; 
     
+    c_ioq_fmt(ioq2, "The error is here");
+
     /* TODO: We might be able to allocate proper memory blocks here
        because of the way our allocator is implemented... */
     if (!(c_std_alloc(hm_size, sizeof(uchar))))
