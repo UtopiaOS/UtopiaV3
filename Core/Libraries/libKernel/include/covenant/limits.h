@@ -41,6 +41,7 @@
 #endif /* if '\xff' > 0 */
 
 #define C_UCHAR_MAX 255
+#define C_USIZE_MAX 0xFFFFFFFFUL
 
 #include <covenant/bits/limits.h>
 

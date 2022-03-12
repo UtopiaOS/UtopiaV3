@@ -53,8 +53,8 @@ extern "C" {
 #define C_MAP_HUGE_16GB         ((34U << 26))
 
 #define C_PROT_NONE             0
-#define C_PROT_READ             1
-#define C_PROT_WRITE            2
+#define C_PROT_READ             0x01
+#define C_PROT_WRITE            0x02
 #define C_PROT_EXEC             4
 #define C_PROT_GROWSDOWN        0x01000000
 #define C_PROT_GROWSUP          0x02000000
