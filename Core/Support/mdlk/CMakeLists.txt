@@ -28,5 +28,11 @@ target_link_options(mldk PRIVATE
 
 set_property(TARGET mldk PROPERTY POSITION_INDEPENDENT_CODE ON)
 
+set(SOURCES 
+    stub/stubs.S
+    ${CMAKE_SOURCE_DIR}/Meta/Filler/dummy.c)
+
+utopia_covenant_component_dynamic(libmdlk mdlk)
+
 add_dependencies(mldk libC_static)
 

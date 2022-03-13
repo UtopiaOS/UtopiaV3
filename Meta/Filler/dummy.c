@@ -1,0 +1,3 @@
+
+
+int empty_targets_require_at_least_one_valid_source;
