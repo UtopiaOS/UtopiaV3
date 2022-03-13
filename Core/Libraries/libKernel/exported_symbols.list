@@ -1,0 +1,3 @@
+dyld_stub_binder
+_c_kernel_*
+_errno
