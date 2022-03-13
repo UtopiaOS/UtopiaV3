@@ -55,6 +55,8 @@ set(SOURCES ${LIBC_SOURCES})
 covenant_static_component(libC_static c_static)
 
 utopia_covenant_component_dynamic(libC C)
+target_link_options(libC PRIVATE
+    -Wl,-reexported_symbols_list,${CMAKE_CURRENT_SOURCE_DIR}/reexported_symbols.list)
 target_link_libraries(libC PRIVATE libKernel)
 add_dependencies(libC libKernel)
 add_dependencies(libC_static libKernel_static)
