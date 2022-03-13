@@ -23,7 +23,7 @@ c_fmt_install(i32 tgt_char, ctype_fmtfn fn)
     if ((l = c_arr_data(&__fmt_Fmts))->c > tgt_char)
         return c_dyn_idxcat(&__fmt_Fmts, 0, &nf, 1, sizeof(nf));
     n /= sizeof(*p);
-    p = c_std_bsearch(&tgt_char, l, n, sizeof(*l), &cmp);
+    p = c_std_nbsearch(&tgt_char, l, n, sizeof(*l), &cmp);
     if (p->c == tgt_char) {
         p->fn = fn;
         return 0;
