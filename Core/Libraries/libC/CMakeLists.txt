@@ -24,7 +24,6 @@ set(LIBC_SOURCES
     ioq/vfmt.c
     ioq/fmt.c
     std/exit.c
-    std/errno.c
     ioq/stderr.c
     ioq/stdin.c
     ioq/stdout.c
@@ -55,4 +54,7 @@ set(SOURCES ${LIBC_SOURCES})
 
 covenant_static_component(libC_static c_static)
 
+utopia_covenant_component_dynamic(libC C)
+target_link_libraries(libC PRIVATE libKernel)
+add_dependencies(libC libKernel)
 add_dependencies(libC_static libKernel_static)
