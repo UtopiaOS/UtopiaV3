@@ -5,7 +5,7 @@ add_executable(
     main.c
 )
 
-target_link_libraries(mldk PUBLIC libKernel_static libC_static libGeneric_static)
+target_link_libraries(mldk PRIVATE libKernel_static libC_static libGeneric_static)
 
 target_link_libraries(
     mldk

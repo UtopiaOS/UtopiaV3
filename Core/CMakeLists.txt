@@ -1,2 +1,3 @@
 add_subdirectory(Libraries)
+add_subdirectory(Support)
 add_subdirectory(Binaries)
