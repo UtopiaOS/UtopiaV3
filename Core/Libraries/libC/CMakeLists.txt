@@ -44,6 +44,7 @@ set(LIBC_SOURCES
     mem/set.c
     str/cmp.c
     hsh/murmur3.c
+    std/nbsearch.c
     nix/munmap.c)
 
 #if(${UTOPIA_ARCH} STREQUAL "x86_64")
