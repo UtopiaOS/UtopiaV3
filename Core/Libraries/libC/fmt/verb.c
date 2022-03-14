@@ -35,8 +35,26 @@ struct fmtverb __fmt_VFmts[] = {
     { 's', Vstr },
     { 'u', Vflag },
     { 'x', Vint },
-    { 'x', Vflag }, 
+    { 'z', Vflag }, 
 };
+
+static i32
+__get_base(char a)
+{
+    switch (a) {
+        case 'p':
+        case 'x':
+            return 16;
+        case 'o':
+            return 8;
+        case 'b':
+            return 2;
+        default:
+            return 10;
+    }
+    // No way to get here?
+    return 10;
+}
 
 static ctype_status
 Vchar(ctype_fmt *p)
@@ -108,57 +126,61 @@ static ctype_status
 Vint(ctype_fmt *p)
 {
     uvlong l;
-    i32 b, d, i, j, u, n;
+    i32 b, d, i, j, u, neg;
+    char *bu;
     char buf[64];
 
-    n = 0;
+    bu = buf + sizeof(buf) - 1;
+
+    neg = 0;
     l = va_arg(p->args, uvlong);
 
     if (!(p->flags & C_FMTUNSIGNED) && (vlong)l < 0) {
-        n++;
+        neg = 1;
         l = -(vlong)l;
     }
 
-    b = getbase(p->r);
+    b = __get_base(p->r);
     u = (p->r == 'X') ? 'A' : 'a';
     i = sizeof(buf) - 1;
+    j = 0;
 
     if (!l)
-        buf[i--] = '0';
+        *bu-- = '0';
     
     for (; l; j++) {
         d = (l % b);
         if ((p->flags & C_FMTCOMMA) && j % 4 == 3) {
-            buf[i--] = ',';
+            *bu-- = ',';
             j++;
         }
-        buf[i--] = (d < 10) ? d + '0' : u + d - 10;
+        *bu-- = (d < 10) ? d + '0' : u + d - 10;
         l /= b;
     }
 
     if ((p->flags & C_FMTZERO) && !(p->flags & (C_FMTLEFT | C_FMTPREC))) {
         p->width -= sizeof(buf) - i;
-        for (; p->width >= 0; p->width--) {
-            buf[i--] = '0';
+        for (; p->width >= 0; --p->width) {
+            *bu-- = '0';
         }
         p->width = 0;
     }
 
     if (p->flags & C_FMTSHARP) {
         if (b == 16)
-            buf[i--] = u + 23;
+            *bu-- = u + 23;
         if (b == 16 || b == 8)
-            buf[i--] = '0';
+            *bu-- = '0';
     }
 
-    if (n)
-        buf[i--] = '-';
+    if (neg)
+        *bu-- = '-';
     else if (p->flags & C_FMTSIGN)
-        buf[i--] = '+';
+        *bu-- = '+';
     else if (p->flags & C_FMTSPACE)
-        buf[i--] = ' ';
+        *bu-- = ' ';
     
-    return c_fmt_nput(p, buf + i, sizeof(buf) - (i + 1));
+    return c_fmt_nput(p, bu + 1, sizeof(bu) - 1);
 }
 
 static ctype_status
