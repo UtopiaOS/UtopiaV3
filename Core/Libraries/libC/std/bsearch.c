@@ -31,27 +31,21 @@
 #include <covenant/std.h>
 
 void *
-c_std_bsearch(const void *key, const void *base, size nel, size width, ctype_cmpfn cmp)
+c_std_bsearch(void *k, void *buf, usize m, usize n, ctype_cmpfn cmp)
 {
-    void *try;
-    u32 sign;
-    while (nel > 0)
-    {
-        try = (char *)base + width * (nel / 2);
-        sign = cmp(key, try);
-        if (sign < 0)
-        {
-            nel /= 2;
+    i32 r;
+    uchar *p, *s;
+
+    s = (uchar *)buf;
+    while (m) {
+        p = s + (m >> 1) * n;
+        if (!(r = cmp(k,p))) {
+            return p;
+        } else if (r > 0) {
+            s = p + n;
+            m--;
         }
-        else if (sign > 0)
-        {
-            base = (char *)try + width;
-            nel -= nel / 2 + 1;
-        }
-        else
-        {
-            return try;
-        }
+        m >>= 1;
     }
     return nil;
 }
