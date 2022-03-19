@@ -6,7 +6,7 @@
 #include "impl.h"
 
 static i32
-cmp(const void *a, const void *b)
+cmp(void *a, void *b)
 {
     return (*(char *)a - ((struct fmtverb *)b)->c);
 }
@@ -25,7 +25,7 @@ fmtfmt(ctype_fmt *fn, uchar *str)
             ;
         return (p->fn)(fn);
     }
-    if ((p = c_std_bsearch(str, __fmt_VFmts, VFMTLEN, sizeof(p), &cmp)))
+    if ((p = c_std_bsearch(str, __fmt_VFmts, VFMTLEN, sizeof(*p), &cmp)))
     {
         if (!c_fmt_install(p->c, p->fn))
             return (p->fn)(fn);
