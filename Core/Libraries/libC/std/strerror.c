@@ -105,4 +105,6 @@ c_std_strerror(i32 error, char *err_str, usize size)
             break;
         }
     }
+    
+    return err_str;
 }
