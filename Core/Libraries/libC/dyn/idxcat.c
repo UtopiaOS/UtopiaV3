@@ -18,7 +18,7 @@ c_dyn_idxcat(ctype_arr *array, usize pos, void *v, usize obj_num, usize obj_size
     array->length = len;
     obj_num *= obj_size;
     if (!pos || (pos = (pos - 1) * obj_size) < len)
-        c_mem_cpy(target + obj_num, array->length, target);
+        c_mem_cpy(target + obj_num, array->length - pos, target);
     c_mem_cpy(target, obj_num, v);
     array->length += obj_num;
     array->members[array->length] = 0;
