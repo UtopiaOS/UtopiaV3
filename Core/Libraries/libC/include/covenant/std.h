@@ -49,7 +49,8 @@
 #define nil ((void *)0)
 
 /* Default functions in the std */
-void *c_std_bsearch(const void *, const void *, size, size, ctype_cmpfn);
+void *c_std_bsearch(void *, void *, usize, usize, ctype_cmpfn);
+void *c_std_nbsearch(void*, void*, usize, usize, ctype_cmpfn);
 void *c_std_realloc(void*, usize, usize);
 void *c_std_alloc(usize, usize);
 void c_std_setalloc(ctype_allocfn);
@@ -80,7 +81,7 @@ ctype_status c_dyn_idxcat(ctype_arr*, usize, void *, usize, usize);
 
 /* Operations on memory */
 void *c_mem_cpy(void*, usize, void*);
-void *c_mem_chr(const void*, size, i32);
+void *c_mem_chr(void*, size, i32);
 void *c_mem_set(void*, usize, i32);
 
 /* fmt */
@@ -104,3 +105,6 @@ size c_ioq_fmt(ctype_ioq *, char *, ...);
 /* str */
 usize c_str_len(char*, usize);
 i32 c_str_cmp(char*, usize, char*);
+char* c_str_cpy(char*, usize, char*);
+char* c_str_pncpy(char *__restrict, const char *__restrict, size);
+char* c_str_ncpy(char *__restrict, char *__restrict, size);

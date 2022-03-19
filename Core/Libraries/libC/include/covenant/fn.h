@@ -35,7 +35,7 @@
 #define __NEED_size
 #include <covenant/bits/everytype.h>
 
-typedef i32 (*ctype_cmpfn)(const void *, const void *);
+typedef i32 (*ctype_cmpfn)(void *, void *);
 typedef void *(*ctype_allocfn)(void *, usize, usize);
 
 typedef size (*ctype_iofn)(i32, void*, usize);
