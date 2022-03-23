@@ -45,6 +45,7 @@ TYPEDEF unsigned char       u8;
 TYPEDEF unsigned short      u16;
 TYPEDEF unsigned int        u32;
 TYPEDEF unsigned _Int64     u64;
+TYPEDEF _Int64              umax;
 
 TYPEDEF unsigned short          ushort;
 TYPEDEF unsigned char           uchar;
