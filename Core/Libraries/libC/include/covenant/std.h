@@ -28,6 +28,15 @@
  * $Utopia$
  */
 
+/* 
+ * TODO: Following that Utopia's libc is kind of simplified 
+ * aka that we don't have the same type fragmentation and requirements that 
+ * POSIX-like libraries required, should we just consider dropping this?
+ * the #define stuff seems useless most of the times due to the design of the library.
+ * 
+ * Is it a better idea to just drop this and instead use this method of definition in
+ * our POSIX compat library?
+*/
 #define __NEED_size
 #define __NEED_u32
 #define __NEED_i32
@@ -41,6 +50,7 @@
 #define __NEED_uvlong
 #define __NEED_u64
 #define __NEED_vlong
+#define __NEED_umax
 #include <covenant/bits/everytype.h>
 #include <covenant/kernel/basic.h>
 #include <covenant/fn.h>

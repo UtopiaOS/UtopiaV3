@@ -27,6 +27,7 @@ file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/Core/Binaries)
 file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/Core/Headers)
 
 include(covenant)
+include(utils)
 
 list(APPEND COVENANT_COMPONENTS "libKernel" "libC" "libGeneric")
 

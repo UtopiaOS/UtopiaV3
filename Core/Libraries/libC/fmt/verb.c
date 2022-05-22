@@ -16,6 +16,12 @@ static ctype_status Vstr(ctype_fmt *);
 static uchar buf[64 * sizeof(struct fmtverb)];
 ctype_arr __fmt_Fmts = c_arr_INIT(buf);
 
+enum {
+    PTR, INT, UINT, UVLONG
+    LONG, ULONG,
+    SHORT, USHORT, CHAR, UCHAR,
+};
+
 struct fmtverb __fmt_VFmts[] = {
     { ' ', Vflag },
     { '#', Vflag },
@@ -37,6 +43,53 @@ struct fmtverb __fmt_VFmts[] = {
     { 'x', Vint },
     { 'z', Vflag }, 
 };
+
+union arg 
+{
+    umax i;
+    long double f; // Should long double be a typedef on the std?
+    void *p;
+}
+
+static void
+pop_arg(union arg *arg, i32 type, va_list *ap)
+{
+    switch (type) {
+        case PTR: 
+            arg->p = va_arg(*ap, void *);
+            break;
+        case INT:
+            arg->i = va_arg(*ap, i32);
+            break;
+        case UINT:
+            arg->i = va_arg(*ap, u32);
+            break;
+        case LONG:
+            arg->i = va_arg(*ap, long);
+            break;
+        case ULONG:
+            arg->i = va_arg(*ap, ulong);
+            break;
+        case UVLONG:
+            arg->i = va_arg(*ap, uvlong);
+            break;
+        case SHORT:
+            arg->i = (short)va_arg(*ap, i32);
+            break;
+        case USHORT:
+            arg->i = (ushort)va_arg(*ap, i32);
+            break;
+        case CHAR:
+            arg->i = (signed char)va_arg(*ap, i32); // Should we create a type for signed char?
+            break;
+        case UCHAR:
+            arg->i = (uchar)va_arg(*ap, i32);
+            break;
+        case VLONG:
+            arg->i = va_arg(*ap, vlong);
+            break;
+    }
+}
 
 static i32
 __get_base(char a)
@@ -125,19 +178,26 @@ Vflag(ctype_fmt *p)
 static ctype_status
 Vint(ctype_fmt *p)
 {
-    uvlong l;
+    unsigned long long l = 0;
     i32 b, d, i, j, u, neg;
     char *bu;
-    char buf[64];
+    char buf[140];
 
     bu = buf + sizeof(buf) - 1;
 
-    neg = 0;
-    l = va_arg(p->args, uvlong);
+    // Temporary positive buffer
+    long long tmp_p_buf = 0;
 
-    if (!(p->flags & C_FMTUNSIGNED) && (vlong)l < 0) {
-        neg = 1;
-        l = -(vlong)l;
+    neg = 0;
+    l = (uvlong)va_arg(p->args, uvlong);
+
+     if (!(p->flags & C_FMTUNSIGNED)) {
+        // To signed
+        tmp_p_buf = *(long long*)&l;
+        if (tmp_p_buf < 0)  {
+            neg = 1;
+            l = -(long long)l;
+        }
     }
 
     b = __get_base(p->r);

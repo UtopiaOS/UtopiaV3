@@ -43,3 +43,33 @@ function(utopia_covenant_component_static covenant_sublib_name fs_name)
     set_target_properties(${covenant_sublib_name} PROPERTIES OUTPUT_NAME ${fs_name})
     utopia_generated_sources(${covenant_sublib_name})
 endfunction()
+
+
+function(utopia_covenant_component_dynamic covenant_sublib_name fs_name)
+    # Don't install the headers again, because all covenant libraries have an static
+    # version that we compile before these.
+    # Same with the sources
+    add_library(${covenant_sublib_name} SHARED ${SOURCES})
+
+    set(install_path Core/Libraries/covenant/${fs_name})
+
+    message(${install_path})
+
+    # 100.1.0 is the default version of all Covenant components
+    if (NOT DEFINED COVENANT_DYLIB_VERSION)
+        set(COVENANT_DYLIB_VERSION 100.1.0)
+    endif()
+
+    # Asume we don't need compat
+    if (NOT DEFINED COVENANT_DYLIB_COMPAT_VERSION)
+        set(COVENANT_DYLIB_COMPAT_VERSION ${COVENANT_DYLIB_VERSION})
+    endif()
+
+    target_link_options(${covenant_sublib_name} PRIVATE
+        -Wl,-dylib
+		-Wl,-dylib_install_name,${install_path}
+        -Wl,-dylib_current_version,${COVENANT_DYLIB_VERSION}
+        -Wl,-dylib_compatibility_version,${COVENANT_DYLIB_COMPAT_VERSION}
+    )
+
+endfunction()
