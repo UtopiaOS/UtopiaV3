@@ -95,7 +95,7 @@ void *c_mem_chr(void*, size, i32);
 void *c_mem_set(void*, usize, i32);
 
 /* fmt */
-ctype_status c_fmt_install(i32, ctype_fmtfn);
+ctype_status c_fmt_install(ctype_rune, ctype_fmtfn);
 size c_fmt_fmt(ctype_fmt*, char*);
 void c_fmt_init(ctype_fmt*, void*, ctype_arr*, ctype_fmtopfn);
 ctype_status c_fmt_nput(ctype_fmt*, char*, usize);
