@@ -37,6 +37,8 @@ if [ ! -e $PARENT/Resources/linux ];  then
         pushd $PARENT/Resources
             Log "Extracting the kernel..."
             unzip master.zip
+            # Delete the kernel zip file
+            rm master.zip
         popd
         # TODO: Stop hardcoding the archive name
         mv $PARENT/Resources/linux-master $PARENT/Resources/linux 
@@ -55,3 +57,23 @@ pushd $PARENT/Resources/linux/src
     WORKSPACE="$PARENT/Build/kernel/x86_64"
     make O=$WORKSPACE -j$(nproc)
 popd
+
+
+BUSYBOX_VERSION="1.35.0"
+BUSYBOX_NAME="busybox-$BUSYBOX_VERSION"
+BUSYBOX_PKG="$BUSYBOX_NAME.tar.bz2"
+BUSYBOX_URL="https://busybox.net/downloads/$BUSYBOX_PKG"
+
+# In the future, we don't use busybox :p
+if [ ! -e $PARENT/Resources/$BUSYBOX_PKG ]; then
+    Log "Downloading busybox..."
+    wget $BUSYBOX_URL -O $PARENT/Resources/$BUSYBOX_PKG
+else
+    Log "Found cached busybox..."
+fi
+
+if [ ! -e $PARENT/Resources/$BUSYBOX_NAME ]; then
+    Log "Extracting busybox..."
+    tar -xjf $PARENT/Resources/$BUSYBOX_PKG -C $PARENT/Resources
+    mv $PARENT/Resources/$BUSYBOX_NAME $PARENT/Resources/busybox
+fi
