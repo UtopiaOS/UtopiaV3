@@ -5,7 +5,7 @@
 #include "impl.h"
 
 static i32
-cmp(const void *a, const void *b)
+cmp(void *a, void *b)
 {
     return *(uchar *)a - ((struct fmtverb *)b)->c;
 }
@@ -25,7 +25,7 @@ c_fmt_install(ctype_rune tgt_char, ctype_fmtfn fn)
     
     n = c_arr_len(ap, sizeof(*p));
     s = c_arr_data(ap);
-    p = c_std_bsearch(&tgt_char, s, n, sizeof(*p), &cmp);
+    p = c_std_nbsearch(&tgt_char, s, n, sizeof(*p), &cmp);
     if (p->c == tgt_char) {
         p->fn = fn;
         return 0;
