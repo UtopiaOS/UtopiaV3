@@ -86,7 +86,6 @@ enum {
 };
 
 struct ctype_fmt {
-    ctype_arr *array;
     va_list args;
     ctype_fmtopfn fn;
     usize nfmt;

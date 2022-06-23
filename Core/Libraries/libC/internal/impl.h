@@ -30,7 +30,7 @@
 #define VFMTLEN 20
 
 struct fmtverb {
-    u32 c;
+    ctype_rune c;
     ctype_status (*fn)(ctype_fmt *);
 };
 
