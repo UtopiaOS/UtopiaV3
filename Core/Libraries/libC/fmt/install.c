@@ -7,7 +7,7 @@
 static i32
 cmp(const void *a, const void *b)
 {
-    return (*(uchar *)a - ((struct fmtverb *)b)->c);
+    return *(uchar *)a - ((struct fmtverb *)b)->c;
 }
 
 ctype_status
@@ -32,6 +32,6 @@ c_fmt_install(ctype_rune tgt_char, ctype_fmtfn fn)
     }
 
     nent = (struct fmtverb){tgt_char, fn};
-    n = (((uchar *)p-s) / sizeof(*p)) + !!n;
+	n = (((uchar *)p - s) / sizeof(*p)) + !!n;
     return c_dyn_idxcat(ap, n, &nent, 1, sizeof(nent));
 }

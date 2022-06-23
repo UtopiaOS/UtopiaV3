@@ -8,26 +8,26 @@
 static i32
 cmp(void *a, void *b)
 {
-    return (*(uchar *)a - ((struct fmtverb *)b)->c);
+    return *(uchar *)a - ((struct fmtverb *)b)->c;
 }
 
 static ctype_status
-fmtfmt(ctype_fmt *fn, uchar *str)
+fmtfmt(ctype_fmt *fmt, uchar *str)
 {
     struct fmtverb *p;
     ctype_arr *ap;
     uchar *sp;
 
     ap = &__fmt_Fmts;
-
+    fmt->r = *str;
     if ((p = c_std_bsearch(str, c_arr_data(ap), c_arr_len(ap, sizeof(*p)), sizeof(*p), &cmp)))  {
-        return (p->fn)(fn);
+        return (p->fn)(fmt);
     }
 
     sp = (void*)(uintptr)__fmt_VFmts;
     if ((p = c_std_bsearch(str, sp, VFMTLEN, sizeof(*p), &cmp))) {
         if (!c_fmt_install(p->c, p->fn))
-            return (p->fn)(fn);
+            return (p->fn)(fmt);
     }
 
     errno = C_EINVAL;
