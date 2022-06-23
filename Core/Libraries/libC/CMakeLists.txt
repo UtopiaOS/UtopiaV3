@@ -5,6 +5,7 @@ set(LIBC_SOURCES
     std/pubrealloc.c
     std/realloc.c
     std/alloc.c
+    std/malloc.c
     std/setalloc.c
     arr/data.c
     arr/len.c

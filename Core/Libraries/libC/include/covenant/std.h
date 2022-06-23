@@ -63,6 +63,7 @@ void *c_std_bsearch(void *, void *, usize, usize, ctype_cmpfn);
 void *c_std_nbsearch(void*, void*, usize, usize, ctype_cmpfn);
 void *c_std_realloc(void*, usize, usize);
 void *c_std_alloc(usize, usize);
+void *c_std_malloc(usize);
 void c_std_setalloc(ctype_allocfn);
 void c_std_exit(i32);
 char *c_std_getsyserr(void);
