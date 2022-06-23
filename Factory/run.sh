@@ -86,4 +86,15 @@ pushd $PARENT/Resources/busybox
     cp $PARENT/Meta/configs/BusyBoxDefault $PARENT/Build/busybox/x86_64/.config
     WORKSPACE="$PARENT/Build/busybox/x86_64"
     LDFLAGS="--static" make O=$WORKSPACE -j$(nproc)
+    make O=$WORKSPACE -j$(nproc) install
 popd
+
+# Make the legacy directory structure
+if [ ! -e $PARENT/Root/x86_64 ]; then
+    mkdir $PARENT/Root/x86_64
+    mkdir -p $PARENT/Root/x86_64/{bin,sbin,etc,proc,sys,usr/{bin,sbin}}
+fi
+
+# Copy the resulting busybox binaries to the Root
+Log "Copying busybox binaries to the Root..."
+cp -av $PARENT/Build/busybox/x86_64/_install/* $PARENT/Root/x86_64
