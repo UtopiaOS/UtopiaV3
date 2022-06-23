@@ -130,9 +130,9 @@ Vint(ctype_fmt *p)
     char buf[64];
 
     neg = 0;
-    l = (uvlong)va_arg(p->args, uvlong);
+    l = va_arg(p->args, uvlong);
 
-     if (!(p->flags & C_FMTUNSIGNED)) {
+     if (!(p->flags & C_FMTUNSIGNED) && (vlong)l < 0) {
         neg = 1;
         l = -(vlong)l;
     }
@@ -145,7 +145,7 @@ Vint(ctype_fmt *p)
     if (!l)
         buf[--i] = '0';
     
-    for (; l; j++) {
+    for (; l; ++j) {
         d = (l % b);
         if ((p->flags & C_FMTCOMMA) && j % 4 == 3) {
             buf[--i] = ',';
