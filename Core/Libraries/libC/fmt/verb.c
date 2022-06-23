@@ -125,26 +125,16 @@ Vflag(ctype_fmt *p)
 static ctype_status
 Vint(ctype_fmt *p)
 {
-    unsigned long long l = 0;
+    uvlong l;
     i32 b, d, i, j, u, neg;
-    char *bu;
-    char buf[140];
-
-    bu = buf + sizeof(buf) - 1;
-
-    // Temporary positive buffer
-    long long tmp_p_buf = 0;
+    char buf[64];
 
     neg = 0;
     l = (uvlong)va_arg(p->args, uvlong);
 
      if (!(p->flags & C_FMTUNSIGNED)) {
-        // To signed
-        tmp_p_buf = *(long long*)&l;
-        if (tmp_p_buf < 0)  {
-            neg = 1;
-            l = -(long long)l;
-        }
+        neg = 1;
+        l = -(vlong)l;
     }
 
     b = __get_base(p->r);
@@ -153,41 +143,41 @@ Vint(ctype_fmt *p)
     j = 0;
 
     if (!l)
-        *bu-- = '0';
+        buf[--i] = '0';
     
     for (; l; j++) {
         d = (l % b);
         if ((p->flags & C_FMTCOMMA) && j % 4 == 3) {
-            *bu-- = ',';
-            j++;
+            buf[--i] = ',';
+            ++j;
         }
-        *bu-- = (d < 10) ? d + '0' : u + d - 10;
+        buf[--i] = (d < 10) ? d + '0' : u + d - 10;
         l /= b;
     }
 
     if ((p->flags & C_FMTZERO) && !(p->flags & (C_FMTLEFT | C_FMTPREC))) {
         p->width -= sizeof(buf) - i;
         for (; p->width >= 0; --p->width) {
-            *bu-- = '0';
+            buf[--i] = '0';
         }
         p->width = 0;
     }
 
     if (p->flags & C_FMTSHARP) {
         if (b == 16)
-            *bu-- = u + 23;
+            buf[--i] = u + 23;
         if (b == 16 || b == 8)
-            *bu-- = '0';
+            buf[--i] = '0';
     }
 
     if (neg)
-        *bu-- = '-';
+        buf[--i] = '-';
     else if (p->flags & C_FMTSIGN)
-        *bu-- = '+';
+        buf[--i] = '+';
     else if (p->flags & C_FMTSPACE)
-        *bu-- = ' ';
+        buf[--i] = ' ';
     
-    return c_fmt_nput(p, bu + 1, sizeof(bu) - 1);
+    return c_fmt_nput(p, buf + i, sizeof(buf) - (i + 1));
 }
 
 static ctype_status
