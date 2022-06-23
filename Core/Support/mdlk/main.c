@@ -38,18 +38,20 @@ int main() {
 void start(void) {
     u64 hash;
     
-    //c_ioq_fmt(ioq2, "Hello world! Again?\n");
+    c_ioq_fmt(ioq2, "Hello world! Again?\n");
 
-    struct user *user = c_std_alloc((sizeof(struct user*)), sizeof(uchar));
-    unsigned long long random;
+    struct user *user = c_std_alloc((sizeof(struct user*)), sizeof(struct user));
+    //unsigned long long random;
 
-    user->name = c_std_alloc((20 * sizeof(char)), sizeof(uchar));
+    user->name = c_std_alloc((20 * sizeof(char)), sizeof(char));
 
-    c_str_ncpy(user->name, "Diego", C_USIZE_MAX);
+    c_str_ncpy(user->name, "Diego", 19);
     user->age = -18;
     user->initial = 'd';
 
+    c_str_len(user->name, 20);
+    c_ioq_fmt(ioq2, "Trying to print anything in the fmt results in an error: %d\n", 20);
 
-    c_ioq_fmt(ioq1, "My initial is: %c and my age is: %d and my name is %s and my address in memory is %p\n", user->initial, user->age, user->name, &user);
+    //c_ioq_fmt(ioq1, "My initial is: %c and my age is: %d and my name is %s and my address in memory is %p\n", user->initial, user->age, user->name, &user);
     c_std_exit(0);
 }

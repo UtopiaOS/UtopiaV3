@@ -1,32 +1,32 @@
 
 
 add_executable(
-    mldk
+    mdlk
     main.c
 )
 
-target_link_libraries(mldk PRIVATE libKernel_static libC_static libGeneric_static)
+target_link_libraries(mdlk PRIVATE libKernel_static libC_static libGeneric_static)
 
 target_link_libraries(
-    mldk
+    mdlk
     INTERFACE  
     libKernel_headers
     libC_headers
 )
 
-target_compile_options(mldk PRIVATE
+target_compile_options(mdlk PRIVATE
 -ffreestanding
 -fno-stack-protector)
 
-target_link_options(mldk PRIVATE
+target_link_options(mdlk PRIVATE
     -Wl,-dylinker
-    -Wl,-dylinker_install_name,/Core/Binaries/mdlk
+    -Wl,-dylinker_install_name,/Core/Support/mdlk
     -fvisibility=hidden
 
     -Wl,-segaddr,__TEXT,0x1000
 )
 
-set_property(TARGET mldk PROPERTY POSITION_INDEPENDENT_CODE ON)
+set_property(TARGET mdlk PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 set(SOURCES 
     stub/stubs.S
@@ -34,5 +34,5 @@ set(SOURCES
 
 utopia_covenant_component_dynamic(libmdlk mdlk)
 
-add_dependencies(mldk libC_static)
+add_dependencies(mdlk libC_static)
 
