@@ -98,3 +98,23 @@ fi
 # Copy the resulting busybox binaries to the Root
 Log "Copying busybox binaries to the Root..."
 cp -av $PARENT/Build/busybox/x86_64/_install/* $PARENT/Root/x86_64
+
+# Make our temporary "init"
+cat << EOT >> $PARENT/Root/x86_64/init
+#!/bin/sh
+
+mount -t proc none /proc
+mount -t sysfs none /sys
+
+echo -e "Welcome to Utopia\n"
+echo -e "Is not recommend to distribute this\n"
+
+exec /bin/sh
+EOT
+
+chmod +x $PARENT/Root/x86_64/init
+
+pushd $PARENT/Root/x86_64
+# Create and compress our initramfs
+find . -print0 | cpio --null -ov --format=newc | gzip -9 > $PARENT/Build/initramfs.cpio.gz
+popd
