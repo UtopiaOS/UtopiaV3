@@ -56,7 +56,9 @@ set(LIBC_SOURCES
     u32/pack.c
     hsh/octets.c
     hsh/murmur32.c
-    ioq/feed.c)
+    ioq/feed.c
+    ioq/get.c
+    )
 
 #if(${UTOPIA_ARCH} STREQUAL "x86_64")
 #   list(APPEND ${LIBC_SOURCES} mem/set.s)
