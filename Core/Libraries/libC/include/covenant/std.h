@@ -122,3 +122,4 @@ char* c_str_ncpy(char *__restrict, char *__restrict, size);
 
 /* u32 */
 u32 c_u32_unpack(char*);
+char* c_u32_pack(char*, u32);
