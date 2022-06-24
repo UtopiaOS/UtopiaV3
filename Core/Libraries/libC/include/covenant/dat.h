@@ -105,6 +105,19 @@ struct ctype_ioq {
     ctype_fd fd;
 };
 
+
+typedef struct ctype_hst ctype_hst;
+
+struct ctype_hst {
+    union {
+        u32 x32[16];
+        u32 x64[8];
+    } st;
+    uchar buf[128];
+    usize curlen;
+    usize len;
+};
+
 /* Where do I put you? */
 #define C_MIN(a, b) (((a) > (b)) ? (b) : (a))
 

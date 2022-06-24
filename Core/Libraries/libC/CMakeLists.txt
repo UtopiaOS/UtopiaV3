@@ -45,6 +45,7 @@ set(LIBC_SOURCES
     mem/set.c
     str/cpy.c
     str/cmp.c
+    hsh/update.c
     hsh/murmur3.c
     std/nbsearch.c
     str/pncpy.c
