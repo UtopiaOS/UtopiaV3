@@ -44,6 +44,14 @@ function(utopia_covenant_component_static covenant_sublib_name fs_name)
     utopia_generated_sources(${covenant_sublib_name})
 endfunction()
 
+function(utopia_component_interface interface_name)
+    add_library(${interface_name} INTERFACE)
+    target_include_directories("${interface_name}" INTERFACE "${CMAKE_SOURCE_DIR}/Core/Libraries/${interface_name}/include")
+endfunction()
+
+function(utopia_dummy_component dummy_component)
+    add_library(${dummy_component} STATIC ${SOURCES})
+endfunction()
 
 function(utopia_covenant_component_dynamic covenant_sublib_name fs_name)
     # Don't install the headers again, because all covenant libraries have an static
