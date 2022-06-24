@@ -40,8 +40,7 @@ c_hm_insert(ctype_hmap *hm_map, void *obj)
     {
       c_mem_cpy(bucket, hm_map->bucket_size, entry);
       hm_map->count++;
-      c_ioq_fmt(ioq2, "Maybe here!\n");
-      return -1;
+      return 0; // First entry in bucket
     }
     if (entry->hash == bucket->hash && (hm_map->cmp(c_hm_bucket_item(entry), c_hm_bucket_item(bucket)) == 0))
     {
