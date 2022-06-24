@@ -24,9 +24,7 @@ c_hm_init(size obj_size, size cap, ctype_hashfn hash, ctype_cmpfn cmp, void (*ob
         cap = ncap;
     }
 
-    // TODO: is this ok?, should we initialize like this?
-    pbucket = c_hm_bucket_init(0, 0);
-    bucket_size = sizeof(pbucket) + obj_size;
+    bucket_size = sizeof(ctype_hm_bucket) + obj_size;
     while (bucket_size & (sizeof(uintptr) - 1))
     {
         bucket_size++;
@@ -39,7 +37,7 @@ c_hm_init(size obj_size, size cap, ctype_hashfn hash, ctype_cmpfn cmp, void (*ob
     if (!hm_map)
         return nil;
 
-    c_mem_set(hm_map, 0, sizeof(ctype_hmap));
+    c_mem_set(hm_map, sizeof(ctype_hmap), 0);
 
     hm_map->obj_size = obj_size;
     hm_map->bucket_size = bucket_size;
@@ -64,7 +62,7 @@ c_hm_init(size obj_size, size cap, ctype_hashfn hash, ctype_cmpfn cmp, void (*ob
         c_std_free(hm_map);
         return nil;
     }
-    c_mem_set(hm_map->buckets, 0, hm_map->bucket_size * hm_map->nbuckets);
+    c_mem_set(hm_map->buckets, hm_map->bucket_size * hm_map->nbuckets, 0);
     hm_map->grow_at = hm_map->nbuckets * 0.75;
     hm_map->shrink_at = hm_map->nbuckets * 0.10;
     return hm_map;

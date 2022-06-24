@@ -51,6 +51,7 @@
 #define __NEED_u64
 #define __NEED_vlong
 #define __NEED_umax
+#define __NEED_u8
 #include <covenant/bits/everytype.h>
 #include <covenant/kernel/basic.h>
 #include <covenant/fn.h>
