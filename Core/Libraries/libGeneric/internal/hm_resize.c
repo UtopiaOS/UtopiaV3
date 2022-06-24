@@ -35,7 +35,7 @@ hm_resize(ctype_hmap *hm_map, size new_cap)
                 c_mem_cpy(entry, hm_map->bucket_size, new_map->spare);
             }
             j = (j + 1) & new_map->mask;
-            entry->dib++;
+            entry->dib += 1;
         }
     }
     c_std_free(hm_map->buckets);
