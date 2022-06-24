@@ -107,6 +107,13 @@ struct ctype_ioq {
 
 
 typedef struct ctype_hst ctype_hst;
+typedef struct ctype_hmd ctype_hmd;
+
+struct ctype_hmd {
+    void (*init)(ctype_hst *);
+    void (*update)(ctype_hst *, char *, usize);
+    void (*end)(ctype_hst*, char *);
+};
 
 struct ctype_hst {
     union {

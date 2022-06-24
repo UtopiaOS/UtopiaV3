@@ -54,7 +54,8 @@ set(LIBC_SOURCES
     u32/unpack.c
     hsh/rol32.c
     u32/pack.c
-    hsh/octets.c)
+    hsh/octets.c
+    hsh/murmur32.c)
 
 #if(${UTOPIA_ARCH} STREQUAL "x86_64")
 #   list(APPEND ${LIBC_SOURCES} mem/set.s)
