@@ -143,3 +143,4 @@ extern ctype_ioq *ioq2;
  * TODO: Where should these go? */
 #define C_UTFMAX 6
 #define C_RUNEMAX 0x10FFFF
+#define C_CHARBIT 8
