@@ -1,6 +1,7 @@
 
 #include <covenant/std.h>
 
+// Set what, of what size to what value.
 void *
 c_mem_set(void *v, usize n, i32 c)
 {
