@@ -50,7 +50,8 @@ set(LIBC_SOURCES
     std/nbsearch.c
     str/pncpy.c
     str/ncpy.c
-    nix/munmap.c)
+    nix/munmap.c
+    u32/unpack.c)
 
 #if(${UTOPIA_ARCH} STREQUAL "x86_64")
 #   list(APPEND ${LIBC_SOURCES} mem/set.s)

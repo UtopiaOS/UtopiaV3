@@ -119,3 +119,6 @@ i32 c_str_cmp(char*, usize, char*);
 char* c_str_cpy(char*, usize, char*);
 char* c_str_pncpy(char *__restrict, const char *__restrict, size);
 char* c_str_ncpy(char *__restrict, char *__restrict, size);
+
+/* u32 */
+u32 c_u32_unpack(char*);
