@@ -564,7 +564,6 @@ void *
 pubrealloc(void *p, usize m, usize n)
 {
     void *r;    
-    c_ioq_fmt(ioq1, "Here!!!\n");
     if (C_OFLW_UM(usize, m, n))
     {
         errno = C_EOVERFLOW;
@@ -581,7 +580,6 @@ pubrealloc(void *p, usize m, usize n)
     }
 
     if (p == alloc0) {
-        c_ioq_fmt(ioq1, "Here!!!\n");
         goto invalid;
     }
 
