@@ -6,7 +6,7 @@
 #include "hm_impl.h"
 
 void *
-c_hm_get(ctype_hmap *hm_map,  const void *key)
+c_hm_get(ctype_hmap *hm_map, void *key)
 {
     u64 hash;
     size i;
@@ -18,13 +18,13 @@ c_hm_get(ctype_hmap *hm_map,  const void *key)
     i = hash & hm_map->mask;
     for (;;) {
         ctype_hm_bucket* bucket;
-        c_hm_bucket_at(hm_map, i);
+        bucket = c_hm_bucket_at(hm_map, i);
         if (!bucket->dib) {
             return nil;
         }
-        if (bucket->hash == hash && hm_map->cmp(key, c_hm_bucket_item(bucket)) == 0) {
+        if (bucket->hash == hash && (hm_map->cmp(key, c_hm_bucket_item(bucket)) == 0)) {
             return c_hm_bucket_item(bucket);
-            i = (i + 1) & hm_map->mask;
         }
+        i = (i + 1) & hm_map->mask;
     }
 }
