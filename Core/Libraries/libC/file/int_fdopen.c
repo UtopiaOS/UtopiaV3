@@ -38,7 +38,7 @@ __covenant_open(ctype_fd fd, const char *mode)
     // God knows why we allocate like this, in fact, I would know why
     // but I didn't document it for other buffers, so let's just asume I know 
     // what this means LOL
-    if (!(f = c_std_malloc(C_BIOSIZ)))
+    if (!(f = c_std_malloc(C_BIOSIZ + sizeof(*f))))
         return nil;
 
     // We are almost done initialize
