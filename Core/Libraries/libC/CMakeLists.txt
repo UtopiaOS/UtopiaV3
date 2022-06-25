@@ -61,6 +61,9 @@ set(LIBC_SOURCES
     ioq/get.c
     nix/fdset.c
     arr/init.c
+    file/open.c
+    file/int_fdopen.c
+    file/filestrtomode.c
     )
 
 #if(${UTOPIA_ARCH} STREQUAL "x86_64")

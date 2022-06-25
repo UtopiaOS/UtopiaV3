@@ -1,4 +1,5 @@
-
+#define __NEED_uintptr
+#include <covenant/bits/everytype.h>
 
 
 #define UTOPIA_ENUM(type, name, prefix) \
@@ -20,3 +21,5 @@
 #define UTOPIA_PACKED_STRUCT(name, prefix) \
     typedef struct __attribute__((packed)) name prefix ## type_ ## name; \
     struct __attribute__((packed)) name
+
+#define UTOPIA_KILL_CONSTANT(type, var) ((type)(uintptr)(const void*)(var))
