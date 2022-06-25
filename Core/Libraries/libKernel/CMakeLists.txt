@@ -7,6 +7,7 @@ set(LIBKERNEL_SOURCES
     kernel/munmap.c
     kernel/open3.c
     kernel/fcntl.c
+    kernel/read.c
     errno/errno.c)
 
 set(SOURCES ${LIBKERNEL_SOURCES})

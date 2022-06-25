@@ -55,6 +55,8 @@ i32 c_kernel_open3(char*, i32, u32);
 
 i32 c_kernel_fcntl(ctype_fd, i32, ...);
 
+size c_kernel_read(ctype_fd, void*, usize);
+
 /* This should be in our thread library
  * for now covenant doesn't support threads
  * that is a can of worms nobody wants to open
@@ -63,11 +65,13 @@ i32 c_kernel_fcntl(ctype_fd, i32, ...);
 #define c_kernel_abort() { while (*(volatile i32 *)0); }
 
 // TODO: Should there really be here?
+#define C_KERNEL_FGETFL 3
 #define C_KERNEL_FGETLK 5
 #define C_KERNEL_FSETLK 6
 #define C_KERNEL_FSETLKW 7
 
 #define C_KERNEL_FGETFD 1
 #define C_KERNEL_FSETFD 2
+
 
 #endif /* _COVENANT_KERNEL_BASIC_H */
