@@ -43,7 +43,7 @@
 
 
 _Noreturn void c_kernel_exit(i32);
-size c_kernel_write(ctype_fd, const void*, usize);
+size c_kernel_write(ctype_fd, void*, usize);
 
 /* Write to a file descriptor */
 size c_kernel_fdwrite(ctype_fd, void*, usize);

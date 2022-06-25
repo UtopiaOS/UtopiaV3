@@ -134,3 +134,7 @@ ctype_file* c_file_open(const char*, const char*);
 size c_file_feed(ctype_file*);
 size c_file_get(ctype_file*, char*, usize);
 size c_file_read(void *p, size, size, ctype_file*);
+ctype_status c_file_flush(ctype_file*);
+ctype_status c_file_nput(ctype_file*, char*, usize);
+size c_file_write(void *p, size, size, ctype_file*);
+ctype_status c_file_close(ctype_file*);
