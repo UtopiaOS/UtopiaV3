@@ -75,7 +75,7 @@ void *c_std_free_(void *);
 // TODO: Should this stay as a macro?
 #define c_std_offsetof(a, b) (ulong)(&(((a *)0)->b))
 
-// Stay as a macro?
+// TODO: Stay as a macro?
 #define c_std_free(a) a = c_std_free_((a))
 
 /* Array manipulation */
@@ -84,6 +84,7 @@ usize c_arr_len(ctype_arr *, usize);
 usize c_arr_avail(ctype_arr *);
 usize c_arr_bytes(ctype_arr *);
 ctype_status c_arr_trunc(ctype_arr*, usize, usize);
+void c_arr_init(ctype_arr*, char*, usize);
 
 /* Dynamic */
 ctype_status c_dyn_cat(ctype_arr*, void*, usize, usize);

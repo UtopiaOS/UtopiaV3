@@ -60,6 +60,7 @@ set(LIBC_SOURCES
     ioq/feed.c
     ioq/get.c
     nix/fdset.c
+    arr/init.c
     )
 
 #if(${UTOPIA_ARCH} STREQUAL "x86_64")
