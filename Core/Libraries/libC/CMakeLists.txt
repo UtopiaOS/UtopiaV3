@@ -50,6 +50,7 @@ set(LIBC_SOURCES
     std/nbsearch.c
     str/pncpy.c
     str/ncpy.c
+    str/chr.c
     nix/munmap.c
     u32/unpack.c
     hsh/rol32.c
