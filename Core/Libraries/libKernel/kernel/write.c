@@ -31,7 +31,7 @@
 #include "syscall.h"
 
 size
-c_kernel_write(ctype_fd fd, const void *buf, usize count)
+c_kernel_write(ctype_fd fd, void *buf, usize count)
 {
     long ret;
     // TODO: Move to syscall_cp()
