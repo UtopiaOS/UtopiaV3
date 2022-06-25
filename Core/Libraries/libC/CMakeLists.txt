@@ -66,6 +66,7 @@ set(LIBC_SOURCES
     file/filestrtomode.c
     file/feed.c
     file/get.c
+    file/read.c
     )
 
 #if(${UTOPIA_ARCH} STREQUAL "x86_64")
