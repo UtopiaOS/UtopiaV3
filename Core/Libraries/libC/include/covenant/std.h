@@ -128,3 +128,7 @@ char* c_str_chr(char *, usize, i32);
 /* u32 */
 u32 c_u32_unpack(char*);
 char* c_u32_pack(char*, u32);
+
+/* File I/O */
+ctype_file* c_file_open(const char*, const char*);
+size c_file_feed(ctype_file*);
