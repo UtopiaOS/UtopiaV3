@@ -6,6 +6,7 @@ set(LIBKERNEL_SOURCES
     internal/syscall_ret.c
     kernel/munmap.c
     kernel/open3.c
+    kernel/fcntl.c
     errno/errno.c)
 
 set(SOURCES ${LIBKERNEL_SOURCES})

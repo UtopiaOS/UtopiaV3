@@ -36,7 +36,10 @@
 #define __NEED_u32
 #define __NEED_i32
 #define __NEED_ctype_status
+#define __NEED_ulong
+#define __NEED_va_list
 #include <covenant/bits/everytype.h>
+#include <covenant/fn.h>
 
 
 _Noreturn void c_kernel_exit(i32);
@@ -50,6 +53,8 @@ ctype_status c_kernel_munmap(void*, size);
 
 i32 c_kernel_open3(char*, i32, u32);
 
+i32 c_kernel_fcntl(ctype_fd, i32, ...);
+
 /* This should be in our thread library
  * for now covenant doesn't support threads
  * that is a can of worms nobody wants to open
@@ -57,5 +62,9 @@ i32 c_kernel_open3(char*, i32, u32);
 */
 #define c_kernel_abort() { while (*(volatile i32 *)0); }
 
+// TODO: Should there really be here?
+#define C_KERNEL_FGETLK 5
+#define C_KERNEL_FSETLK 6
+#define C_KERNEL_FSETLKW 7
 
 #endif /* _COVENANT_KERNEL_BASIC_H */
