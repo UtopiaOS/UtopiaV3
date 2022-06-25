@@ -48,6 +48,8 @@ size c_kernel_fdwrite(ctype_fd, void*, usize);
 ctype_status c_kernel_munmap(void*, size);
 
 
+i32 c_kernel_open3(char*, i32, u32);
+
 /* This should be in our thread library
  * for now covenant doesn't support threads
  * that is a can of worms nobody wants to open

@@ -417,6 +417,9 @@ static inline long __alt_socketcall(int sys, int sock, int cp, long a, long b, l
 #define SIOCGSTAMPNS_OLD 0x8907
 #endif
 
+// Is this a good idea?
+#define O_LARGEFILE 0400000
+
 #ifdef SYS_open
 #define __sys_open2(x,pn,fl) __syscall2(SYS_open, pn, (fl)|O_LARGEFILE)
 #define __sys_open3(x,pn,fl,mo) __syscall3(SYS_open, pn, (fl)|O_LARGEFILE, mo)
