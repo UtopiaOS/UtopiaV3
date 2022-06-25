@@ -100,9 +100,9 @@ struct ctype_fmt {
 typedef struct ctype_ioq ctype_ioq;
 
 struct ctype_ioq {
-    ctype_arr array;
-    ctype_iofn op;
-    ctype_fd fd;
+    ctype_arr array; // Data
+    ctype_iofn op;  // ?
+    ctype_fd fd; // File descriptor
 };
 
 
@@ -117,12 +117,12 @@ struct ctype_hmd {
 
 struct ctype_hst {
     union {
-        u32 x32[16];
-        u32 x64[8];
+        u32 x32[16]; // Buffer for 32 bit hashes
+        u32 x64[8]; // Buffer for 64 bit hashes
     } st;
-    uchar buf[128];
-    usize curlen;
-    usize len;
+    uchar buf[128]; // Buffer for hashing
+    usize curlen; // Lenght of the cursor
+    usize len; // Lenght of the hash
 };
 
 /* Where do I put you? */
