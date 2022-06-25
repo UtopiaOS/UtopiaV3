@@ -64,6 +64,8 @@ size c_kernel_read(ctype_fd, void*, usize);
 */
 #define c_kernel_abort() { while (*(volatile i32 *)0); }
 
+ctype_status c_kernel_close(ctype_fd);
+
 // TODO: Should there really be here?
 #define C_KERNEL_FGETFL 3
 #define C_KERNEL_FGETLK 5
