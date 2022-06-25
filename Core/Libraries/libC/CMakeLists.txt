@@ -59,6 +59,7 @@ set(LIBC_SOURCES
     hsh/murmur32.c
     ioq/feed.c
     ioq/get.c
+    nix/fdset.c
     )
 
 #if(${UTOPIA_ARCH} STREQUAL "x86_64")

@@ -67,4 +67,7 @@ i32 c_kernel_fcntl(ctype_fd, i32, ...);
 #define C_KERNEL_FSETLK 6
 #define C_KERNEL_FSETLKW 7
 
+#define C_KERNEL_FGETFD 1
+#define C_KERNEL_FSETFD 2
+
 #endif /* _COVENANT_KERNEL_BASIC_H */
