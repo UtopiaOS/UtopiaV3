@@ -132,3 +132,4 @@ char* c_u32_pack(char*, u32);
 /* File I/O */
 ctype_file* c_file_open(const char*, const char*);
 size c_file_feed(ctype_file*);
+size c_file_get(ctype_file*, char*, usize);
