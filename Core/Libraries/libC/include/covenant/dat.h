@@ -99,9 +99,19 @@ struct ctype_fmt {
 
 typedef struct ctype_ioq ctype_ioq;
 
+typedef struct ctype_file ctype_file;
+
+
+struct ctype_file {
+    ctype_arr data;
+    ctype_iofn readfn;
+    ctype_iofn writefn;
+    ctype_fd fd;
+};
+
 struct ctype_ioq {
     ctype_arr array; // Data
-    ctype_iofn op;  // ?
+    ctype_iofn op;  // Call back function
     ctype_fd fd; // File descriptor
 };
 
