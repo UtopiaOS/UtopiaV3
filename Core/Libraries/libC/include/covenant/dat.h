@@ -27,6 +27,9 @@
  *
  * $Utopia$
  */
+#ifndef __COVENANT_DAT_H__
+#define __COVENANT_DAT_H__
+
 #define __NEED_usize
 #define __NEED_ulong
 #define __NEED_u32
@@ -101,7 +104,6 @@ typedef struct ctype_ioq ctype_ioq;
 
 typedef struct ctype_file ctype_file;
 
-
 struct ctype_file {
     ctype_arr data;
     ctype_iofn readfn;
@@ -161,3 +163,5 @@ extern ctype_ioq *ioq2;
 #define C_UTFMAX 6
 #define C_RUNEMAX 0x10FFFF
 #define C_CHARBIT 8
+
+#endif
