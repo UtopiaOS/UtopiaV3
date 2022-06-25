@@ -2,14 +2,14 @@
 
 add_executable(
     mdlk
-    main.c
+    mdlk.c
 )
 
 target_link_libraries(mdlk PRIVATE libKernel_static libC_static libGeneric_static)
 
 target_link_libraries(
     mdlk
-    INTERFACE  
+    INTERFACE
     libKernel_headers
     libC_headers
 )
