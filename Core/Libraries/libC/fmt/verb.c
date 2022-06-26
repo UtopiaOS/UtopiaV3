@@ -128,14 +128,21 @@ Vint(ctype_fmt *p)
     uvlong l;
     i32 b, d, i, j, u, neg;
     char buf[64];
-
+    
+    u = p->flags & C_FMTUNSIGNED;
     neg = 0;
-    l = va_arg(p->args, uvlong);
 
-     if (!(p->flags & C_FMTUNSIGNED) && (vlong)l < 0) {
-        neg = 1;
-        l = -(vlong)l;
-    }
+	if (p->flags & C_FMTVLONG) {
+		l = va_arg(p->args, uvlong);
+		if (!u && (vlong)l < 0) l = (++neg, -(vlong)l);
+	} else if (p->flags & C_FMTLONG) {
+		l = va_arg(p->args, ulong);
+		if (!u && (long)l < 0) l = (++neg, -(long)l);
+	} else {
+		l = va_arg(p->args, u32);
+		if (!u && (i32)l < 0) l = (++neg, -(i32)l);
+ 	}
+
 
     b = __get_base(p->r);
     u = (p->r == 'X') ? 'A' : 'a';
