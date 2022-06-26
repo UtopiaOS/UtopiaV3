@@ -17,3 +17,5 @@ quick_rebuild.sh
 x86_64/*
 Resources/
 Root/*
+html/*
+latex/*
