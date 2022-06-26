@@ -1,3 +1,6 @@
 [submodule "3rd/bash_framework"]
 	path = 3rd/bash_framework
 	url = https://github.com/niieani/bash-oo-framework.git
+[submodule "3rd/doxygen_css"]
+	path = 3rd/doxygen_css
+	url = https://github.com/jothepro/doxygen-awesome-css.git
