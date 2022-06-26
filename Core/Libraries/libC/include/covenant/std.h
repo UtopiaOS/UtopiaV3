@@ -138,3 +138,4 @@ ctype_status c_file_flush(ctype_file*);
 ctype_status c_file_nput(ctype_file*, char*, usize);
 size c_file_write(void *p, size, size, ctype_file*);
 ctype_status c_file_close(ctype_file*);
+void c_file_seek(ctype_file*, usize);
