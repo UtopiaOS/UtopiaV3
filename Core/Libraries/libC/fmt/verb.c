@@ -3,7 +3,7 @@
 
 #include "impl.h"
 
-#define getbase(a) \
+#define __getbase(a) \
 ((a) == 'p' || (a | 32) == 'x' ? 16 : ((a) == 'o') ? 8 : ((a) == 'b') ? 2 : 10)
 
 static ctype_status Vchar(ctype_fmt *);
@@ -13,8 +13,7 @@ static ctype_status Vint(ctype_fmt *);
 static ctype_status Vperc(ctype_fmt *);
 static ctype_status Vstr(ctype_fmt *);
 
-static uchar buf[64 * sizeof(struct fmtverb)];
-ctype_arr __fmt_Fmts = c_arr_INIT(buf);
+ctype_arr __fmt_Fmts;
 
 struct fmtverb __fmt_VFmts[] = {
     { ' ', Vflag },
@@ -37,24 +36,6 @@ struct fmtverb __fmt_VFmts[] = {
     { 'x', Vint },
     { 'z', Vflag }, 
 };
-
-static i32
-__get_base(char a)
-{
-    switch (a) {
-        case 'p':
-        case 'x':
-            return 16;
-        case 'o':
-            return 8;
-        case 'b':
-            return 2;
-        default:
-            return 10;
-    }
-    // No way to get here?
-    return 10;
-}
 
 static ctype_status
 Vchar(ctype_fmt *p)
@@ -144,7 +125,7 @@ Vint(ctype_fmt *p)
  	}
 
 
-    b = __get_base(p->r);
+    b = __getbase(p->r);
     u = (p->r == 'X') ? 'A' : 'a';
     i = sizeof(buf) - 1;
     j = 0;
