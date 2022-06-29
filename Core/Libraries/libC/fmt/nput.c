@@ -20,7 +20,7 @@ pad(ctype_fmt *p, usize n)
 {
     int w;
 
-    for (w = p->width - n; w > 0; w--) {
+    for (w = p->width - n; w > 0; --w) {
         if(__fmt_trycat(p, " ", 1)  < 0)
             return -1;
     }
