@@ -9,4 +9,3 @@ c_file_seek(ctype_file *p, usize n)
     p->data.members += n;
     p->data.length -= n;
 }
-

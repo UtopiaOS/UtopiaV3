@@ -72,6 +72,7 @@ set(LIBC_SOURCES
     file/write.c
     file/close.c
     file/seek.c
+    file/peek.c
     )
 
 #if(${UTOPIA_ARCH} STREQUAL "x86_64")
