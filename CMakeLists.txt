@@ -32,6 +32,8 @@ include(utils)
 list(APPEND COVENANT_COMPONENTS "libKernel" "libC" "libGeneric")
 
 covenant_bootstrap_all_include_directories("${COVENANT_COMPONENTS}")
+# TODO: Unhardcode this
+include_directories(Core/Support/mdlk)
 
 covenant_configure_syscalls()
 covenant_configure_types()
