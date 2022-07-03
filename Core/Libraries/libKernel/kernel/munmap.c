@@ -1,5 +1,6 @@
 
 #include <covenant/kernel/basic.h>
+#include <covenant/status.h>
 #include "syscall.h"
 
 static void __vm_wait(void) { }

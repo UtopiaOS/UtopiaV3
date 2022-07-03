@@ -35,11 +35,11 @@
 #define __NEED_ctype_fd
 #define __NEED_u32
 #define __NEED_i32
-#define __NEED_ctype_status
 #define __NEED_ulong
 #define __NEED_va_list
 #include <covenant/bits/everytype.h>
 #include <covenant/fn.h>
+#include <covenant/status.h>
 
 
 _Noreturn void c_kernel_exit(i32);

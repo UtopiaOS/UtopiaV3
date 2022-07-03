@@ -1,5 +1,6 @@
 #include <covenant/std.h>
 #include <covenant/kernel/basic.h>
+#include <covenant/status.h>
 
 ctype_status
 c_nix_fdset(ctype_fd fd, i32 flags)

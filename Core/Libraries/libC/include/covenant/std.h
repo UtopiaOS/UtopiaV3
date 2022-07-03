@@ -56,6 +56,7 @@
 #include <covenant/kernel/basic.h>
 #include <covenant/fn.h>
 #include <covenant/dat.h>
+#include <covenant/status.h>
 
 #define nil ((void *)0)
 

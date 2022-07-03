@@ -2,6 +2,7 @@
 // TODO: Is this even a thing that is necessary?
 // should we really wrap syscalls?
 
+
 #define __NEED_usize
 #define __NEED_i32
 #define __NEED_size
@@ -10,6 +11,7 @@
 #define __NEED_ctype_status
 #include <covenant/bits/everytype.h>
 #include <covenant/fn.h>
+#include <covenant/status.h>
 
 #define C_NIX_OREAD 0
 #define C_NIX_OWRITE 1

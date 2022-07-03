@@ -1,7 +1,7 @@
 
 #include <covenant/gdat.h>
-#define __NEED_ctype_status
 #include <covenant/bits/everytype.h>
+#include <covenant/status.h>
 
 ctype_hm_bucket c_hm_bucket_init(u64, u64);
 ctype_hm_bucket* c_hm_bucket_at(ctype_hmap*, size);
