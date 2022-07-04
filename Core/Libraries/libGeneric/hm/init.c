@@ -3,13 +3,12 @@
 
 // TODO: Implement variadic function for seed
 // TODO: We might have to redo some of these parameters...
-ctype_hmap *
-c_hm_init(size obj_size, size cap, ctype_hashfn hash, ctype_cmpfn cmp, void (*obj_free)(void *item), void *data)
+ctype_status
+c_hm_init(ctype_hmap *self, size obj_size, size cap, ctype_hashfn hash, ctype_cmpfn cmp, void (*obj_free)(void *item), void *data)
 {
     i32 ncap;
     size bucket_size, hm_size;
     ctype_hm_bucket pbucket;
-    ctype_hmap *hm_map;
     ncap = 16;
     if (cap < ncap)
     {
@@ -26,44 +25,33 @@ c_hm_init(size obj_size, size cap, ctype_hashfn hash, ctype_cmpfn cmp, void (*ob
 
     bucket_size = sizeof(ctype_hm_bucket) + obj_size;
     while (bucket_size & (sizeof(uintptr) - 1))
-    {
         bucket_size++;
-    }
 
-    hm_size = sizeof(ctype_hmap) + bucket_size * 2;
+    
+    c_mem_set(self, sizeof(ctype_hmap), 0);
 
-    hm_map = c_std_malloc(hm_size);
-
-    if (!hm_map)
-        return nil;
-
-    c_mem_set(hm_map, sizeof(ctype_hmap), 0);
-
-    hm_map->obj_size = obj_size;
-    hm_map->bucket_size = bucket_size;
+    self->obj_size = obj_size;
+    self->bucket_size = bucket_size;
     // TODO: Re-implement this as variadic functions intead of hardcoding!
-    hm_map->seed_zero = 0;
-    hm_map->seed_one = 0;
-    hm_map->hash = hash;
-    hm_map->cmp = cmp;
+    self->seed_zero = 0;
+    self->seed_one = 0;
+    self->hash = hash;
+    self->cmp = cmp;
     //! TODO: We might have to make this a type function, unkown if this is usefull
     //! for the rest of libgeneric
     //! NOTICE THAT WE WANT TO AVOID REPEATING CODE
-    hm_map->obj_free = obj_free;
-    hm_map->data = data;
-    hm_map->spare = ((char *)hm_map) + sizeof(ctype_hmap);
-    hm_map->obj_data = (char *)hm_map->spare + bucket_size;
-    hm_map->cap = cap;
-    hm_map->nbuckets = cap;
-    hm_map->mask = hm_map->nbuckets - 1;
-    hm_map->buckets = c_std_malloc(hm_map->bucket_size * hm_map->nbuckets);
-    if (!hm_map->buckets)
-    {
-        c_std_free(hm_map);
-        return nil;
-    }
-    c_mem_set(hm_map->buckets, hm_map->bucket_size * hm_map->nbuckets, 0);
-    hm_map->grow_at = hm_map->nbuckets * 0.75;
-    hm_map->shrink_at = hm_map->nbuckets * 0.10;
-    return hm_map;
+    self->obj_free = obj_free;
+    self->data = data;
+    self->spare = ((char *)self) + sizeof(ctype_hmap);
+    self->obj_data = (char *)self->spare + bucket_size;
+    self->cap = cap;
+    self->nbuckets = cap;
+    self->mask = self->nbuckets - 1;
+    self->buckets = c_std_malloc(self->bucket_size * self->nbuckets);
+    if (!self->buckets)
+        return ctype_status_err;
+    c_mem_set(self->buckets, self->bucket_size * self->nbuckets, 0);
+    self->grow_at = self->nbuckets * 0.75;
+    self->shrink_at = self->nbuckets * 0.10;
+    return ctype_status_ok;
 }
