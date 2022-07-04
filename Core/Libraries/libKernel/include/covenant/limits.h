@@ -42,6 +42,8 @@
 
 #define C_UCHAR_MAX 255
 #define C_USIZE_MAX 0xFFFFFFFFUL
+#define C_SIZE_MAX 18446744073709551615UL
+#define C_UINTPTR_MAX 18446744073709551615UL
 
 #include <covenant/bits/limits.h>
 
