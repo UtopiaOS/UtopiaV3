@@ -81,3 +81,14 @@ function(utopia_covenant_component_dynamic covenant_sublib_name fs_name)
     )
 
 endfunction()
+
+
+function(utopia_library_static libname fs_name)
+    utopia_install_headers("")
+    utopia_install_sources("Core/Libraries/${libname}")
+    add_library(${libname} STATIC ${SOURCES})
+    set_target_properties(${libname} PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    install(TARGETS ${libname} ARCHIVE DESTINATION Core/Libraries/)
+    set_target_properties(${libname} PROPERTIES OUTPUT_NAME ${fs_name})
+    utopia_generated_sources(${libname})
+endfunction()
