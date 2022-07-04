@@ -4,8 +4,7 @@
 */
 
 #include <covenant/std.h>
-
-typedef void (*hfunc)(ctype_hst *, char*);
+#include <covenant/hsh.h>
 
 void
 c_hsh_update(hfunc f, int b, ctype_hst *p, char *data, usize n)
