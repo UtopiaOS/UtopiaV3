@@ -37,7 +37,7 @@ set(CMAKE_RANLIB "${LLVM_RANLIB_PATH}" CACHE INTERNAL "")
 set(CMAKE_SIZE "${LLVM_SIZE_PATH}" CACHE INTERNAL "")
 set(CMAKE_STRIP "${LLVM_STRIP_PATH}" CACHE INTERNAL "")
 
-#set(CMAKE_SYSROOT @UTOPIA_BUILD_DIR@/Root)
+set(CMAKE_SYSROOT @UTOPIA_BUILD_DIR@/Root)
 
 set(CMAKE_EXE_LINKER_FLAGS_INIT "--ld-path=${LD_PATH} -Wl,-platform_version,macos,10.15,10.15 -Wl,-Z -Wl,-arch,x86_64")
 set(CMAKE_SHARED_LINKER_FLAGS_INIT "--ld-path=${LD_PATH} -Wl,-platform_version,macos,10.15,10.15 -Wl,-Z -Wl,-arch,x86_64")
