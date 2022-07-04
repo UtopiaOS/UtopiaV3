@@ -7,7 +7,7 @@ add_executable(
     loader/images.c
 )
 
-target_link_libraries(mdlk PRIVATE libKernel_static libC_static libGeneric_static)
+target_link_libraries(mdlk PRIVATE libKernel_static libC_static libGeneric_static libCompat_static)
 
 target_link_libraries(
     mdlk
@@ -37,4 +37,5 @@ set(SOURCES
 utopia_covenant_component_dynamic(libmdlk mdlk)
 
 add_dependencies(mdlk libC_static)
+add_dependencies(mdlk libCompat_static)
 
