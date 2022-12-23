@@ -24,4 +24,8 @@ target_link_libraries(libKernel PRIVATE libmdlk)
 add_dependencies(libKernel_static syscall.h)
 add_dependencies(libKernel_static everytype.h)
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libKernel.dylib DESTINATION ${CMAKE_INSTALL_PREFIX}/Core/Libraries/covenant)
+install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/libKernel.dylib
+    PERMISSIONS OWNER_READ
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/Core/Libraries/covenant
+)
