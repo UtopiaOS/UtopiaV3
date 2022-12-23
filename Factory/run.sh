@@ -22,7 +22,7 @@ popd () {
 
 
 # Check that the "dev kit" is installed
-needed_tools=("bc" "flex" "bison" "gawk" "autoconf" "cc" "cpp" "git" "wget" "curl" "clang" "clang++")
+needed_tools=("bc" "flex" "bison" "gawk" "autoconf" "cc" "cpp" "git" "wget" "curl" "clang" "clang++" "ninja" "make" "cmake")
 for cmd in ${needed_tools[@]}; do
 	Log "Checking for ${cmd}..."
 	if ! command -v ${cmd} &> /dev/null
@@ -122,8 +122,7 @@ pushd $PARENT/Resources/busybox
     Log "Copying busybox configuration"
     cp $PARENT/Meta/configs/BusyBoxDefault $PARENT/Build/busybox/x86_64/.config
     WORKSPACE="$PARENT/Build/busybox/x86_64"
-    LDFLAGS="--static" make O=$WORKSPACE -j$(nproc)
-    make O=$WORKSPACE -j$(nproc) install
+    LDFLAGS="--static" make O=$WORKSPACE -j$(nproc) install
 popd
 
 # Make the legacy directory structure
@@ -152,6 +151,6 @@ EOT
 chmod +x $PARENT/Root/x86_64/init
 
 pushd $PARENT/Root/x86_64
-# Create and compress our initramfs
-find . -print0 | cpio --null -ov --format=newc | gzip -9 > $PARENT/Build/initramfs.cpio.gz
+	# Create and compress our initramfs
+	find . -print0 | cpio --null -ov --format=newc | gzip -9 > $PARENT/Build/initramfs.cpio.gz
 popd
