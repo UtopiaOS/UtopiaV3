@@ -12,8 +12,17 @@ namespace run
 
 Log::AddOutput run DEBUG
 
+pushd () {
+	command pushd "$@" &> /dev/null
+}
+
+popd () {
+	command popd "$@" &> /dev/null
+}
+
+
 # Check that the "dev kit" is installed
-needed_tools=("bc" "flex" "bison" "gawk" "autoconf" "cc" "cpp" "git" "wget" "curl")
+needed_tools=("bc" "flex" "bison" "gawk" "autoconf" "cc" "cpp" "git" "wget" "curl" "clang" "clang++")
 for cmd in ${needed_tools[@]}; do
 	Log "Checking for ${cmd}..."
 	if ! command -v ${cmd} &> /dev/null
@@ -38,13 +47,13 @@ done
 
 if [ ! -e $PARENT/Build ]; then
     Log "Build directory doesn't exist, creating it..."
-    mkdir $PARENT/Build
+    mkdir -p $PARENT/Build
 fi
 
 
 if [ ! -e $PARENT/Resources ]; then
     Log "Resources directory doesn't exist, creating it..."
-    mkdir $PARENT/Resources
+    mkdir -p $PARENT/Resources
 fi
 
 if [ ! -e $PARENT/Resources/linux ];  then
@@ -65,23 +74,26 @@ if [ ! -e $PARENT/Resources/linux ];  then
             rm master.zip
         popd
         # TODO: Stop hardcoding the archive name
-        mv $PARENT/Resources/linux-master $PARENT/Resources/linux 
+        mv $PARENT/Resources/linux-master $PARENT/Resources/linux
     fi
 fi
 
-# Pushd into the kernel directory
-pushd $PARENT/Resources/linux/src
-    Log "Building the kernel..."
-    mkdir -p $PARENT/Build/kernel
-    # TODO: Stop hardcoding the architecture
-    mkdir -p $PARENT/Build/kernel/x86_64
-    Log "Copying kernel configuration"
-    # TODO: Make the configuration... well, configurable
-    cp $PARENT/Resources/linux/Configs/BasicUtopia $PARENT/Build/kernel/x86_64/.config
-    WORKSPACE="$PARENT/Build/kernel/x86_64"
-    make O=$WORKSPACE -j$(nproc)
-popd
-
+if [ ! -e $PARENT/Build/kernel/x86_64/vmlinux ]; then
+	# Pushd into the kernel directory
+	pushd $PARENT/Resources/linux/src
+    		Log "Building the kernel..."
+    		mkdir -p $PARENT/Build/kernel
+    		# TODO: Stop hardcoding the architecture
+    		mkdir -p $PARENT/Build/kernel/x86_64
+    		Log "Copying kernel configuration"
+    		# TODO: Make the configuration... well, configurable
+    		cp $PARENT/Resources/linux/Configs/BasicUtopia $PARENT/Build/kernel/x86_64/.config
+    		WORKSPACE="$PARENT/Build/kernel/x86_64"
+    		make O=$WORKSPACE -j$(nproc)
+	popd
+else
+	Log "Found cached kernel build..."
+fi
 
 BUSYBOX_VERSION="1.35.0"
 BUSYBOX_NAME="busybox-$BUSYBOX_VERSION"
