@@ -90,5 +90,5 @@ target_link_libraries(libC PRIVATE libKernel)
 add_dependencies(libC libKernel)
 add_dependencies(libC_static libKernel_static)
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libC.dylib DESTINATION ${CMAKE_INSTALL_PREFIX}/Core/Libraries)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libC.dylib DESTINATION ${CMAKE_INSTALL_PREFIX}/Core/Libraries/covenant)
 

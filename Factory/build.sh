@@ -145,7 +145,7 @@ cp -nav $PARENT/Build/busybox/x86_64/_install/* $TARGET_SYSROOT_DIRECTORY
 
 if [ ! -e $TARGET_SYSROOT_DIRECTORY/init ]; then
 	# Make our temporary "init"
-	cat << EOT >> $TARGET_SYSROOT_DIRECTORY/init
+	cat << STOP >> $TARGET_SYSROOT_DIRECTORY/init
 	#!/bin/sh
 
 	mount -t proc none /proc
@@ -155,7 +155,7 @@ if [ ! -e $TARGET_SYSROOT_DIRECTORY/init ]; then
 	echo -e "Is not recommend to distribute this\n"
 
 	exec /bin/sh
-	EOT
+STOP
 
 	chmod +x $TARGET_SYSROOT_DIRECTORY/init
 fi
