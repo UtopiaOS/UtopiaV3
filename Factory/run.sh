@@ -21,7 +21,8 @@ popd () {
 }
 
 AVAILABLE_CORES="$(nproc)"
-
+# TODO: Stop hardcoding the arch
+TARGET_SYSROOT_DIRECTORY="$PARENT/Build/x86_64/Root"
 
 # Check that the "dev kit" is installed
 needed_tools=("bc" "flex" "bison" "gawk" "autoconf" "cc" "cpp" "git" "wget" "curl" "clang" "clang++" "ninja" "make" "cmake")
@@ -125,24 +126,25 @@ if [ ! -e $PARENT/Build/busybox/x86_64/_install ]; then
     		Log "Copying busybox configuration"
     		cp $PARENT/Meta/configs/BusyBoxDefault $PARENT/Build/busybox/x86_64/.config
     		WORKSPACE="$PARENT/Build/busybox/x86_64"
-    		LDFLAGS="--static" make O=$WORKSPACE -j$(nproc) install
-popd
+		make O=$WORKSPACE -j$(nproc)
+		LDFLAGS="--static" make O=$WORKSPACE -j$(nproc) install
+	popd
 else
 	Log "Found cached busybox build..."
 fi
 
 # Make the legacy directory structure
-if [ ! -e $PARENT/Root/x86_64 ]; then
-    mkdir $PARENT/Root/x86_64
-    mkdir -p $PARENT/Root/x86_64/{bin,sbin,etc,proc,sys,usr/{bin,sbin}}
+if [ ! -e $TARGET_SYSROOT_DIRECTORY ]; then
+    mkdir -p $TARGET_SYSROOT_DIRECTORY
+    mkdir -p $TARGET_SYSROOT_DIRECTORY/{bin,sbin,etc,proc,sys,usr/{bin,sbin}}
 fi
 
 # Copy the resulting busybox binaries to the Root
 Log "Copying busybox binaries to the Root..."
-cp -nav $PARENT/Build/busybox/x86_64/_install/* $PARENT/Root/x86_64
+cp -nav $PARENT/Build/busybox/x86_64/_install/* $TARGET_SYSROOT_DIRECTORY
 
 # Make our temporary "init"
-cat << EOT >> $PARENT/Root/x86_64/init
+cat << EOT >> $TARGET_SYSROOT_DIRECTORY/init
 #!/bin/sh
 
 mount -t proc none /proc
@@ -154,7 +156,7 @@ echo -e "Is not recommend to distribute this\n"
 exec /bin/sh
 EOT
 
-chmod +x $PARENT/Root/x86_64/init
+chmod +x $TARGET_SYSROOT_DIRECTORY/init
 
 Log "Building Utopia"
 if [ ! -e $PARENT/Build/Utopia ]; then
@@ -165,8 +167,8 @@ cmake -GNinja -S "$PARENT/Meta/CMake/Quetza" -B $PARENT/Build/Utopia
 CMAKE_BUILD_PARALLEL_LEVEL="${AVAILABLE_CORES}" cmake --build $PARENT/Build/Utopia
 
 
-pushd $PARENT/Root/x86_64
+pushd $TARGET_SYSROOT_DIRECTORY
 	Log "Compressing initramfs"
 	# Create and compress our initramfs
-	find . -print0 | cpio --null -ov --format=newc | gzip -9 > $PARENT/Build/initramfs.cpio.gz
+	find . -print0 | cpio --null -ov --format=newc | gzip -9 > $PARENT/Build/rootfs.cpio.gz
 popd
