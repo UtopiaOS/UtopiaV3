@@ -146,15 +146,15 @@ cp -nav $PARENT/Build/busybox/x86_64/_install/* $TARGET_SYSROOT_DIRECTORY
 if [ ! -e $TARGET_SYSROOT_DIRECTORY/init ]; then
 	# Make our temporary "init"
 	cat << STOP >> $TARGET_SYSROOT_DIRECTORY/init
-	#!/bin/sh
+#!/bin/sh
 
-	mount -t proc none /proc
-	mount -t sysfs none /sys
+mount -t proc none /proc
+mount -t sysfs none /sys
 
-	echo -e "Welcome to Utopia\n"
-	echo -e "Is not recommend to distribute this\n"
+echo -e "Welcome to Utopia\n"
+echo -e "Is not recommend to distribute this\n"
 
-	exec /bin/sh
+exec /bin/sh
 STOP
 
 	chmod +x $TARGET_SYSROOT_DIRECTORY/init
