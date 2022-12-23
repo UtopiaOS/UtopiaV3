@@ -108,7 +108,8 @@ else
     Log "Found cached busybox..."
 fi
 
-if [ ! -e $PARENT/Resources/$BUSYBOX_NAME ]; then
+# If on the first run the resources were already renamed to busybox, the second run will result in duplicate source code
+if [ ! -e $PARENT/Resources/$BUSYBOX_NAME ] && [ ! -e $PARENT/Resources/busybox ]; then
     Log "Extracting busybox..."
     tar -xjf $PARENT/Resources/$BUSYBOX_PKG -C $PARENT/Resources
     mv $PARENT/Resources/$BUSYBOX_NAME $PARENT/Resources/busybox
