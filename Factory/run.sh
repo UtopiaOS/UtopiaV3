@@ -117,15 +117,19 @@ if [ ! -e $PARENT/Resources/$BUSYBOX_NAME ] && [ ! -e $PARENT/Resources/busybox 
     mv $PARENT/Resources/$BUSYBOX_NAME $PARENT/Resources/busybox
 fi
 
-# We need glibc-static-devel on OpenSuse...
-pushd $PARENT/Resources/busybox
-    Log "Making necessary directories..."
-    mkdir -p $PARENT/Build/busybox/x86_64
-    Log "Copying busybox configuration"
-    cp $PARENT/Meta/configs/BusyBoxDefault $PARENT/Build/busybox/x86_64/.config
-    WORKSPACE="$PARENT/Build/busybox/x86_64"
-    LDFLAGS="--static" make O=$WORKSPACE -j$(nproc) install
+if [ ! -e $PARENT/Build/busybox/x86_64/_install ]; then
+	# We need glibc-static-devel on OpenSuse...
+	pushd $PARENT/Resources/busybox
+    		Log "Making necessary directories..."
+    		mkdir -p $PARENT/Build/busybox/x86_64
+    		Log "Copying busybox configuration"
+    		cp $PARENT/Meta/configs/BusyBoxDefault $PARENT/Build/busybox/x86_64/.config
+    		WORKSPACE="$PARENT/Build/busybox/x86_64"
+    		LDFLAGS="--static" make O=$WORKSPACE -j$(nproc) install
 popd
+else
+	Log "Found cached busybox build..."
+fi
 
 # Make the legacy directory structure
 if [ ! -e $PARENT/Root/x86_64 ]; then
@@ -135,7 +139,7 @@ fi
 
 # Copy the resulting busybox binaries to the Root
 Log "Copying busybox binaries to the Root..."
-cp -av $PARENT/Build/busybox/x86_64/_install/* $PARENT/Root/x86_64
+cp -nav $PARENT/Build/busybox/x86_64/_install/* $PARENT/Root/x86_64
 
 # Make our temporary "init"
 cat << EOT >> $PARENT/Root/x86_64/init
