@@ -12,6 +12,30 @@ namespace run
 
 Log::AddOutput run DEBUG
 
+# Check that the "dev kit" is installed
+needed_tools=("bc" "flex" "bison" "gawk" "autoconf" "cc" "cpp" "git" "wget" "curl")
+for cmd in ${needed_tools[@]}; do
+	Log "Checking for ${cmd}..."
+	if ! command -v ${cmd} &> /dev/null
+	then
+		echo "The command ${cmd} isn't installed, please install it with your distros package manager"
+		exit 1
+	fi
+done
+
+# Find some general include files that we are going to need
+declare -A needed_headers=( ["libiberty"]="libiberty/ansidecl.h" ["libncurses"]="curses.h" ["libelf"]="gelf.h" ["libudev"]="libudev.h" ["libpci"]="pci/pci.h")
+for library in "${!needed_headers[@]}"; do
+	Log "Looking for ${library}..."
+	echo "#include <${needed_headers[$library]}>" | cpp -H -o /dev/null 2>&1 &> /dev/null
+	if [ $? -ne 0 ]
+	then
+		echo "The library ${library} isn't installed as it doesn't provide a header file to include. Please install it"
+		exit 1
+	fi
+done
+
+
 if [ ! -e $PARENT/Build ]; then
     Log "Build directory doesn't exist, creating it..."
     mkdir $PARENT/Build
