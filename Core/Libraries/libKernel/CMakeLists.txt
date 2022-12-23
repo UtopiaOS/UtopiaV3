@@ -15,7 +15,7 @@ set(SOURCES ${LIBKERNEL_SOURCES})
 
 covenant_static_component(libKernel_static kernel_static)
 
-utopia_covenant_component_dynamic(libKernel kernel)
+utopia_covenant_component_dynamic(libKernel Kernel)
 
 target_link_options(libKernel PRIVATE
     "-Wl,-exported_symbols_list,${CMAKE_CURRENT_SOURCE_DIR}/exported_symbols.list")
@@ -23,3 +23,5 @@ target_link_options(libKernel PRIVATE
 target_link_libraries(libKernel PRIVATE libmdlk)
 add_dependencies(libKernel_static syscall.h)
 add_dependencies(libKernel_static everytype.h)
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libKernel.dylib DESTINATION ${CMAKE_INSTALL_PREFIX}/Core/Libraries)

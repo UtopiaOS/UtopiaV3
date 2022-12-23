@@ -39,3 +39,5 @@ utopia_covenant_component_dynamic(libmdlk mdlk)
 add_dependencies(mdlk libC_static)
 add_dependencies(mdlk libCompat_static)
 
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/mdlk DESTINATION ${CMAKE_INSTALL_PREFIX}/Core/Support)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libmdlk.dylib DESTINATION ${CMAKE_INSTALL_PREFIX}/Core/Support)
