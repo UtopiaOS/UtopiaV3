@@ -143,20 +143,22 @@ fi
 Log "Copying busybox binaries to the Root..."
 cp -nav $PARENT/Build/busybox/x86_64/_install/* $TARGET_SYSROOT_DIRECTORY
 
-# Make our temporary "init"
-cat << EOT >> $TARGET_SYSROOT_DIRECTORY/init
-#!/bin/sh
+if [ ! -e $TARGET_SYSROOT_DIRECTORY/init ]; then
+	# Make our temporary "init"
+	cat << EOT >> $TARGET_SYSROOT_DIRECTORY/init
+	#!/bin/sh
 
-mount -t proc none /proc
-mount -t sysfs none /sys
+	mount -t proc none /proc
+	mount -t sysfs none /sys
 
-echo -e "Welcome to Utopia\n"
-echo -e "Is not recommend to distribute this\n"
+	echo -e "Welcome to Utopia\n"
+	echo -e "Is not recommend to distribute this\n"
 
-exec /bin/sh
-EOT
+	exec /bin/sh
+	EOT
 
-chmod +x $TARGET_SYSROOT_DIRECTORY/init
+	chmod +x $TARGET_SYSROOT_DIRECTORY/init
+fi
 
 Log "Building Utopia"
 if [ ! -e $PARENT/Build/Utopia ]; then
