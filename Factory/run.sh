@@ -20,6 +20,8 @@ popd () {
 	command popd "$@" &> /dev/null
 }
 
+AVAILABLE_CORES="$(nproc)"
+
 
 # Check that the "dev kit" is installed
 needed_tools=("bc" "flex" "bison" "gawk" "autoconf" "cc" "cpp" "git" "wget" "curl" "clang" "clang++" "ninja" "make" "cmake")
@@ -150,7 +152,17 @@ EOT
 
 chmod +x $PARENT/Root/x86_64/init
 
+Log "Building Utopia"
+if [ ! -e $PARENT/Build/Utopia ]; then
+	mkdir $PARENT/Build/Utopia
+fi
+
+cmake -GNinja -S "$PARENT/Meta/CMake/Quetza" -B $PARENT/Build/Utopia
+CMAKE_BUILD_PARALLEL_LEVEL="${AVAILABLE_CORES}" cmake --build $PARENT/Build/Utopia
+
+
 pushd $PARENT/Root/x86_64
+	Log "Compressing initramfs"
 	# Create and compress our initramfs
 	find . -print0 | cpio --null -ov --format=newc | gzip -9 > $PARENT/Build/initramfs.cpio.gz
 popd
