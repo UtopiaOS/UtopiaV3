@@ -58,10 +58,8 @@ function(utopia_covenant_component_dynamic covenant_sublib_name fs_name)
     # version that we compile before these.
     # Same with the sources
     add_library(${covenant_sublib_name} SHARED ${SOURCES})
-
+    set_target_properties(${covenant_sublib_name} PROPERTIES OUTPUT_NAME ${fs_name})
     set(install_path Core/Libraries/covenant/${fs_name})
-
-    message(${install_path})
 
     # 100.1.0 is the default version of all Covenant components
     if (NOT DEFINED COVENANT_DYLIB_VERSION)
