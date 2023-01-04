@@ -2,7 +2,7 @@
 
 static ctype_status
 put(ctype_fmt *p, char *s, usize n) {
-    return c_arr_cat(p->farg, s, n, sizeof(uchar));
+    return c_arr_push(p->farg, s, n, sizeof(uchar));
 }
 
 size

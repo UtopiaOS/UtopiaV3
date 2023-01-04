@@ -6,7 +6,7 @@ c_arr_push(Array *array, UniversalType data, USize m, USize n) {
         return StatusOk;
 
     if (c_arr_ready(array, m, n) < 0)
-        return StatusErr;
+        return StatusErr; 
 
     m *= n;
 

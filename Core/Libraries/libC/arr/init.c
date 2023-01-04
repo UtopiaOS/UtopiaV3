@@ -1,9 +1,9 @@
 #include <covenant/std.h>
 
-void
-c_arr_init(ctype_arr *p, char *s, usize n)
+Void
+c_arr_init(Array *array, char *s, Size size)
 {
-    p->size = n ? n - 1 : 0;
-    p->length = 0;
-    p->members = (uchar *)s;
+    array->size = size ? size - 1 : 0;
+    array->capacity = 0;
+    array->members = (uchar *)s;
 }

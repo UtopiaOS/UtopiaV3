@@ -80,13 +80,14 @@ void *c_std_free_(void *);
 #define c_std_free(a) a = c_std_free_((a))
 
 /* Array manipulation */
-void *c_arr_data(ctype_arr *);
-usize c_arr_len(ctype_arr *, usize);
-usize c_arr_avail(ctype_arr *);
-usize c_arr_bytes(ctype_arr *);
-ctype_status c_arr_trunc(ctype_arr*, usize, usize);
-void c_arr_init(ctype_arr*, char*, usize);
-Status c_arr_push(Array*. UniversalType, USize, USize);
+UniversalType c_arr_data(Array*);
+USize c_arr_len(Array*, USize);
+USize c_arr_avail(Array*);
+USize c_arr_bytes(Array *);
+Status c_arr_trunc(Array*, USize, USize);
+Void c_arr_init(Array*, char*, USize);
+Status c_arr_push(Array*, UniversalType, USize, USize);
+Status c_arr_ready(Array*, USize, USize);
 
 /* Dynamic */
 ctype_status c_dyn_push(ctype_arr*, void*, usize, usize);

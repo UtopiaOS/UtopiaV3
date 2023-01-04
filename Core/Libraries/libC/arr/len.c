@@ -29,8 +29,8 @@
  */
 #include <covenant/std.h>
 
-usize
-c_arr_len(ctype_arr *arr_pointer, usize length)
+USize
+c_arr_len(Array *array, USize data_size)
 {
-    return (length ? (arr_pointer->length / length) : 0);
+    return (data_size ? (array->capacity / data_size) : 0);
 }
