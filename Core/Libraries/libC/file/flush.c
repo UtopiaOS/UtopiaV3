@@ -1,13 +1,13 @@
 #include <covenant/std.h>
 #include <covenant/nix.h>
 
-ctype_status
-c_file_flush(ctype_file *fp) {
-    size ret;
+Status
+c_file_flush(File *fp) {
+    Size ret;
 
-    if ((ret = c_nix_allrw(fp->writefn, fp->fd, fp->data.members, fp->data.length)) < 0)
+    if ((ret = c_nix_allrw(fp->write_fn, fp->fd, fp->data.members, fp->data.capacity)) < 0)
         return -1;
 
-    c_arr_trunc(&fp->data, fp->data.length - ret, sizeof(uchar));
+    c_arr_trunc(&fp->data, fp->data.capacity - ret, sizeof(Byte));
     return 0;
 }

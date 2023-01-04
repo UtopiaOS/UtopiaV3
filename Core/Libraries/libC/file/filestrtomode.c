@@ -1,9 +1,9 @@
 #include "internal/_modes.h"
 
-i32
+Int32
 __covenant_filestrtomode(const char *s)
 {
-    i32 mode;
+    Int32 mode;
 
     if (!s)
         return -1;

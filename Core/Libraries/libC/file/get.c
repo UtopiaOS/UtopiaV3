@@ -3,11 +3,11 @@
 // TODO: We should look for a way to merge get from file and get from ioq
 
 
-size
-c_file_get(ctype_file *fp, char *buf, usize n)
+Size
+c_file_get(File *fp, char *buf, USize n)
 {
-    usize len, min;
-    size r;
+    USize len, min;
+    Size r;
 
     len = n;
     while (len)
@@ -19,7 +19,7 @@ c_file_get(ctype_file *fp, char *buf, usize n)
 
         min = C_MIN((usize)r, len);
         c_mem_cpy(buf, min, fp->data.members + fp->data.size);
-        fp->data.length -= min;
+        fp->data.capacity -= min;
         fp->data.size += min;
         len -= min;
         buf += min;

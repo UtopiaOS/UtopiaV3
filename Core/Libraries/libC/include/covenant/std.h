@@ -138,12 +138,12 @@ u32 c_u32_unpack(char*);
 char* c_u32_pack(char*, u32);
 
 /* File I/O */
-ctype_file* c_file_open(const char*, const char*);
-size c_file_feed(ctype_file*);
-size c_file_get(ctype_file*, char*, usize);
-size c_file_read(void *p, size, size, ctype_file*);
-ctype_status c_file_flush(ctype_file*);
-ctype_status c_file_nput(ctype_file*, char*, usize);
-size c_file_write(void *p, size, size, ctype_file*);
-ctype_status c_file_close(ctype_file*);
-void c_file_seek(ctype_file*, usize);
+File* c_file_open(const char*, const char*);
+Size c_file_feed(File*);
+Size c_file_get(File*, char*, USize);
+Size c_file_read(UniversalType p, Size, Size, File*);
+Status c_file_flush(File*);
+Status c_file_nput(File*, char*, USize);
+Size c_file_write(UniversalType p, size, size, File*);
+Status c_file_close(File*);
+void c_file_seek(File*, USize);

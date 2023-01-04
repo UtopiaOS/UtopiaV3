@@ -1,7 +1,7 @@
 #include <covenant/std.h>
 
-void *
-c_file_peek(ctype_file* fp) 
+UniversalType
+c_file_peek(File* fp) 
 {
     return (fp->data.members + fp->data.size);
 }

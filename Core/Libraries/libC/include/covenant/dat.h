@@ -43,6 +43,7 @@
 #define __NEED_VaList
 #define __NEED_ULong
 #define __NEED_FileDescriptor
+#define __NEED_SByte
 #include <covenant/bits/everytype.h>
 #include <covenant/status.h>
 
@@ -134,12 +135,20 @@ typedef struct ctype_ioq ctype_ioq;
 typedef struct InOutObject InOutObject;
 
 typedef struct ctype_file ctype_file;
+typedef struct File File;
 
 struct ctype_file {
     ctype_arr data;
     ctype_iofn readfn;
     ctype_iofn writefn;
     ctype_fd fd;
+};
+
+struct File {
+    Array data;
+    IOFunction read_fn;
+    IOFunction write_fn;
+    FileDescriptor fd;
 };
 
 struct ctype_ioq {
