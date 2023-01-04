@@ -1,11 +1,12 @@
 #include "libC/internal/attributes.h"
 
-#define __NEED_i32
-#define __NEED_u32
-#define __NEED_u64
-#define __NEED_u16
-#define __NEED_umax
-#define __NEED_u8
+#define __NEED_Int32
+#define __NEED_UInt32
+#define __NEED_UInt64
+#define __NEED_UInt16
+#define __NEED_UIntMax
+#define __NEED_UInt8
+#define __NEED_Int64
 #include <covenant/bits/everytype.h>
 #include <covenant/bool.h>
 
@@ -172,7 +173,7 @@ UTOPIA_PACKED_STRUCT(symbol_table_entry, ma) {
 	UInt32 string_table_name_offset;
 	UInt8 type;
 	UInt8 section;
-	u16 description;
+	UInt16 description;
 	Int64 value;
 };
 
@@ -188,7 +189,7 @@ UTOPIA_ALWAYS_INLINE bool macho_symbol_table_entry_is_private_extern(UInt8 type_
 	return (type_field >> 4) & 1;
 };
 
-UTOPIA_ALWAYS_INLINE UInt8 macho_symbol_table_entry_library_index(u16 description_field) {
+UTOPIA_ALWAYS_INLINE UInt8 macho_symbol_table_entry_library_index(UInt16 description_field) {
 	return description_field >> 8;
 };
 
@@ -289,10 +290,10 @@ UTOPIA_ALWAYS_INLINE UInt8 macho_relocation_instruction_get_immediate(UInt8 byte
 	return byte & 0x0f;
 };
 
-UTOPIA_ALWAYS_INLINE matype_export_symbol_kind macho_export_flags_get_kind(umax raw_flags) {
+UTOPIA_ALWAYS_INLINE matype_export_symbol_kind macho_export_flags_get_kind(UIntMax raw_flags) {
 	return raw_flags & 3ULL;
 };
 
-UTOPIA_ALWAYS_INLINE matype_export_symbol_flags macho_export_flags_get(umax raw_flags) {
+UTOPIA_ALWAYS_INLINE matype_export_symbol_flags macho_export_flags_get(UIntMax raw_flags) {
 	return raw_flags >> 2;
 };
