@@ -3,6 +3,7 @@
 add_executable(
     mdlk
     mdlk.c
+    initialization.c
     mdlk_startup.S
     loader/images.c
 )
