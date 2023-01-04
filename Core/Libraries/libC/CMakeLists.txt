@@ -11,10 +11,10 @@ set(LIBC_SOURCES
     arr/len.c
     arr/avail.c
     dyn/ready.c
-    dyn/cat.c
     arr/bytes.c
     dyn/alloc.c
-    dyn/idxcat.c
+    dyn/push.c
+    dyn/insert.c
     fmt/fmt.c
     fmt/init.c
     fmt/install.c

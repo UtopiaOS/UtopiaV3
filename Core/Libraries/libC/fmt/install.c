@@ -33,5 +33,5 @@ c_fmt_install(ctype_rune tgt_char, ctype_fmtfn fn)
 
     nent = (struct fmtverb){tgt_char, fn};
 	n = (((uchar *)p - s) / sizeof(*p)) + !!n;
-    return c_dyn_idxcat(ap, n, &nent, 1, sizeof(nent));
+    return c_dyn_insert(ap, n, &nent, 1, sizeof(nent));
 }

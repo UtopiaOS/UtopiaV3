@@ -88,10 +88,10 @@ ctype_status c_arr_trunc(ctype_arr*, usize, usize);
 void c_arr_init(ctype_arr*, char*, usize);
 
 /* Dynamic */
-ctype_status c_dyn_cat(ctype_arr*, void*, usize, usize);
+ctype_status c_dyn_push(ctype_arr*, void*, usize, usize);
 ctype_status c_dyn_ready(ctype_arr*, usize, usize);
 void* c_dyn_alloc(ctype_arr*, usize, usize);
-ctype_status c_dyn_idxcat(ctype_arr*, usize, void *, usize, usize);
+ctype_status c_dyn_insert(ctype_arr*, usize, void *, usize, usize);
 
 /* Operations on memory */
 void *c_mem_cpy(void*, usize, void*);
