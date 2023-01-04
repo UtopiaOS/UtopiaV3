@@ -1,4 +1,5 @@
 #include <covenant/std.h>
+#include <covenant/shared.h>
 
 Status
 c_arr_push(Array *array, UniversalType data, USize m, USize n) {
