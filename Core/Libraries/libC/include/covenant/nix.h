@@ -18,6 +18,7 @@
 #include <covenant/bits/everytype.h>
 #include <covenant/fn.h>
 #include <covenant/status.h>
+#include <covenant/dat.h>
 
 #define C_NIX_OREAD 0
 #define C_NIX_OWRITE 1
@@ -29,3 +30,4 @@
 Void c_nix_munmap(UniversalType, USize);
 Size c_nix_allrw(IOFunction, FileDescriptor, UniversalType, USize);
 Status c_nix_fdset(FileDescriptor, Int32);
+Status c_nix_stat(char*, Stat*);

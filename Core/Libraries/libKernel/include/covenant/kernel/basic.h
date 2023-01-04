@@ -41,6 +41,7 @@
 #include <covenant/bits/everytype.h>
 #include <covenant/fn.h>
 #include <covenant/status.h>
+#include <covenant/dat.h>
 
 
 _Noreturn void c_kernel_exit(Int32);
@@ -66,6 +67,8 @@ Size c_kernel_read(FileDescriptor, UniversalType, USize);
 #define c_kernel_abort() { while (*(volatile Int32 *)0); }
 
 Status c_kernel_close(FileDescriptor);
+
+Status c_kernel_stat(char*, Stat*);
 
 // TODO: Should there really be here?
 #define C_KERNEL_FGETFL 3

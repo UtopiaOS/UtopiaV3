@@ -38,8 +38,16 @@
 #define __NEED_FileDescriptor
 #define __NEED_SByte
 #define __NEED_UChar
+#define __NEED_VLong
+#define __NEED_UVLong
+#define __NEED_Int32
+#define __NEED_Size
+#define __NEED_UInt32
 #include <covenant/bits/everytype.h>
 #include <covenant/status.h>
+
+typedef ULong Device;
+typedef ULong INode;
 
 typedef struct Array Array;
 
@@ -136,6 +144,32 @@ struct HST {
     UChar buf[128]; // Buffer for hashing
     USize curlen; // Lenght of the cursor
     USize len; // Lenght of the hash
+};
+
+typedef struct ClassicTime ClassicTime;
+typedef struct Stat Stat;
+
+struct ClassicTime {
+    VLong seconds;
+    UVLong nanoseconds;
+};
+
+struct Stat {
+    Device dev;
+    INode inode;
+    ULong nlink;
+    UInt32 mode;
+    UInt32 uid;
+    UInt32 gid;
+    UInt32 __pad0;
+    ULong rdev;
+    ULong size;
+    ULong block_size;
+    ULong blocks;
+    ClassicTime accessed_at;
+    ClassicTime modified_at;
+    ClassicTime changed_at;
+    long __unused[3];
 };
 
 /* Where do I put you? */

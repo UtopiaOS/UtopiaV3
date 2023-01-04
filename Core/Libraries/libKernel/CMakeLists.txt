@@ -9,6 +9,7 @@ set(LIBKERNEL_SOURCES
     kernel/fcntl.c
     kernel/read.c
     kernel/close.c
+    kernel/stat.c
     errno/errno.c)
 
 set(SOURCES ${LIBKERNEL_SOURCES})
