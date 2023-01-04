@@ -30,11 +30,11 @@
 #include <covenant/kernel/basic.h>
 #include "syscall.h"
 
-size
-c_kernel_write(ctype_fd fd, void *buf, usize count)
+Size
+c_kernel_write(FileDescriptor fd, void *buf, USize count)
 {
     long ret;
     // TODO: Move to syscall_cp()
     ret = __syscall(SYS_write, fd, buf, count);
-    return (size)__syscall_ret(ret);
+    return (Size)__syscall_ret(ret);
 }

@@ -5,5 +5,5 @@ c_arr_init(Array *array, char *s, USize size)
 {
     array->size = size ? size - 1 : 0;
     array->capacity = 0;
-    array->members = (uchar *)s;
+    array->members = (UChar *)s;
 }

@@ -7,12 +7,12 @@
 #include <covenant/hsh.h>
 
 void
-c_hsh_update(hfunc f, int b, ctype_hst *p, char *data, usize n)
+c_hsh_update(hfunc f, int b, ctype_hst *p, char *data, USize n)
 {
-    usize len;
+    USize len;
 
     while (n) {
-        if (!p->curlen && n >= (u32)b) {
+        if (!p->curlen && n >= (UInt32)b) {
             f(p, data);
             p->len += b << 3;
             data += b;
@@ -23,7 +23,7 @@ c_hsh_update(hfunc f, int b, ctype_hst *p, char *data, usize n)
             p->curlen += len;
             data += len;
             n -= len;
-            if (p->curlen == (u32)b) {
+            if (p->curlen == (UInt32)b) {
                 f(p, data);
                 p->len += b << 3;
                 p->curlen = 0;

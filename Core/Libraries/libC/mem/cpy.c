@@ -3,9 +3,9 @@
 #include <covenant/std.h>
 
 void *
-c_mem_cpy(void *dest_area, usize byte_size, void *origin_area)
+c_mem_cpy(void *dest_area, USize byte_size, void *origin_area)
 {
-    uchar *s1, *s2;
+    UChar *s1, *s2;
 
     s1 = dest_area;
     s2 = origin_area;

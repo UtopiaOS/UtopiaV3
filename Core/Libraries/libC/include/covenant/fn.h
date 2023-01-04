@@ -39,16 +39,15 @@
 #define __NEED_UInt64
 #define __NEED_Size
 #define __NEED_Void
+#define __NEED_Int64
 #include <covenant/bits/everytype.h>
 
 typedef Int32 (*CompareFunction)(UniversalType, UniversalType);
 typedef UniversalType (*AllocationFunction)(UniversalType, USize, USize);
 typedef Size (*IOFunction)(Int32, UniversalType, USize);
 
-typedef i32 (*ctype_cmpfn)(void *, void *);
-typedef void *(*ctype_allocfn)(void *, usize, usize);
-
-typedef size (*ctype_iofn)(i32, void*, usize);
+typedef Int32 (*ctype_cmpfn)(void *, void *);
+typedef void *(*ctype_allocfn)(void *, USize, USize);
 
 #define va_arg(a, b) __builtin_va_arg(a, b)
 #define va_copy(a, b) __builtin_va_copy(a, b)
@@ -56,4 +55,4 @@ typedef size (*ctype_iofn)(i32, void*, usize);
 #define va_end(a)   __builtin_va_end(a)
 
 typedef UInt64 (*HashFunction)(const UniversalType, UInt64, UInt64);
-typedef u64 (*ctype_hashfn)(const void *, u64, u64);
+typedef Int64 (*ctype_hashfn)(const void *, Int64, Int64);

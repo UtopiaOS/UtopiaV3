@@ -5,7 +5,7 @@
 #define C2 0x1B873593
 
 static void init(ctype_hst *);
-static void update(ctype_hst *, char *, usize);
+static void update(ctype_hst *, char *, USize);
 static void end(ctype_hst *, char *);
 
 static ctype_hmd md = {
@@ -27,7 +27,7 @@ init(ctype_hst *p)
 static void
 compress(ctype_hst *p, char *data)
 {
-    u32 k;
+    UInt32 k;
     k = c_u32_unpack(data);
     k *= C1;
     k = c_hsh_rol32(k, 15);
@@ -38,7 +38,7 @@ compress(ctype_hst *p, char *data)
 }
 
 static void
-update(ctype_hst *p, char *data, usize n)
+update(ctype_hst *p, char *data, USize n)
 {
     c_hsh_update(compress, 4, p, data, n);
 }
@@ -46,7 +46,7 @@ update(ctype_hst *p, char *data, usize n)
 static void
 end(ctype_hst *p, char *s)
 {
-    u32 k;
+    UInt32 k;
 
     k = 0;
     switch (p->curlen)

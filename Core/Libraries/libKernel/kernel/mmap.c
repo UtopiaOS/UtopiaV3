@@ -12,7 +12,7 @@
 static void __vm_wait(void) { };
 
 void*
-c_kernel_mmap(void *start, size len, i32 prot, i32 flags, ctype_fd fd, ctype_fssize off) 
+c_kernel_mmap(UniversalType start, Size len, Int32 prot, Int32 flags, FileDescriptor fd, FSSize off) 
 {
     long ret;
     if (off & KERNEL_OFF_MASK){
@@ -34,5 +34,5 @@ c_kernel_mmap(void *start, size len, i32 prot, i32 flags, ctype_fd fd, ctype_fss
     /* Fixup incorrect EPERM from kernel */
     if (ret == -C_EPERM && !start && (flags&C_MAP_ANON) && !(flags&C_MAP_FIXED))
         ret = -C_ENOMEM;
-    return (void*)__syscall_ret(ret);
+    return (UniversalType)__syscall_ret(ret);
 }

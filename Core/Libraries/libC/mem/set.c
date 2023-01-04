@@ -3,9 +3,9 @@
 
 // Set what, of what size to what value.
 void *
-c_mem_set(void *v, usize n, i32 c)
+c_mem_set(void *v, USize n, Int32 c)
 {
-    uchar *s;
+    UChar *s;
 
     s = v;
     for (; n; n--) {

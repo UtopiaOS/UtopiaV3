@@ -1,8 +1,8 @@
 
 #include <covenant/std.h>
 
-usize
-c_str_len(char *s, usize n)
+USize
+c_str_len(char *s, USize n)
 {
     char *p;
 

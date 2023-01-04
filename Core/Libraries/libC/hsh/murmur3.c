@@ -8,15 +8,15 @@
 // non-native version will be less than optimal.
 
 #include <covenant/std.h>
-#define __NEED_i8
-#define __NEED_u8
+#define __NEED_Int8
+#define __NEED_UInt8
 #include <covenant/bits/everytype.h>
 #include <covenant/hsh.h>
 
 // TODO: Redesign with the API that tertium proposed!
 
-static inline u64
-rotl64(u64 x, i8 r)
+static inline Int64
+rotl64(Int64 x, Int8 r)
 {
     return (x << r) | (x >> (64 - r));
 }
@@ -31,8 +31,8 @@ rotl64(u64 x, i8 r)
 
 #define getblock(p, i) (p[i])
 
-static inline u64
-fmix64(u64 k)
+static inline Int64
+fmix64(Int64 k)
 {
     k ^= k >> 33;
     k *= BIG_CONSTANT(0xff51afd7ed558ccd);
@@ -44,19 +44,19 @@ fmix64(u64 k)
 }
 
 void 
-c_hsh_murmur3(const void *key, const i32 len, const u32 seed, void *out)
+c_hsh_murmur3(const void *key, const Int32 len, const UInt32 seed, void *out)
 {
-    i32 i;
-    u64 h1, h2, c1, c2;
+    Int32 i;
+    Int64 h1, h2, c1, c2;
 
-    const u8* data = (const u8*)key;
-    const i32 nblocks = len / 16;
+    const UInt8* data = (const UInt8*)key;
+    const Int32 nblocks = len / 16;
 
-    const u64* blocks = (const u64 *)(data);
+    const Int64* blocks = (const Int64 *)(data);
 
     for (i = 0; i < nblocks; i++) {
-        u64 k1 = getblock(blocks, i*2+0);
-        u64 k2 = getblock(blocks, i*2+1);
+        Int64 k1 = getblock(blocks, i*2+0);
+        Int64 k2 = getblock(blocks, i*2+1);
 
         k1 *= c1;
         k1 = ROTL64(k1, 31);
@@ -77,46 +77,46 @@ c_hsh_murmur3(const void *key, const i32 len, const u32 seed, void *out)
     }
 
     // tail
-    const u8* tail = (const u8*)(data+nblocks*16);
+    const UInt8* tail = (const UInt8*)(data+nblocks*16);
 
-    u64 k1 = 0;
-    u64 k2 = 0;
+    Int64 k1 = 0;
+    Int64 k2 = 0;
 
     switch (len & 15) {
         case 15:
-            k2 ^= (u64)(tail[14]) << 48;
+            k2 ^= (Int64)(tail[14]) << 48;
         case 14:
-            k2 ^= (u64)(tail[13]) << 40;
+            k2 ^= (Int64)(tail[13]) << 40;
         case 13:
-            k2 ^= (u64)(tail[12]) << 32;
+            k2 ^= (Int64)(tail[12]) << 32;
         case 12:
-            k2 ^= (u64)(tail[11]) << 24;
+            k2 ^= (Int64)(tail[11]) << 24;
         case 11:
-            k2 ^= (u64)(tail[10]) << 16;
+            k2 ^= (Int64)(tail[10]) << 16;
         case 10:
-            k2 ^= (u64)(tail[9]) << 8;
+            k2 ^= (Int64)(tail[9]) << 8;
         case 9:
-            k2 ^= (u64)(tail[8]) << 0;
+            k2 ^= (Int64)(tail[8]) << 0;
             k2 *= c2;
             k2 *= ROTL64(k2, 33);
             k2 *= c1;
             h2 ^= k2;
         case 8:
-            k1 ^= (u64)(tail[7]) << 56;
+            k1 ^= (Int64)(tail[7]) << 56;
         case 7:
-            k1 ^= (u64)(tail[6]) << 48;
+            k1 ^= (Int64)(tail[6]) << 48;
         case 6:
-            k1 ^= (u64)(tail[5]) << 40;
+            k1 ^= (Int64)(tail[5]) << 40;
         case 5:
-            k1 ^= (u64)(tail[4]) << 32;
+            k1 ^= (Int64)(tail[4]) << 32;
         case 4:
-            k1 ^= (u64)(tail[3]) << 24;
+            k1 ^= (Int64)(tail[3]) << 24;
         case 3:
-            k1 ^= (u64)(tail[2]) << 16;
+            k1 ^= (Int64)(tail[2]) << 16;
         case 2:
-            k1 ^= (u64)(tail[1]) << 8;
+            k1 ^= (Int64)(tail[1]) << 8;
         case 1:
-            k1 ^= (u64)(tail[0]) << 0;
+            k1 ^= (Int64)(tail[0]) << 0;
             k1 *= c1;
             k1 = ROTL64(k1, 31);
             k1 *= c2;
@@ -134,7 +134,7 @@ c_hsh_murmur3(const void *key, const i32 len, const u32 seed, void *out)
     h1 += h2;
     h2 += h1;
 
-    ((u64*)out)[0] = h1;
-    ((u64*)out)[1] = h2;
+    ((Int64*)out)[0] = h1;
+    ((Int64*)out)[1] = h2;
     
 }

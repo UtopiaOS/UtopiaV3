@@ -89,7 +89,7 @@ fmtflag(Format *f, Byte *s)
                     }
                     continue;
             case '*':
-                if ((i = va_arg(f->args, i32)) < 0) {
+                if ((i = va_arg(f->args, Int32)) < 0) {
                     if (f->flags & C_FMTPREC) {
                         f->flags &= ~C_FMTPREC;
                         f->prec = 0;

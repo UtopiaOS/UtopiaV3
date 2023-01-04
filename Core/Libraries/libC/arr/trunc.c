@@ -7,7 +7,7 @@
 Status
 c_arr_trunc(Array *array, USize obj_num, USize obj_size)
 {
-    if (C_OFLW_UM(usize, obj_num, obj_size)) {
+    if (C_OFLW_UM(USize, obj_num, obj_size)) {
         errno = C_EOVERFLOW;
         return StatusErr;
     }

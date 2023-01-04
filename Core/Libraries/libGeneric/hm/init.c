@@ -4,10 +4,10 @@
 // TODO: Implement variadic function for seed
 // TODO: We might have to redo some of these parameters...
 ctype_status
-c_hm_init(ctype_hmap *self, size obj_size, size cap, ctype_hashfn hash, ctype_cmpfn cmp, void (*obj_free)(void *item), void *data)
+c_hm_init(ctype_hmap *self, Size obj_size, Size cap, ctype_hashfn hash, ctype_cmpfn cmp, void (*obj_free)(void *item), void *data)
 {
-    i32 ncap;
-    size bucket_size, hm_size;
+    Int32 ncap;
+    Size bucket_size, hm_size;
     ctype_hm_bucket pbucket;
     ncap = 16;
     if (cap < ncap)
@@ -24,7 +24,7 @@ c_hm_init(ctype_hmap *self, size obj_size, size cap, ctype_hashfn hash, ctype_cm
     }
 
     bucket_size = sizeof(ctype_hm_bucket) + obj_size;
-    while (bucket_size & (sizeof(uintptr) - 1))
+    while (bucket_size & (sizeof(UIntPtr) - 1))
         bucket_size++;
 
     

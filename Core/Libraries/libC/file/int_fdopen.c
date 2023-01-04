@@ -42,6 +42,6 @@ __covenant_open(FileDescriptor fd, const char *mode)
         return nil;
 
     // We are almost done initialize
-    __covenant_file_init(f, fd, (UniversalType)((uchar*)f + sizeof(*f)), C_BIOSIZ);
+    __covenant_file_init(f, fd, (UniversalType)((UChar*)f + sizeof(*f)), C_BIOSIZ);
     return f;
 }

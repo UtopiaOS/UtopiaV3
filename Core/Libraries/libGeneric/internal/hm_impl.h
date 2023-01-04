@@ -3,5 +3,5 @@
 #include <covenant/bits/everytype.h>
 #include <covenant/status.h>
 
-ctype_status hm_resize(ctype_hmap*, size);
-u64 hm_get_hash(ctype_hmap*, const void*);
+ctype_status hm_resize(ctype_hmap*, Size);
+Int64 hm_get_hash(ctype_hmap*, const void*);

@@ -7,7 +7,7 @@
 static Int32
 cmp(UniversalType a, UniversalType b)
 {
-    return *(uchar *)a - ((struct fmtverb *)b)->c;
+    return *(UChar *)a - ((struct fmtverb *)b)->c;
 }
 
 Status

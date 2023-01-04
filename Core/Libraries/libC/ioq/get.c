@@ -14,7 +14,7 @@ Size c_ioq_get(InOutObject *p, char *b, USize n)
         if (!r)
             break;
 
-        min = C_MIN((usize)r, len);
+        min = C_MIN((USize)r, len);
         c_mem_cpy(b, min, p->array.members + p->array.size);
         p->array.capacity -= min;
         p->array.size += min;

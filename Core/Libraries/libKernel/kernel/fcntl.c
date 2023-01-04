@@ -1,13 +1,13 @@
 #include <covenant/kernel/basic.h>
 #include "internal/syscall.h"
 
-i32
-c_kernel_fcntl(ctype_fd fd, i32 cmd, ...) {
-    ulong arg;
-    va_list ap;
+Int32
+c_kernel_fcntl(FileDescriptor fd, Int32 cmd, ...) {
+    ULong arg;
+    VaList ap;
 
     va_start(ap, cmd);
-    arg = va_arg(ap, ulong);
+    arg = va_arg(ap, ULong);
     va_end(ap);
     switch(cmd) {
         case C_KERNEL_FGETLK:

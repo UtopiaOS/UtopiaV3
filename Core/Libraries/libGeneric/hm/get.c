@@ -8,8 +8,8 @@
 void *
 c_hm_get(ctype_hmap *hm_map, void *key)
 {
-    u64 hash;
-    size i;
+    Int64 hash;
+    Size i;
     if (!key) {
         errno = C_NILOBJ;
         return nil;

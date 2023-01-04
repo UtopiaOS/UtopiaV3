@@ -1,11 +1,11 @@
 #include <covenant/std.h>
 
 char *
-c_str_chr(char *v, usize n, i32 c)
+c_str_chr(char *v, USize n, Int32 c)
 {
-    uchar *s;
+    UChar *s;
 
-    s = (uchar *)v;
+    s = (UChar *)v;
     for (; n && *s; --n) {
         if (*s == c)
             return (char *)s;

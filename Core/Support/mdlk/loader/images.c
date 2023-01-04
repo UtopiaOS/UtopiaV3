@@ -12,7 +12,7 @@ const char EXECUTABLE_PATH[]="executable_path=";
 
 static ctype_hmap images;
 
-u64 mdlk_basic_image_hash(const void *key, u64 seed_one, u64 seed_two)
+Int64 mdlk_basic_image_hash(const void *key, Int64 seed_one, Int64 seed_two)
 {
     const mdtype_mdlk_image *image = key;
     ctype_hst hs;
@@ -22,10 +22,10 @@ u64 mdlk_basic_image_hash(const void *key, u64 seed_one, u64 seed_two)
     md->init(&hs);
     md->update(&hs, image->path, c_str_len(image->path, C_USIZE_MAX));
     md->end(&hs, out);
-    return *(u64 *)out;
+    return *(Int64 *)out;
 }
 
-i32 mdlk_basic_images_cmp(void *a, void *b)
+Int32 mdlk_basic_images_cmp(void *a, void *b)
 {
     const mdtype_mdlk_image* image_a = a;
     const mdtype_mdlk_image* image_b = b;
@@ -127,16 +127,16 @@ static ctype_status mdlk_load_image_internal(const char* path, size path_len, md
             continue;
         }
 
-        if (segment_64_load_command.memory_address < (uintptr)image->file_load_base) {
+        if (segment_64_load_command.memory_address < (UIntPtr)image->file_load_base) {
             image->file_load_base = (void*)segment_64_load_command.memory_address;
         }
 
-        if (segment_64_load_command.memory_address + segment_64_load_command.memory_size > (uintptr)file_load_top) {
+        if (segment_64_load_command.memory_address + segment_64_load_command.memory_size > (UIntPtr)file_load_top) {
             file_load_top = (void*)(segment_64_load_command.memory_address + segment_64_load_command.memory_size);
         } 
     }
 
-    image->total_size = (u64)(file_load_top - image->file_load_base);
+    image->total_size = (Int64)(file_load_top - image->file_load_base);
 
 
     return ctype_status_ok;

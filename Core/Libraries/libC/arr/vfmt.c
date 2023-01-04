@@ -5,7 +5,7 @@ put(Format *format, char *s, USize n) {
     return c_arr_push(format->farg, s, n, sizeof(Byte));
 }
 
-size
+Size
 c_arr_vfmt(Array *array, char *fmt, VaList args) {
     Format f;
     c_fmt_init(&f, array, put);

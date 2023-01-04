@@ -17,7 +17,7 @@ c_file_get(File *fp, char *buf, USize n)
         if (!r)
             break;
 
-        min = C_MIN((usize)r, len);
+        min = C_MIN((USize)r, len);
         c_mem_cpy(buf, min, fp->data.members + fp->data.size);
         fp->data.capacity -= min;
         fp->data.size += min;

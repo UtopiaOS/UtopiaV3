@@ -3,10 +3,10 @@
 #include <covenant/std.h>
 
 ctype_status 
-hm_resize(ctype_hmap *hm_map, size new_cap)
+hm_resize(ctype_hmap *hm_map, Size new_cap)
 {
     ctype_hmap new_map;
-    size i, j;
+    Size i, j;
     ctype_status ret;
     
     ret = c_hm_init(&new_map, hm_map->obj_size, new_cap, hm_map->hash, hm_map->cmp, hm_map->obj_free, hm_map->data);

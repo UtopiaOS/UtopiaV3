@@ -6,7 +6,7 @@
 #define __NEED_usize
 #define __NEED_i32
 #define __NEED_size
-#define __NEED_uchar
+#define __NEED_UChar
 #define __NEED_ctype_fd
 #define __NEED_USize
 #define __NEED_Int32
@@ -27,5 +27,5 @@
 #define C_NIX_OAPPEND 0x400
 
 Void c_nix_munmap(UniversalType, USize);
-Size c_nix_allrw(ctype_iofn, FileDescriptor, UniversalType, USize);
+Size c_nix_allrw(IOFunction, FileDescriptor, UniversalType, USize);
 Status c_nix_fdset(FileDescriptor, Int32);

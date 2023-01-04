@@ -51,12 +51,15 @@
 #define __NEED_u64
 #define __NEED_vlong
 #define __NEED_umax
-#define __NEED_u8
+#define __NEED_UInt8
 #define __NEED_Rune
 #define __NEED_UIntPtr
 #define __NEED_UVLong
 #define __NEED_UInt32
 #define __NEED_VLong
+#define __NEED_UInt64
+#define __NEED_UShort
+#define __NEED_IntPtr
 #include <covenant/bits/everytype.h>
 #include <covenant/kernel/basic.h>
 #include <covenant/fn.h>
@@ -74,7 +77,7 @@ UniversalType c_std_malloc(USize);
 Void c_std_setalloc(AllocationFunction);
 Void c_std_exit(Int32);
 char *c_std_getsyserr(void);
-char *c_std_strerror(Int32, char*, usize);
+char *c_std_strerror(Int32, char*, USize);
 Void c_std_errstr(char *, USize);
 UniversalType c_std_free_(UniversalType);
 
@@ -101,9 +104,9 @@ UniversalType c_dyn_alloc(Array*, USize, USize);
 Status c_dyn_insert(Array*, USize, UniversalType, USize, USize);
 
 /* Operations on memory */
-void *c_mem_cpy(void*, usize, void*);
-void *c_mem_chr(void*, size, i32);
-void *c_mem_set(void*, usize, i32);
+void *c_mem_cpy(void*, USize, void*);
+void *c_mem_chr(void*, Size, Int32);
+void *c_mem_set(void*, USize, Int32);
 
 /* fmt */
 Status c_fmt_install(Rune, FormatFunction);
@@ -113,9 +116,9 @@ Status c_fmt_nput(Format*, char*, USize);
 Status c_fmt_put(Format*, char*);
 
 /* utf8 */
-ctype_status c_utf8_checkrune(ctype_rune);
-i32 c_utf8_charntorune(ctype_rune*, char*, usize);
-i32 c_utf8_chartorune(ctype_rune*, char*);
+Status c_utf8_checkrune(Rune);
+Int32 c_utf8_charntorune(Rune*, char*, USize);
+Int32 c_utf8_chartorune(Rune*, char*);
 
 /* ioq */
 Status c_ioq_flush(InOutObject *);
@@ -126,16 +129,16 @@ Size c_ioq_feed(InOutObject *);
 Size c_ioq_get(InOutObject *, char *, USize);
 
 /* str */
-usize c_str_len(char*, usize);
-i32 c_str_cmp(char*, usize, char*);
-char* c_str_cpy(char*, usize, char*);
-char* c_str_pncpy(char *__restrict, const char *__restrict, size);
-char* c_str_ncpy(char *__restrict, char *__restrict, size);
-char* c_str_chr(char *, usize, i32);
+USize c_str_len(char*, USize);
+Int32 c_str_cmp(char*, USize, char*);
+char* c_str_cpy(char*, USize, char*);
+char* c_str_pncpy(char *__restrict, const char *__restrict, Size);
+char* c_str_ncpy(char *__restrict, char *__restrict, Size);
+char* c_str_chr(char *, USize, Int32);
 
-/* u32 */
-u32 c_u32_unpack(char*);
-char* c_u32_pack(char*, u32);
+/* UInt32 */
+UInt32 c_u32_unpack(char*);
+char* c_u32_pack(char*, UInt32);
 
 /* File I/O */
 File* c_file_open(const char*, const char*);
@@ -144,6 +147,6 @@ Size c_file_get(File*, char*, USize);
 Size c_file_read(UniversalType p, Size, Size, File*);
 Status c_file_flush(File*);
 Status c_file_nput(File*, char*, USize);
-Size c_file_write(UniversalType p, size, size, File*);
+Size c_file_write(UniversalType p, Size, Size, File*);
 Status c_file_close(File*);
 void c_file_seek(File*, USize);

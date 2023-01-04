@@ -48,7 +48,7 @@ UTOPIA_NEO_ENUM(Int32, Status) {
  * conflict.
  *
  */
-UTOPIA_ENUM(i32, status, c) {
+UTOPIA_ENUM(Int32, status, c) {
     /**
      * No error
      * 

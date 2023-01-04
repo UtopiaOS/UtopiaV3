@@ -9,7 +9,7 @@ ctype_status
 c_hm_insert(ctype_hmap *hm_map, void *obj)
 {
   ctype_hm_bucket *entry;
-  size i;
+  Size i;
 
   if (!obj)
   {

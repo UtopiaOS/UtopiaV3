@@ -20,9 +20,9 @@
 
 #define EMSG(a) c_kernel_fdwrite(2, (a), sizeof((a)))
 
-//u64 __mmap_base = 0x7fff00000000ULL;
+//Int64 __mmap_base = 0x7fff00000000ULL;
 
-u64 be_random_number = 20;
+Int64 be_random_number = 20;
 
 #define MMAP(a) \
     c_kernel_mmap(0, (a), C_PROT_READ | C_PROT_WRITE, C_MAP_ANON | C_MAP_PRIVATE, -1, 0)
@@ -33,23 +33,23 @@ u64 be_random_number = 20;
 #define MFOLLOW ((struct pginfo *)3)
 #define MMAGIC ((struct pginfo *)4)
 
-#define MBITS ((i32)(8 * sizeof(u32)))
+#define MBITS ((Int32)(8 * sizeof(UInt32)))
 
 #define mminsize 16U
 #define mmaxsize ((mpagesize) >> 1)
 
 #define pageround(a) (((a) + mpagemask) & (~mpagemask))
-#define ptr2idx(a) (((usize)(uintptr)(a) >> mpageshift) - morigo)
+#define ptr2idx(a) (((USize)(UIntPtr)(a) >> mpageshift) - morigo)
 
 struct pginfo
 {
     struct pginfo *next;
     void *page;
-    ushort size;
-    ushort shift;
-    ushort free;
-    ushort total;
-    u32 bits[1];
+    UShort size;
+    UShort shift;
+    UShort free;
+    UShort total;
+    UInt32 bits[1];
 };
 
 struct pgfree
@@ -58,43 +58,43 @@ struct pgfree
     struct pgfree *prev;
     void *page;
     void *end;
-    usize size;
+    USize size;
 };
 
 static union
 {
-    uchar uc[16];
+    UChar uc[16];
     long double ld;
 } const zeroblock;
 
-char *alloc0 = (char *)(uintptr)&zeroblock;
+char *alloc0 = (char *)(UIntPtr)&zeroblock;
 
 static struct pginfo **pagedir;
 static struct pgfree freelist;
 static struct pgfree *px; /* Freelist cache */
-static usize lastidx;     /* Last relevant index in page dir */
-static usize mcache = 16; /* freepages to cache */
-static usize minfo;
-static usize morigo;
-static usize mpagemask;
-static usize mpageshift;
-static usize mpagesize;
-static i32 mstt;
+static USize lastidx;     /* Last relevant index in page dir */
+static USize mcache = 16; /* freepages to cache */
+static USize minfo;
+static USize morigo;
+static USize mpagemask;
+static USize mpageshift;
+static USize mpagesize;
+static Int32 mstt;
 static void *cbrk;
 static void *mbrk;
 
-static void *imalloc(usize);
+static void *imalloc(USize);
 static void ifree(void *);
 
-static i32
+static Int32
 _brk(void *p)
 {
-    cbrk = (void *)(uintptr)__syscall(SYS_brk, p);
+    cbrk = (void *)(UIntPtr)__syscall(SYS_brk, p);
     return ((cbrk == (void *)-1) ? -1 : 0);
 }
 
 static void *
-segbrk(uintptr p)
+segbrk(UIntPtr p)
 {
     void *obj;
 
@@ -109,16 +109,16 @@ segbrk(uintptr p)
 }
 
 static void
-freepages(void *p, usize idx, struct pginfo *info)
+freepages(void *p, USize idx, struct pginfo *info)
 {
     struct pgfree *pf, *pt;
-    usize l, i;
+    USize l, i;
     void *t;
 
     if (!(info == MFIRST))
         return;
 
-    if ((uintptr)p & mpagemask)
+    if ((UIntPtr)p & mpagemask)
         return;
 
     pagedir[idx] = MFREE;
@@ -131,7 +131,7 @@ freepages(void *p, usize idx, struct pginfo *info)
     if (!px)
         px = imalloc(sizeof(*px));
     px->page = p;
-    px->end = t = (void *)((uchar *)p + l);
+    px->end = t = (void *)((UChar *)p + l);
     px->size = l;
     pt = nil;
     if (!freelist.next)
@@ -156,7 +156,7 @@ freepages(void *p, usize idx, struct pginfo *info)
         }
         else if (pf->end == p)
         {
-            pf->end = (uchar *)pf->end + l;
+            pf->end = (UChar *)pf->end + l;
             pf->size += l;
             if (pf->next && pf->end == pf->next->page)
             {
@@ -188,7 +188,7 @@ freepages(void *p, usize idx, struct pginfo *info)
     }
     if (!pf->next && pf->size > mcache && pf->end == mbrk && mbrk == segbrk(0))
     {
-        pf->end = (uchar *)pf->page + mcache;
+        pf->end = (UChar *)pf->page + mcache;
         pf->size = mcache;
         _brk(pf->end);
         mbrk = pf->end;
@@ -204,16 +204,16 @@ freepages(void *p, usize idx, struct pginfo *info)
 }
 
 static void
-freebytes(void *p, usize idx, struct pginfo *info)
+freebytes(void *p, USize idx, struct pginfo *info)
 {
     struct pginfo **mp;
-    usize i;
+    USize i;
 
     /* Modified chunk */
-    if ((usize)(uintptr)p & (info->size - 1))
+    if ((USize)(UIntPtr)p & (info->size - 1))
         return;
 
-    i = ((usize)(uintptr)p & mpagemask) >> info->shift;
+    i = ((USize)(UIntPtr)p & mpagemask) >> info->shift;
     // Already free, ignore it
     if (info->bits[i / MBITS] & (1UL << (i % MBITS)))
         return;
@@ -247,7 +247,7 @@ static void
 ifree(void *p)
 {
     struct pginfo *i;
-    usize idx;
+    USize idx;
 
     if (!p)
         return;
@@ -264,13 +264,13 @@ ifree(void *p)
         freepages(p, idx, i);
 }
 
-static i32
-extendpgdir(usize idx)
+static Int32
+extendpgdir(USize idx)
 {
     struct pginfo **p, **o;
-    usize nl, ol;
+    USize nl, ol;
 
-    if ((((~(1UL << ((sizeof(usize) * 8) - 1)) / sizeof(*pagedir)) + 1) + (mpagesize / sizeof(*pagedir))) < idx)
+    if ((((~(1UL << ((sizeof(USize) * 8) - 1)) / sizeof(*pagedir)) + 1) + (mpagesize / sizeof(*pagedir))) < idx)
     {
         errno = C_ENOMEM;
         return 0;
@@ -291,13 +291,13 @@ extendpgdir(usize idx)
 }
 
 static void *
-mappages(usize pages)
+mappages(USize pages)
 {
-    intptr bytes;
+    IntPtr bytes;
     void *r, *rr, *t;
 
     bytes = pages << mpageshift;
-    if (bytes < 0 || bytes < (intptr)pages)
+    if (bytes < 0 || bytes < (IntPtr)pages)
     {
         errno = C_ENOMEM;
         return nil;
@@ -305,16 +305,16 @@ mappages(usize pages)
 
     if ((r = segbrk(bytes)) == (void *)-1)
         return nil;
-    if ((rr = (void *)pageround((usize)(uintptr)r)) > r)
+    if ((rr = (void *)pageround((USize)(UIntPtr)r)) > r)
     {
-        if (segbrk((uchar *)rr - (uchar *)r) == (void *)-1 && _brk(r))
+        if (segbrk((UChar *)rr - (UChar *)r) == (void *)-1 && _brk(r))
         {
             EMSG("brk(2) failed [internal error]\n");
             c_kernel_abort();
         }
     }
 
-    t = (uchar *)rr + bytes;
+    t = (UChar *)rr + bytes;
     lastidx = ptr2idx(t) - 1;
     mbrk = t;
     if ((lastidx + 1) >= minfo && !extendpgdir(lastidx))
@@ -331,10 +331,10 @@ mappages(usize pages)
 }
 
 static void *
-allocpages(usize n)
+allocpages(USize n)
 {
     struct pgfree *pf;
-    usize i, idx;
+    USize i, idx;
     void *p, *df;
 
     if ((idx = pageround(n)) < n)
@@ -360,7 +360,7 @@ allocpages(usize n)
             break;
         }
         p = pf->page;
-        pf->page = (uchar *)pf->page + n;
+        pf->page = (UChar *)pf->page + n;
         pf->size -= n;
         break;
     }
@@ -386,12 +386,12 @@ allocpages(usize n)
     return p;
 }
 
-static i32
-allocchunks(i32 bits)
+static Int32
+allocchunks(Int32 bits)
 {
     struct pginfo *bp;
     long l;
-    i32 i, k;
+    Int32 i, k;
     void *pp;
 
     if (!(pp = allocpages(mpagesize)))
@@ -442,13 +442,13 @@ allocchunks(i32 bits)
 }
 
 static void *
-allocbytes(usize n)
+allocbytes(USize n)
 {
     struct pginfo *bp;
-    usize i, k;
-    i32 j;
-    u32 *lp;
-    u32 u;
+    USize i, k;
+    Int32 j;
+    UInt32 *lp;
+    UInt32 u;
 
     if (n < mminsize)
         n = mminsize;
@@ -476,13 +476,13 @@ allocbytes(usize n)
     *lp ^= u;
     k += (lp - bp->bits) * MBITS;
     k <<= bp->shift;
-    return (uchar *)bp->page + k;
+    return (UChar *)bp->page + k;
 }
 
 static void *
-imalloc(usize n)
+imalloc(USize n)
 {
-    if ((n + mpagesize) < n || (n + mpagesize) >= (uintptr)pagedir)
+    if ((n + mpagesize) < n || (n + mpagesize) >= (UIntPtr)pagedir)
         return nil;
     if (n <= mmaxsize)
         return allocbytes(n);
@@ -490,10 +490,10 @@ imalloc(usize n)
 }
 
 static void *
-irealloc(void *p, usize n)
+irealloc(void *p, USize n)
 {
     struct pginfo **mp;
-    usize i, o, idx;
+    USize i, o, idx;
     void *np;
 
     idx = ptr2idx(p);
@@ -504,7 +504,7 @@ irealloc(void *p, usize n)
     if (*(mp = &pagedir[idx]) == MFIRST)
     {
         /* modified (page-) pointer */
-        if ((usize)(uintptr)p & mpagemask)
+        if ((USize)(UIntPtr)p & mpagemask)
             return nil;
         for (o = mpagesize; *mp++ == MFOLLOW; o += mpagesize)
             ;
@@ -514,10 +514,10 @@ irealloc(void *p, usize n)
     else if (*mp >= MMAGIC)
     {
         /* modified (chunk-) pointer */
-        if ((usize)(uintptr)p & ((*mp)->size - 1))
+        if ((USize)(UIntPtr)p & ((*mp)->size - 1))
             return nil;
 
-        i = ((usize)(uintptr)p & mpagemask) >> (*mp)->shift;
+        i = ((USize)(UIntPtr)p & mpagemask) >> (*mp)->shift;
         /* Chunk is already free */
         if ((*mp)->bits[i / MBITS] & (1UL << (i % MBITS)))
             return nil;
@@ -555,16 +555,16 @@ minit(void)
     }
     minfo = mpagesize / sizeof(*pagedir);
     mcache <<= mpageshift;
-    morigo = pageround((usize)(uintptr)segbrk(0)) >> mpageshift;
+    morigo = pageround((USize)(UIntPtr)segbrk(0)) >> mpageshift;
     morigo -= mpageshift;
     px = imalloc(sizeof(*px));
 }
 
 void *
-pubrealloc(void *p, usize m, usize n)
+pubrealloc(void *p, USize m, USize n)
 {
     void *r;    
-    if (C_OFLW_UM(usize, m, n))
+    if (C_OFLW_UM(USize, m, n))
     {
         errno = C_EOVERFLOW;
         return nil;

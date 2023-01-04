@@ -40,32 +40,16 @@ TYPEDEF _Addr               IntPtr;
 TYPEDEF unsigned _Addr      USize;
 TYPEDEF _Addr               Size;
 
-TYPEDEF unsigned _Addr      uintptr;
-TYPEDEF _Addr               intptr;
-TYPEDEF unsigned _Addr      usize;
-TYPEDEF _Addr               size;
-
 TYPEDEF signed char         Int8;
 TYPEDEF signed short        Int16;
 TYPEDEF signed int          Int32;
 TYPEDEF signed _Int64       Int64;
-
-TYPEDEF signed char         i8;
-TYPEDEF signed short        i16;
-TYPEDEF signed int          i32;
-TYPEDEF signed _Int64       i64;
 
 TYPEDEF unsigned char       UInt8;
 TYPEDEF unsigned short      UInt16;
 TYPEDEF unsigned int        UInt32;
 TYPEDEF unsigned _Int64     UInt64;
 TYPEDEF _Int64              UIntMax;
-
-TYPEDEF unsigned char       u8;
-TYPEDEF unsigned short      u16;
-TYPEDEF unsigned int        u32;
-TYPEDEF unsigned _Int64     u64;
-TYPEDEF _Int64              umax;
 
 TYPEDEF signed char         SByte;
 TYPEDEF unsigned char       Byte;
@@ -76,25 +60,14 @@ TYPEDEF unsigned long           ULong;
 TYPEDEF long long               VLong;
 TYPEDEF unsigned long long      UVLong;
 
-TYPEDEF unsigned short          ushort;
-TYPEDEF unsigned char           uchar;
-TYPEDEF unsigned long           ulong;
-TYPEDEF long long               vlong;
-TYPEDEF unsigned long long      uvlong;
-
 TYPEDEF int                     FileDescriptor;
 TYPEDEF int                     FSSize;
 TYPEDEF unsigned                Rune;
 TYPEDEF int                     Error;
 
-TYPEDEF int                     ctype_fd;
-TYPEDEF int                     ctype_fssize;
-TYPEDEF unsigned                ctype_rune;
 TYPEDEF int                     ctype_error;
 
 TYPEDEF __builtin_va_list       VaList;
 
 TYPEDEF void*                   UniversalType;
 TYPEDEF void                    Void;
-
-TYPEDEF __builtin_va_list       va_list;

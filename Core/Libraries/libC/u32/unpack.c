@@ -1,16 +1,16 @@
 #include <covenant/std.h>
 
-u32
+UInt32
 c_u32_unpack(char *s)
 {
-    u32 r;
+    UInt32 r;
     
-	r = (uchar)s[3];
+	r = (UChar)s[3];
 	r <<= 8;
-	r += (uchar)s[2];
+	r += (UChar)s[2];
 	r <<= 8;
-	r += (uchar)s[1];
+	r += (UChar)s[1];
 	r <<= 8;
-	r += (uchar)s[0];
+	r += (UChar)s[0];
 	return r;
 }

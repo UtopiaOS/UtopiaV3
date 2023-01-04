@@ -3,9 +3,9 @@
 #define BLK(x) C_MIN(C_BIOSIZ, (x))
 
 Status
-c_file_nput(File *fp, char *s, usize n)
+c_file_nput(File *fp, char *s, USize n)
 {
-    size ret;
+    Size ret;
 
     if (n > c_arr_avail(&fp->data)) {
         if (c_file_flush(fp) < 0)

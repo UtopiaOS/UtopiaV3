@@ -40,10 +40,10 @@ struct fmtverb __fmt_VFmts[] = {
 static Status
 Vchar(Format *p)
 {
-    ctype_rune run;
+    Rune run;
     char buf[8];
 
-    run = va_arg(p->args, ctype_rune);
+    run = va_arg(p->args, Rune);
     c_mem_cpy(buf, sizeof(run), &run);
     return c_fmt_nput(p,buf, c_utf8_chartorune(&run, buf));
 }

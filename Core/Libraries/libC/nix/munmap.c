@@ -5,9 +5,9 @@
 #include <covenant/shared.h>
 
 void
-c_nix_munmap(void *p, usize n)
+c_nix_munmap(void *p, USize n)
 {
-    i32 sverr;
+    Int32 sverr;
 
     sverr = errno;
     c_kernel_munmap(p, n);

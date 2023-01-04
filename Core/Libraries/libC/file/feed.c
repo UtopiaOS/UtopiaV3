@@ -5,7 +5,7 @@
 Size
 c_file_feed(File *fp)
 {
-    size r;
+    Size r;
 
     if (fp->data.capacity)
         return fp->data.capacity;

@@ -30,13 +30,6 @@
 #ifndef __COVENANT_DAT_H__
 #define __COVENANT_DAT_H__
 
-#define __NEED_usize
-#define __NEED_ulong
-#define __NEED_u32
-#define __NEED_i32
-#define __NEED_va_list
-#define __NEED_uchar
-
 #define __NEED_USize
 #define __NEED_Byte
 #define __NEED_UniversalType
@@ -44,17 +37,9 @@
 #define __NEED_ULong
 #define __NEED_FileDescriptor
 #define __NEED_SByte
+#define __NEED_UChar
 #include <covenant/bits/everytype.h>
 #include <covenant/status.h>
-
-typedef struct ctype_arr ctype_arr;
-
-struct ctype_arr {
-    usize size; // a
-    usize length; // n 
-    uchar *members; // p
-};
-
 
 typedef struct Array Array;
 
@@ -84,12 +69,9 @@ enum {
 
 #define c_arr_INIT(a) { sizeof((a)), 0, (a) }
 
-typedef struct ctype_fmt ctype_fmt;
 typedef struct Format Format;
 typedef Status (*FormatOperationFunction)(Format *, char *, USize);
 typedef Status (*FormatFunction)(Format*);
-typedef ctype_status (*ctype_fmtopfn)(ctype_fmt *, char *, usize);
-typedef ctype_status (*ctype_fmtfn)(ctype_fmt *);
 
 /* ioq macros */
 enum {
@@ -108,17 +90,6 @@ enum {
     __IOQ_OALL = 1 << 0,
 };
 
-struct ctype_fmt {
-    va_list args;
-    ctype_fmtopfn fn;
-    usize nfmt;
-    i32 prec;
-    i32 r;
-    i32 width;
-    ulong flags;
-    void *farg;
-};
-
 struct Format {
     VaList args;
     FormatOperationFunction fn;
@@ -131,30 +102,15 @@ struct Format {
 };
 
 
-typedef struct ctype_ioq ctype_ioq;
 typedef struct InOutObject InOutObject;
 
-typedef struct ctype_file ctype_file;
 typedef struct File File;
-
-struct ctype_file {
-    ctype_arr data;
-    ctype_iofn readfn;
-    ctype_iofn writefn;
-    ctype_fd fd;
-};
 
 struct File {
     Array data;
     IOFunction read_fn;
     IOFunction write_fn;
     FileDescriptor fd;
-};
-
-struct ctype_ioq {
-    ctype_arr array; // Data
-    ctype_iofn op;  // Call back function
-    ctype_fd fd; // File descriptor
 };
 
 struct InOutObject {
@@ -168,18 +124,18 @@ typedef struct ctype_hmd ctype_hmd;
 
 struct ctype_hmd {
     void (*init)(ctype_hst *);
-    void (*update)(ctype_hst *, char *, usize);
+    void (*update)(ctype_hst *, char *, USize);
     void (*end)(ctype_hst*, char *);
 };
 
 struct ctype_hst {
     union {
-        u32 x32[16]; // Buffer for 32 bit hashes
-        u32 x64[8]; // Buffer for 64 bit hashes
+        UInt32 x32[16]; // Buffer for 32 bit hashes
+        UInt32 x64[8]; // Buffer for 64 bit hashes
     } st;
-    uchar buf[128]; // Buffer for hashing
-    usize curlen; // Lenght of the cursor
-    usize len; // Lenght of the hash
+    UChar buf[128]; // Buffer for hashing
+    USize curlen; // Lenght of the cursor
+    USize len; // Lenght of the hash
 };
 
 /* Where do I put you? */

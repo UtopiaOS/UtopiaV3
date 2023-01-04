@@ -5,6 +5,6 @@
 
 // TODO: Should we really handle it like this, is the type casting correct
 ctype_status
-c_kernel_close(ctype_fd fd) {
+c_kernel_close(FileDescriptor fd) {
     return (ctype_status)__syscall(SYS_close, fd);
 }
