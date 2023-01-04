@@ -86,6 +86,7 @@ usize c_arr_avail(ctype_arr *);
 usize c_arr_bytes(ctype_arr *);
 ctype_status c_arr_trunc(ctype_arr*, usize, usize);
 void c_arr_init(ctype_arr*, char*, usize);
+Status c_arr_push(Array*. UniversalType, USize, USize);
 
 /* Dynamic */
 ctype_status c_dyn_push(ctype_arr*, void*, usize, usize);
