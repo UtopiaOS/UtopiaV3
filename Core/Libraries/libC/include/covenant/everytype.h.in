@@ -35,7 +35,7 @@
 #define __LITTLE_ENDIAN 1234
 #define __BIG_ENDIAN 3421
 
-TYPEDEF unsigned _Addr      UInPtr;
+TYPEDEF unsigned _Addr      UIntPtr;
 TYPEDEF _Addr               IntPtr;
 TYPEDEF unsigned _Addr      USize;
 TYPEDEF _Addr               Size;
