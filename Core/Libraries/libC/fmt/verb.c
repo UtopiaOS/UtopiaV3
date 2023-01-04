@@ -6,14 +6,14 @@
 #define __getbase(a) \
 ((a) == 'p' || (a | 32) == 'x' ? 16 : ((a) == 'o') ? 8 : ((a) == 'b') ? 2 : 10)
 
-static ctype_status Vchar(ctype_fmt *);
-static ctype_status Verr(ctype_fmt *);
-static ctype_status Vflag(ctype_fmt *);
-static ctype_status Vint(ctype_fmt *);
-static ctype_status Vperc(ctype_fmt *);
-static ctype_status Vstr(ctype_fmt *);
+static Status Vchar(Format *);
+static Status Verr(Format *);
+static Status Vflag(Format *);
+static Status Vint(Format *);
+static Status Vperc(Format *);
+static Status Vstr(Format *);
 
-ctype_arr __fmt_Fmts;
+Array __fmt_Fmts;
 
 struct fmtverb __fmt_VFmts[] = {
     { ' ', Vflag },
@@ -37,8 +37,8 @@ struct fmtverb __fmt_VFmts[] = {
     { 'z', Vflag }, 
 };
 
-static ctype_status
-Vchar(ctype_fmt *p)
+static Status
+Vchar(Format *p)
 {
     ctype_rune run;
     char buf[8];
@@ -48,12 +48,14 @@ Vchar(ctype_fmt *p)
     return c_fmt_nput(p,buf, c_utf8_chartorune(&run, buf));
 }
 
-static ctype_status
-Verr(ctype_fmt *p)
+static Status
+Verr(Format *p)
 {
+    // TODO: Make it part of status?
     ctype_error errnum;
     char buf[C_ERRSIZ];
 
+    // TODO: We might to make "error" part of status
     if ((errnum = va_arg(p->args, ctype_error)) == C_ECSTM)
         c_std_errstr(buf, sizeof(buf));
     else
@@ -62,8 +64,8 @@ Verr(ctype_fmt *p)
     return c_fmt_put(p, buf);
 }
 
-static ctype_status
-Vflag(ctype_fmt *p)
+static Status
+Vflag(Format *p)
 {
     switch(p->r) {
         case ',':
@@ -96,32 +98,32 @@ Vflag(ctype_fmt *p)
             break;
         case 'z':
             p->flags |= C_FMTLONG;
-            if (sizeof(uintptr) == sizeof(uvlong))
+            if (sizeof(UIntPtr) == sizeof(UVLong))
                 p->flags |= C_FMTVLONG;
             break;
     }
-    return 1;
+    return StatusOk;
 }
 
-static ctype_status
-Vint(ctype_fmt *p)
+static Status
+Vint(Format *p)
 {
-    uvlong l;
-    i32 b, d, i, j, u, neg;
+    UVLong l;
+    Int32 b, d, i, j, u, neg;
     char buf[64];
     
     u = p->flags & C_FMTUNSIGNED;
     neg = 0;
 
 	if (p->flags & C_FMTVLONG) {
-		l = va_arg(p->args, uvlong);
-		if (!u && (vlong)l < 0) l = (++neg, -(vlong)l);
+		l = va_arg(p->args, UVLong);
+		if (!u && (VLong)l < 0) l = (++neg, -(VLong)l);
 	} else if (p->flags & C_FMTLONG) {
-		l = va_arg(p->args, ulong);
+		l = va_arg(p->args, ULong);
 		if (!u && (long)l < 0) l = (++neg, -(long)l);
 	} else {
-		l = va_arg(p->args, u32);
-		if (!u && (i32)l < 0) l = (++neg, -(i32)l);
+		l = va_arg(p->args, UInt32);
+		if (!u && (Int32)l < 0) l = (++neg, -(Int32)l);
  	}
 
 
@@ -168,15 +170,15 @@ Vint(ctype_fmt *p)
     return c_fmt_nput(p, buf + i, sizeof(buf) - (i + 1));
 }
 
-static ctype_status
-Vperc(ctype_fmt *p)
+static Status
+Vperc(Format *p)
 {
     p->prec = 1;
     return c_fmt_nput(p, "%", 1);
 }
 
-static ctype_status
-Vstr(ctype_fmt *p)
+static Status
+Vstr(Format *p)
 {
     char *s;
 

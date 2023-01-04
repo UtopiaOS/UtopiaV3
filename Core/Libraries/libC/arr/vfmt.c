@@ -1,14 +1,14 @@
 #include <covenant/std.h>
 
-static ctype_status
-put(ctype_fmt *p, char *s, usize n) {
-    return c_arr_push(p->farg, s, n, sizeof(uchar));
+static Status
+put(Format *format, char *s, USize n) {
+    return c_arr_push(format->farg, s, n, sizeof(Byte));
 }
 
 size
-c_arr_vfmt(ctype_arr *p, char *fmt, va_list args) {
-    ctype_fmt f;
-    c_fmt_init(&f, p, put);
+c_arr_vfmt(Array *array, char *fmt, VaList args) {
+    Format f;
+    c_fmt_init(&f, array, put);
 
     va_copy(f.args, args);
     return c_fmt_fmt(&f, fmt);

@@ -5,18 +5,18 @@
 
 #include "impl.h"
 
-static i32
-cmp(void *a, void *b)
+static Int32
+cmp(UniversalType a, UniversalType b)
 {
-    return *(uchar *)a - ((struct fmtverb *)b)->c;
+    return *(Byte *)a - ((struct fmtverb *)b)->c;
 }
 
-static ctype_status
-fmtfmt(ctype_fmt *fmt, uchar *str)
+static Status
+fmtfmt(Format *fmt, Byte *str)
 {
     struct fmtverb *p;
-    ctype_arr *ap;
-    uchar *sp;
+    Array *ap;
+    Byte *sp;
 
     ap = &__fmt_Fmts;
     fmt->r = *str;
@@ -24,22 +24,22 @@ fmtfmt(ctype_fmt *fmt, uchar *str)
         return (p->fn)(fmt);
     }
 
-    sp = (void*)(uintptr)__fmt_VFmts;
+    sp = (UniversalType)(UIntPtr)__fmt_VFmts;
     if ((p = c_std_bsearch(str, sp, VFMTLEN, sizeof(*p), &cmp))) {
         if (!c_fmt_install(p->c, p->fn))
             return (p->fn)(fmt);
     }
 
     errno = C_EINVAL;
-    return -1;
+    return StatusErr;
 }
 
-static size
-fmtflag(ctype_fmt *f, uchar *s)
+static Size
+fmtflag(Format *f, Byte *s)
 {
-    ctype_status ret;
-    size nmft;
-    i32 i;
+    Status ret;
+    Size nmft;
+    Int32 i;
 
     f->flags = 0;
     f->width = 0;
@@ -107,15 +107,15 @@ fmtflag(ctype_fmt *f, uchar *s)
     }
 }
 
-size
-c_fmt_fmt(ctype_fmt *p, char *fmt)
+Size
+c_fmt_fmt(Format *p, char *fmt)
 {
-    size n;
-    usize nfmt;
-    i32 ch;
-    uchar *s;
+    Size n;
+    USize nfmt;
+    Int32 ch;
+    Byte *s;
 
-    s = (uchar *)fmt;
+    s = (Byte *)fmt;
     nfmt = p->nfmt;
     while (*s) {
         n = 0;

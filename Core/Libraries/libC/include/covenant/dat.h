@@ -84,6 +84,8 @@ enum {
 
 typedef struct ctype_fmt ctype_fmt;
 typedef struct Format Format;
+typedef Status (*FormatOperationFunction)(Format *, char *, USize);
+typedef Status (*FormatFunction)(Format*);
 typedef ctype_status (*ctype_fmtopfn)(ctype_fmt *, char *, usize);
 typedef ctype_status (*ctype_fmtfn)(ctype_fmt *);
 
@@ -117,7 +119,7 @@ struct ctype_fmt {
 
 struct Format {
     VaList args;
-    ctype_fmtopfn fn;
+    FormatOperationFunction fn;
     USize nfmt;
     Int32 prec;
     Int32 r;

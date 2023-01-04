@@ -31,9 +31,9 @@
 
 struct fmtverb {
     Rune c;
-    Status (*fn)(FormatFunction *);
+    Status (*fn)(Format *);
 };
 
 extern Array __fmt_Fmts;
 extern struct fmtverb __fmt_VFmts[];
-extern Status __fmt_trycat(FormatFunction *, char *, USize);
+extern Status __fmt_trycat(Format *, char *, USize);
