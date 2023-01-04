@@ -90,10 +90,10 @@ Status c_arr_push(Array*, UniversalType, USize, USize);
 Status c_arr_ready(Array*, USize, USize);
 
 /* Dynamic */
-ctype_status c_dyn_push(ctype_arr*, void*, usize, usize);
-ctype_status c_dyn_ready(ctype_arr*, usize, usize);
-void* c_dyn_alloc(ctype_arr*, usize, usize);
-ctype_status c_dyn_insert(ctype_arr*, usize, void *, usize, usize);
+Status c_dyn_push(Array*, UniversalType, USize, USize);
+Status c_dyn_ready(Array*, USize, USize);
+UniversalType c_dyn_alloc(Array*, USize, USize);
+Status c_dyn_insert(Array*, USize, UniversalType, USize, USize);
 
 /* Operations on memory */
 void *c_mem_cpy(void*, usize, void*);

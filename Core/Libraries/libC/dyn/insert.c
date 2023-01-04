@@ -3,15 +3,15 @@
 #include <covenant/std.h>
 
 Status
-c_dyn_insert(ctype_arr *p, usize pos, void *v, usize m, usize n)
+c_dyn_insert(Array *array, USize pos, UniversalType v, USize m, USize n)
 {
-    usize len;
-    uchar *target;
+    USize len;
+    Byte *target;
 
-    if (c_dyn_ready(p, m, n) < 0)
+    if (c_dyn_ready(array, m, n) < 0)
         return StatusErr;
-    len = c_arr_bytes(p);
-    if (!(target = c_dyn_alloc(p, pos, n)))
+    len = c_arr_bytes(array);
+    if (!(target = c_dyn_alloc(array, pos, n)))
         return StatusErr;
 
     if (pos)
@@ -20,13 +20,13 @@ c_dyn_insert(ctype_arr *p, usize pos, void *v, usize m, usize n)
     if (len > (pos + n))
     {
         c_mem_cpy(target + m, len - pos, target);
-        p->length += m;
+        array->capacity += m;
     }
     else
     {
-        p->length += m - n;
+        array->capacity += m - n;
     }
     c_mem_cpy(target, m, v);
-    p->members[p->length] = 0;
+    array->members[array->capacity] = 0;
     return StatusOk;
 }

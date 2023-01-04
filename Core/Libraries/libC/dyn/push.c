@@ -3,7 +3,7 @@
 #include <covenant/std.h>
 
 Status
-c_dyn_push(ctype_arr *array, void *mem_area, usize obj_num, usize byte_size)
+c_dyn_push(Array *array, UniversalType mem_area, USize obj_num, USize byte_size)
 {
     if (!obj_num)
         return StatusOk;
@@ -12,8 +12,8 @@ c_dyn_push(ctype_arr *array, void *mem_area, usize obj_num, usize byte_size)
         return StatusErr;
     
     obj_num *= byte_size;
-    c_mem_cpy(array->members + array->length, obj_num, mem_area);
-    array->length += obj_num;
-    array->members[array->length] = 0;
+    c_mem_cpy(array->members + array->capacity, obj_num, mem_area);
+    array->capacity += obj_num;
+    array->members[array->capacity] = 0;
     return StatusOk;
 }
