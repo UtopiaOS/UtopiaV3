@@ -30,10 +30,10 @@
 #define VFMTLEN 20
 
 struct fmtverb {
-    ctype_rune c;
-    ctype_status (*fn)(ctype_fmt *);
+    Rune c;
+    Status (*fn)(FormatFunction *);
 };
 
-extern ctype_arr __fmt_Fmts;
+extern Array __fmt_Fmts;
 extern struct fmtverb __fmt_VFmts[];
-extern ctype_status __fmt_trycat(ctype_fmt *, char *, usize);
+extern Status __fmt_trycat(FormatFunction *, char *, USize);

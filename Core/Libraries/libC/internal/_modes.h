@@ -3,5 +3,5 @@
 #include <covenant/bits/everytype.h>
 #include <covenant/nix.h>
 
-i32 __covenant_filestrtomode(const char*);
+Int32 __covenant_filestrtomode(const char*);
 

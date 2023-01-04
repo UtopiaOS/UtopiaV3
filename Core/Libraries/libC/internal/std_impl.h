@@ -1,2 +1,2 @@
-extern void *pubrealloc(void *, usize, usize);
-extern ctype_allocfn __allocator;
+extern UniversalType pubrealloc(UniversalType, USize, USize);
+extern AllocationFunction __allocator;
