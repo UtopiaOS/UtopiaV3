@@ -118,12 +118,12 @@ i32 c_utf8_charntorune(ctype_rune*, char*, usize);
 i32 c_utf8_chartorune(ctype_rune*, char*);
 
 /* ioq */
-ctype_status c_ioq_flush(ctype_ioq *);
-ctype_status c_ioq_nput(ctype_ioq *, char*, usize);
-size c_ioq_vfmt(ctype_ioq *, char*, va_list);
-size c_ioq_fmt(ctype_ioq *, char *, ...);
-size c_ioq_feed(ctype_ioq *);
-size c_ioq_get(ctype_ioq *, char *, usize);
+Status c_ioq_flush(InOutObject *);
+Status c_ioq_nput(InOutObject *, char*, USize);
+Size c_ioq_vfmt(InOutObject *, char*, VaList);
+Size c_ioq_fmt(InOutObject *, char *, ...);
+Size c_ioq_feed(InOutObject *);
+Size c_ioq_get(InOutObject *, char *, USize);
 
 /* str */
 usize c_str_len(char*, usize);

@@ -1,5 +1,5 @@
 #include <covenant/std.h>
 
-static uchar buf[C_BIOSIZ];
-static ctype_ioq ioq = c_ioq_INIT(1, buf, &c_kernel_fdwrite);
-ctype_ioq *ioq1 = &ioq;
+static Byte buf[C_BIOSIZ];
+static InOutObject ioq = c_ioq_INIT(1, buf, &c_kernel_fdwrite);
+InOutObject *ioq1 = &ioq;

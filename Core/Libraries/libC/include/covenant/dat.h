@@ -42,6 +42,7 @@
 #define __NEED_UniversalType
 #define __NEED_VaList
 #define __NEED_ULong
+#define __NEED_FileDescriptor
 #include <covenant/bits/everytype.h>
 #include <covenant/status.h>
 
@@ -130,6 +131,7 @@ struct Format {
 
 
 typedef struct ctype_ioq ctype_ioq;
+typedef struct InOutObject InOutObject;
 
 typedef struct ctype_file ctype_file;
 
@@ -146,6 +148,11 @@ struct ctype_ioq {
     ctype_fd fd; // File descriptor
 };
 
+struct InOutObject {
+    Array array;
+    IOFunction op;
+    FileDescriptor fd;
+};
 
 typedef struct ctype_hst ctype_hst;
 typedef struct ctype_hmd ctype_hmd;
@@ -177,9 +184,9 @@ struct ctype_hst {
 #define C_NELEM(a)  (sizeof((a))/sizeof((a)[0]))
 
 /* ioq variables */
-extern ctype_ioq *ioq0;
-extern ctype_ioq *ioq1;
-extern ctype_ioq *ioq2;
+extern InOutObject *ioq0;
+extern InOutObject *ioq1;
+extern InOutObject *ioq2;
 
 /* Non standard errors
  * TODO: Where should these go */

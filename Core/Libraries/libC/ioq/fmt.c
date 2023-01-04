@@ -1,10 +1,10 @@
 #include <covenant/std.h>
 
-size
-c_ioq_fmt(ctype_ioq *p, char *fmt, ...)
+Size
+c_ioq_fmt(InOutObject *p, char *fmt, ...)
 {
-    va_list ap;
-    size n;
+    VaList ap;
+    Size n;
 
     va_start(ap, fmt);
     n = c_ioq_vfmt(p, fmt, ap);
