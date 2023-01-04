@@ -61,20 +61,20 @@
 #define nil ((void *)0)
 
 /* Default functions in the std */
-void *c_std_bsearch(void *, void *, usize, usize, ctype_cmpfn);
-void *c_std_nbsearch(void*, void*, usize, usize, ctype_cmpfn);
-void *c_std_realloc(void*, usize, usize);
-void *c_std_alloc(usize, usize);
-void *c_std_malloc(usize);
-void c_std_setalloc(ctype_allocfn);
-void c_std_exit(i32);
+UniversalType c_std_bsearch(UniversalType, UniversalType, USize, USize, CompareFunction);
+UniversalType c_std_nbsearch(UniversalType, UniversalType, USize, USize, CompareFunction);
+UniversalType c_std_realloc(UniversalType, USize, USize);
+UniversalType c_std_alloc(USize, USize);
+UniversalType c_std_malloc(USize);
+Void c_std_setalloc(AllocationFunction);
+Void c_std_exit(Int32);
 char *c_std_getsyserr(void);
-char *c_std_strerror(i32, char*, usize);
-void c_std_errstr(char *, usize);
-void *c_std_free_(void *);
+char *c_std_strerror(Int32, char*, usize);
+Void c_std_errstr(char *, USize);
+UniversalType c_std_free_(UniversalType);
 
 // TODO: Should this stay as a macro?
-#define c_std_offsetof(a, b) (ulong)(&(((a *)0)->b))
+#define c_std_offsetof(a, b) (ULong)(&(((a *)0)->b))
 
 // TODO: Stay as a macro?
 #define c_std_free(a) a = c_std_free_((a))

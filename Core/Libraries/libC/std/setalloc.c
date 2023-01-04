@@ -5,7 +5,7 @@
 ctype_allocfn __allocator = pubrealloc;
 
 void
-c_std_setalloc(ctype_allocfn f)
+c_std_setalloc(AllocationFunction f)
 {
     __allocator = f ? f : pubrealloc;
 }

@@ -30,13 +30,13 @@
 
 #include <covenant/std.h>
 
-void *
-c_std_bsearch(void *k, void *buf, usize m, usize n, ctype_cmpfn cmp)
+UniversalType
+c_std_bsearch(UniversalType k, UniversalType buf, USize m, USize n, CompareFunction cmp)
 {
-    i32 r;
-    uchar *p, *s;
+    Int32 r;
+    Byte *p, *s;
 
-    s = (uchar *)buf;
+    s = (Byte *)buf;
     while (m) {
         p = s + (m >> 1) * n;
         if (!(r = cmp(k,p))) {

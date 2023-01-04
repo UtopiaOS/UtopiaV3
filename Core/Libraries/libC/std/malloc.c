@@ -1,6 +1,6 @@
 #include <covenant/std.h>
 
-void *c_std_malloc(usize m)
+UniversalType c_std_malloc(USize m)
 {
-    return c_std_alloc(m, sizeof(uchar));
+    return c_std_alloc(m, sizeof(Byte));
 }

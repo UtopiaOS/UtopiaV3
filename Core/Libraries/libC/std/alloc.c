@@ -4,8 +4,8 @@
 
 #include "std_impl.h"
 
-void *
-c_std_alloc(usize m, usize n)
+UniversalType
+c_std_alloc(USize m, USize n)
 {
     return __allocator(nil, m, n);
 }
