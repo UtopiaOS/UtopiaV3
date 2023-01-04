@@ -3,21 +3,21 @@
 
 
 #include <covenant/fn.h>
-#define __NEED_u64
-#define __NEED_i32
-#define __NEED_size
-#define __NEED_uchar
+#define __NEED_UInt64
+#define __NEED_Int32
+#define __NEED_Size
+#define __NEED_UChar
 #include <covenant/bits/everytype.h>
 
-typedef struct ctype_hmap ctype_hmap;
+typedef struct HashMap HashMap;
 
-struct ctype_hmap {
+struct HashMap {
     Size obj_size;
     Size cap;
     Int64 seed_zero;
     Int64 seed_one;
-    ctype_hashfn hash;
-    ctype_cmpfn cmp;
+    HashFunction hash;
+    CompareFunction cmp;
     void (*obj_free)(void *item);
     void *data;
     Size bucket_size;
@@ -31,9 +31,9 @@ struct ctype_hmap {
     void *obj_data;
 };
 
-typedef struct ctype_hm_bucket ctype_hm_bucket;
+typedef struct HashMapBucket HashMapBucket;
 
-struct ctype_hm_bucket {
+struct HashMapBucket {
     Int64 hash;
     Int64 dib;
 };

@@ -4,11 +4,11 @@
 // TODO: Implement variadic function for seed
 // TODO: We might have to redo some of these parameters...
 Status
-c_hm_init(ctype_hmap *self, Size obj_size, Size cap, ctype_hashfn hash, ctype_cmpfn cmp, void (*obj_free)(void *item), void *data)
+c_hm_init(HashMap *self, Size obj_size, Size cap, HashFunction hash, CompareFunction cmp, void (*obj_free)(void *item), void *data)
 {
     Int32 ncap;
     Size bucket_size, hm_size;
-    ctype_hm_bucket pbucket;
+    HashMapBucket pbucket;
     ncap = 16;
     if (cap < ncap)
     {
@@ -23,12 +23,12 @@ c_hm_init(ctype_hmap *self, Size obj_size, Size cap, ctype_hashfn hash, ctype_cm
         cap = ncap;
     }
 
-    bucket_size = sizeof(ctype_hm_bucket) + obj_size;
+    bucket_size = sizeof(HashMapBucket) + obj_size;
     while (bucket_size & (sizeof(UIntPtr) - 1))
         bucket_size++;
 
     
-    c_mem_set(self, sizeof(ctype_hmap), 0);
+    c_mem_set(self, sizeof(HashMap), 0);
 
     self->obj_size = obj_size;
     self->bucket_size = bucket_size;
@@ -42,16 +42,16 @@ c_hm_init(ctype_hmap *self, Size obj_size, Size cap, ctype_hashfn hash, ctype_cm
     //! NOTICE THAT WE WANT TO AVOID REPEATING CODE
     self->obj_free = obj_free;
     self->data = data;
-    self->spare = ((char *)self) + sizeof(ctype_hmap);
+    self->spare = ((char *)self) + sizeof(HashFunction);
     self->obj_data = (char *)self->spare + bucket_size;
     self->cap = cap;
     self->nbuckets = cap;
     self->mask = self->nbuckets - 1;
     self->buckets = c_std_malloc(self->bucket_size * self->nbuckets);
     if (!self->buckets)
-        return ctype_status_err;
+        return StatusOk;
     c_mem_set(self->buckets, self->bucket_size * self->nbuckets, 0);
     self->grow_at = self->nbuckets * 0.75;
     self->shrink_at = self->nbuckets * 0.10;
-    return ctype_status_ok;
+    return StatusOk;
 }

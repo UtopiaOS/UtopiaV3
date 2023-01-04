@@ -10,7 +10,7 @@
 const char EXECUTABLE_PATH[]="executable_path=";
 #define LIBMDLK_PATH "/Core/Support/libmdlk.dylib"
 
-static ctype_hmap images;
+static HashMap images;
 
 Int64 mdlk_basic_image_hash(const void *key, Int64 seed_one, Int64 seed_two)
 {
@@ -39,7 +39,7 @@ char* mdlk_get_executable_path(const char** utopia_pointers)
 }
 
 static Status mdlk_load_image_internal(const char* path, size path_len, mdtype_mdlk_image** out_image) {
-    Status status = ctype_status_ok;
+    Status status = StatusOk;
     matype_macho_header header = {0};
     mdtype_mdlk_image* image = nil;
     ctype_file *file = nil;
@@ -58,15 +58,15 @@ static Status mdlk_load_image_internal(const char* path, size path_len, mdtype_m
     if (!image) {
         image = c_std_malloc(sizeof(mdtype_mdlk_image));
         if (!image) {
-            status = ctype_status_err;
+            status = StatusErr;
             goto out;
         }
         // TODO: If this is always necessary, is better to create a PATH_MAX constant
         image->path = c_std_malloc(sizeof(char) * 4096);
         c_str_cpy(image->path, C_USIZE_MAX, path);
         status = c_hm_insert(&images, image);
-        if (status != ctype_status_ok) {
-            status = ctype_status_err;
+        if (status != StatusOk) {
+            status = StatusErr;
             goto out;
         }
         created = true;
@@ -79,7 +79,7 @@ static Status mdlk_load_image_internal(const char* path, size path_len, mdtype_m
     // we already had the image loaded!
     if (!created) {
         // Sitently ignore the fact we have created it already, just return ok
-        status = ctype_status_ok;
+        status = StatusOk;
         goto out;
     }
 
@@ -99,7 +99,7 @@ static Status mdlk_load_image_internal(const char* path, size path_len, mdtype_m
 
     file = c_file_open(path, "rb");
     if (!file) {
-        status = ctype_status_err;
+        status = StatusErr;
         goto out;
     }
 
@@ -139,7 +139,7 @@ static Status mdlk_load_image_internal(const char* path, size path_len, mdtype_m
     image->total_size = (Int64)(file_load_top - image->file_load_base);
 
 
-    return ctype_status_ok;
+    return StatusOk;
 out:
     return status;
 }
@@ -151,11 +151,11 @@ Status mdlk_images_init(mdtype_mdlk_image **out_image, char* path)
 
     ret = c_hm_init(&images, sizeof(mdtype_mdlk_image), 4, mdlk_basic_image_hash, mdlk_basic_images_cmp, nil, nil);
 
-    if (ret != ctype_status_ok) {
+    if (ret != StatusOk) {
         c_ioq_fmt(ioq2, "Error!\n");
     }
 
     mdlk_load_image_internal(path, c_str_len(path, C_USIZE_MAX), out_image);
 
-    return ctype_status_ok;
+    return StatusOk;
 }

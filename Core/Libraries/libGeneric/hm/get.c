@@ -6,7 +6,7 @@
 #include "hm_impl.h"
 
 void *
-c_hm_get(ctype_hmap *hm_map, void *key)
+c_hm_get(HashMap *hm_map, void *key)
 {
     Int64 hash;
     Size i;
@@ -17,7 +17,7 @@ c_hm_get(ctype_hmap *hm_map, void *key)
     hash = hm_get_hash(hm_map, key);
     i = hash & hm_map->mask;
     for (;;) {
-        ctype_hm_bucket* bucket;
+        HashMapBucket* bucket;
         bucket = c_hm_bucket_at(hm_map, i);
         if (!bucket->dib) {
             return nil;

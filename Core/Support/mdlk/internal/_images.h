@@ -47,7 +47,7 @@ struct mdlk_image {
     mdtype_mdlk_segment* segments;
     Size segment_count;
 
-    ctype_hmap exports_table;
+    HashMap exports_table;
 
     Size dependency_count;
     mdtype_mdlk_image** dependencies; // Recursivness is a pain....

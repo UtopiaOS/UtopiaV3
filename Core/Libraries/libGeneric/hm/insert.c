@@ -6,9 +6,9 @@
 #include "hm_impl.h"
 
 Status
-c_hm_insert(ctype_hmap *hm_map, void *obj)
+c_hm_insert(HashMap *hm_map, void *obj)
 {
-  ctype_hm_bucket *entry;
+  HashMapBucket *entry;
   Size i;
 
   if (!obj)
@@ -34,7 +34,7 @@ c_hm_insert(ctype_hmap *hm_map, void *obj)
   i = entry->hash & hm_map->mask;
   for (;;)
   {
-    ctype_hm_bucket *bucket;
+    HashMapBucket *bucket;
     bucket = c_hm_bucket_at(hm_map, i);
     if (bucket->dib == 0)
     {
