@@ -119,16 +119,16 @@ struct InOutObject {
     FileDescriptor fd;
 };
 
-typedef struct ctype_hst ctype_hst;
-typedef struct ctype_hmd ctype_hmd;
+typedef struct HST HST;
+typedef struct HMD HMD;
 
-struct ctype_hmd {
-    void (*init)(ctype_hst *);
-    void (*update)(ctype_hst *, char *, USize);
-    void (*end)(ctype_hst*, char *);
+struct HMD {
+    void (*init)(HST *);
+    void (*update)(HST *, char *, USize);
+    void (*end)(HST*, char *);
 };
 
-struct ctype_hst {
+struct HST {
     union {
         UInt32 x32[16]; // Buffer for 32 bit hashes
         UInt32 x64[8]; // Buffer for 64 bit hashes

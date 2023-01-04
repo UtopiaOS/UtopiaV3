@@ -4,20 +4,20 @@
 #define C1 0xCC9E2D51
 #define C2 0x1B873593
 
-static void init(ctype_hst *);
-static void update(ctype_hst *, char *, USize);
-static void end(ctype_hst *, char *);
+static void init(HST *);
+static void update(HST *, char *, USize);
+static void end(HST *, char *);
 
-static ctype_hmd md = {
+static HMD md = {
     &init,
     &update,
     &end,
 };
 
-ctype_hmd *c_hsh_murmur32 = &md;
+HMD *c_hsh_murmur32 = &md;
 
 static void
-init(ctype_hst *p)
+init(HST *p)
 {
     p->curlen = 0;
     p->len = 0;
@@ -25,7 +25,7 @@ init(ctype_hst *p)
 }
 
 static void
-compress(ctype_hst *p, char *data)
+compress(HST *p, char *data)
 {
     UInt32 k;
     k = c_u32_unpack(data);
@@ -38,13 +38,13 @@ compress(ctype_hst *p, char *data)
 }
 
 static void
-update(ctype_hst *p, char *data, USize n)
+update(HST *p, char *data, USize n)
 {
     c_hsh_update(compress, 4, p, data, n);
 }
 
 static void
-end(ctype_hst *p, char *s)
+end(HST *p, char *s)
 {
     UInt32 k;
 

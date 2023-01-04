@@ -46,13 +46,9 @@ typedef Int32 (*CompareFunction)(UniversalType, UniversalType);
 typedef UniversalType (*AllocationFunction)(UniversalType, USize, USize);
 typedef Size (*IOFunction)(Int32, UniversalType, USize);
 
-typedef Int32 (*ctype_cmpfn)(void *, void *);
-typedef void *(*ctype_allocfn)(void *, USize, USize);
-
 #define va_arg(a, b) __builtin_va_arg(a, b)
 #define va_copy(a, b) __builtin_va_copy(a, b)
 #define va_start(a, b) __builtin_va_start(a, b)
 #define va_end(a)   __builtin_va_end(a)
 
 typedef UInt64 (*HashFunction)(const UniversalType, UInt64, UInt64);
-typedef Int64 (*ctype_hashfn)(const void *, Int64, Int64);

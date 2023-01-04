@@ -49,7 +49,7 @@ Size c_kernel_write(FileDescriptor, UniversalType, USize);
 /* Write to a file descriptor */
 Size c_kernel_fdwrite(FileDescriptor, UniversalType, USize);
 
-ctype_status c_kernel_munmap(UniversalType, Size);
+Status c_kernel_munmap(UniversalType, Size);
 
 
 Int32 c_kernel_open3(char*, Int32, UInt32);

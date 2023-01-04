@@ -3,7 +3,7 @@
 
 // TODO: Implement variadic function for seed
 // TODO: We might have to redo some of these parameters...
-ctype_status
+Status
 c_hm_init(ctype_hmap *self, Size obj_size, Size cap, ctype_hashfn hash, ctype_cmpfn cmp, void (*obj_free)(void *item), void *data)
 {
     Int32 ncap;

@@ -5,7 +5,7 @@
 #include <covenant/errcode.h>
 #include "hm_impl.h"
 
-ctype_status
+Status
 c_hm_insert(ctype_hmap *hm_map, void *obj)
 {
   ctype_hm_bucket *entry;

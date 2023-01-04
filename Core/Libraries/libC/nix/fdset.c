@@ -2,7 +2,7 @@
 #include <covenant/kernel/basic.h>
 #include <covenant/status.h>
 
-ctype_status
+Status
 c_nix_fdset(FileDescriptor fd, Int32 flags)
 {
     Int32 opts;

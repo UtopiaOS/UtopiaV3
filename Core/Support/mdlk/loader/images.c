@@ -15,8 +15,8 @@ static ctype_hmap images;
 Int64 mdlk_basic_image_hash(const void *key, Int64 seed_one, Int64 seed_two)
 {
     const mdtype_mdlk_image *image = key;
-    ctype_hst hs;
-    ctype_hmd *md;
+    HST hs;
+    HMD *md;
     char out[16];
     md = c_hsh_murmur32;
     md->init(&hs);
@@ -38,8 +38,8 @@ char* mdlk_get_executable_path(const char** utopia_pointers)
     return utopia_pointers[0] + sizeof(EXECUTABLE_PATH) - 1;
 }
 
-static ctype_status mdlk_load_image_internal(const char* path, size path_len, mdtype_mdlk_image** out_image) {
-    ctype_status status = ctype_status_ok;
+static Status mdlk_load_image_internal(const char* path, size path_len, mdtype_mdlk_image** out_image) {
+    Status status = ctype_status_ok;
     matype_macho_header header = {0};
     mdtype_mdlk_image* image = nil;
     ctype_file *file = nil;
@@ -145,9 +145,9 @@ out:
 }
 
 
-ctype_status mdlk_images_init(mdtype_mdlk_image **out_image, char* path)
+Status mdlk_images_init(mdtype_mdlk_image **out_image, char* path)
 {
-    ctype_status ret;
+    Status ret;
 
     ret = c_hm_init(&images, sizeof(mdtype_mdlk_image), 4, mdlk_basic_image_hash, mdlk_basic_images_cmp, nil, nil);
 

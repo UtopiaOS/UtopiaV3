@@ -7,7 +7,7 @@
 #include <covenant/hsh.h>
 
 void
-c_hsh_update(hfunc f, int b, ctype_hst *p, char *data, USize n)
+c_hsh_update(hfunc f, int b, HST *p, char *data, USize n)
 {
     USize len;
 
