@@ -1,7 +1,7 @@
 #include <covenant/std.h>
 
-usize
-c_hsh_octets(ctype_hst *p)
+USize
+c_hsh_octets(HST *p)
 {
     return p->len >> 3;
 }

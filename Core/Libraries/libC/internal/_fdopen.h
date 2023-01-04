@@ -1,3 +1,3 @@
 #include <covenant/dat.h>
 
-ctype_file *__covenant_open(ctype_fd, const char*);
+File *__covenant_open(FileDescriptor, const char*);

@@ -6,9 +6,9 @@
 #define S(a) (a), sizeof((a))
 
 static struct {
-    i32 error;
+    Int32 error;
     char *err_str;
-    u32 size;
+    UInt32 size;
 } errlist [] = {
     { C_E2BIG, S("Argument list too long") },
     { C_EACCES, S("Permission denied") },
@@ -90,16 +90,16 @@ static struct {
 };
 
 char *
-c_std_strerror(i32 error, char *err_str, usize size)
+c_std_strerror(Int32 error, char *err_str, USize size)
 {
-    i32 i;
+    Int32 i;
 
     *err_str = 0;
     if (!error) {
         return nil;
     }
 
-    for (i = 0; i < (i32)C_NELEM(errlist); i++) {
+    for (i = 0; i < (Int32)C_NELEM(errlist); i++) {
         if (error == errlist[i].error) {
             c_mem_cpy(err_str, C_MIN(size, errlist[i].size), errlist[i].err_str);
             break;

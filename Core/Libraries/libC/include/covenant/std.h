@@ -51,7 +51,15 @@
 #define __NEED_u64
 #define __NEED_vlong
 #define __NEED_umax
-#define __NEED_u8
+#define __NEED_UInt8
+#define __NEED_Rune
+#define __NEED_UIntPtr
+#define __NEED_UVLong
+#define __NEED_UInt32
+#define __NEED_VLong
+#define __NEED_UInt64
+#define __NEED_UShort
+#define __NEED_IntPtr
 #include <covenant/bits/everytype.h>
 #include <covenant/kernel/basic.h>
 #include <covenant/fn.h>
@@ -61,82 +69,84 @@
 #define nil ((void *)0)
 
 /* Default functions in the std */
-void *c_std_bsearch(void *, void *, usize, usize, ctype_cmpfn);
-void *c_std_nbsearch(void*, void*, usize, usize, ctype_cmpfn);
-void *c_std_realloc(void*, usize, usize);
-void *c_std_alloc(usize, usize);
-void *c_std_malloc(usize);
-void c_std_setalloc(ctype_allocfn);
-void c_std_exit(i32);
+UniversalType c_std_bsearch(UniversalType, UniversalType, USize, USize, CompareFunction);
+UniversalType c_std_nbsearch(UniversalType, UniversalType, USize, USize, CompareFunction);
+UniversalType c_std_realloc(UniversalType, USize, USize);
+UniversalType c_std_alloc(USize, USize);
+UniversalType c_std_malloc(USize);
+Void c_std_setalloc(AllocationFunction);
+Void c_std_exit(Int32);
 char *c_std_getsyserr(void);
-char *c_std_strerror(i32, char*, usize);
-void c_std_errstr(char *, usize);
-void *c_std_free_(void *);
+char *c_std_strerror(Int32, char*, USize);
+Void c_std_errstr(char *, USize);
+UniversalType c_std_free_(UniversalType);
 
 // TODO: Should this stay as a macro?
-#define c_std_offsetof(a, b) (ulong)(&(((a *)0)->b))
+#define c_std_offsetof(a, b) (ULong)(&(((a *)0)->b))
 
 // TODO: Stay as a macro?
 #define c_std_free(a) a = c_std_free_((a))
 
 /* Array manipulation */
-void *c_arr_data(ctype_arr *);
-usize c_arr_len(ctype_arr *, usize);
-usize c_arr_avail(ctype_arr *);
-usize c_arr_bytes(ctype_arr *);
-ctype_status c_arr_trunc(ctype_arr*, usize, usize);
-void c_arr_init(ctype_arr*, char*, usize);
+UniversalType c_arr_data(Array*);
+USize c_arr_len(Array*, USize);
+USize c_arr_avail(Array*);
+USize c_arr_bytes(Array *);
+Status c_arr_trunc(Array*, USize, USize);
+Void c_arr_init(Array*, char*, USize);
+Status c_arr_push(Array*, UniversalType, USize, USize);
+Status c_arr_ready(Array*, USize, USize);
 
 /* Dynamic */
-ctype_status c_dyn_cat(ctype_arr*, void*, usize, usize);
-ctype_status c_dyn_ready(ctype_arr*, usize, usize);
-void* c_dyn_alloc(ctype_arr*, usize, usize);
-ctype_status c_dyn_idxcat(ctype_arr*, usize, void *, usize, usize);
+Status c_dyn_push(Array*, UniversalType, USize, USize);
+Status c_dyn_ready(Array*, USize, USize);
+UniversalType c_dyn_alloc(Array*, USize, USize);
+Status c_dyn_insert(Array*, USize, UniversalType, USize, USize);
 
 /* Operations on memory */
-void *c_mem_cpy(void*, usize, void*);
-void *c_mem_chr(void*, size, i32);
-void *c_mem_set(void*, usize, i32);
+void *c_mem_cpy(void*, USize, void*);
+void *c_mem_chr(void*, Size, Int32);
+void *c_mem_set(void*, USize, Int32);
 
 /* fmt */
-ctype_status c_fmt_install(ctype_rune, ctype_fmtfn);
-size c_fmt_fmt(ctype_fmt*, char*);
-void c_fmt_init(ctype_fmt*, void*, ctype_fmtopfn);
-ctype_status c_fmt_nput(ctype_fmt*, char*, usize);
-ctype_status c_fmt_put(ctype_fmt*, char*);
+Status c_fmt_install(Rune, FormatFunction);
+Size c_fmt_fmt(Format*, char*);
+Void c_fmt_init(Format*, UniversalType, FormatOperationFunction);
+Status c_fmt_nput(Format*, char*, USize);
+Status c_fmt_put(Format*, char*);
 
 /* utf8 */
-ctype_status c_utf8_checkrune(ctype_rune);
-i32 c_utf8_charntorune(ctype_rune*, char*, usize);
-i32 c_utf8_chartorune(ctype_rune*, char*);
+Status c_utf8_checkrune(Rune);
+Int32 c_utf8_charntorune(Rune*, char*, USize);
+Int32 c_utf8_chartorune(Rune*, char*);
 
 /* ioq */
-ctype_status c_ioq_flush(ctype_ioq *);
-ctype_status c_ioq_nput(ctype_ioq *, char*, usize);
-size c_ioq_vfmt(ctype_ioq *, char*, va_list);
-size c_ioq_fmt(ctype_ioq *, char *, ...);
-size c_ioq_feed(ctype_ioq *);
-size c_ioq_get(ctype_ioq *, char *, usize);
+Status c_ioq_flush(InOutObject *);
+Status c_ioq_nput(InOutObject *, char*, USize);
+Size c_ioq_vfmt(InOutObject *, char*, VaList);
+Size c_ioq_fmt(InOutObject *, char *, ...);
+Size c_ioq_feed(InOutObject *);
+Size c_ioq_get(InOutObject *, char *, USize);
 
 /* str */
-usize c_str_len(char*, usize);
-i32 c_str_cmp(char*, usize, char*);
-char* c_str_cpy(char*, usize, char*);
-char* c_str_pncpy(char *__restrict, const char *__restrict, size);
-char* c_str_ncpy(char *__restrict, char *__restrict, size);
-char* c_str_chr(char *, usize, i32);
+USize c_str_len(char*, USize);
+Int32 c_str_cmp(char*, USize, char*);
+char* c_str_cpy(char*, USize, char*);
+char* c_str_pncpy(char *__restrict, const char *__restrict, Size);
+char* c_str_ncpy(char *__restrict, char *__restrict, Size);
+char* c_str_chr(char *, USize, Int32);
 
-/* u32 */
-u32 c_u32_unpack(char*);
-char* c_u32_pack(char*, u32);
+/* UInt32 */
+UInt32 c_u32_unpack(char*);
+char* c_u32_pack(char*, UInt32);
 
 /* File I/O */
-ctype_file* c_file_open(const char*, const char*);
-size c_file_feed(ctype_file*);
-size c_file_get(ctype_file*, char*, usize);
-size c_file_read(void *p, size, size, ctype_file*);
-ctype_status c_file_flush(ctype_file*);
-ctype_status c_file_nput(ctype_file*, char*, usize);
-size c_file_write(void *p, size, size, ctype_file*);
-ctype_status c_file_close(ctype_file*);
-void c_file_seek(ctype_file*, usize);
+File* c_file_open(const char*, const char*);
+Size c_file_feed(File*);
+Size c_file_get(File*, char*, USize);
+Size c_file_read(UniversalType p, Size, Size, File*);
+Status c_file_flush(File*);
+Status c_file_nput(File*, char*, USize);
+Size c_file_write(UniversalType p, Size, Size, File*);
+Status c_file_close(File*);
+void c_file_seek(File*, USize);

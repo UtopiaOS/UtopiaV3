@@ -2,8 +2,8 @@
 
 #include <covenant/std.h>
 
-void
-c_fmt_init(ctype_fmt *p, void *farg, ctype_fmtopfn fn)
+Void
+c_fmt_init(Format *p, UniversalType farg, FormatOperationFunction fn)
 {
     p->fn = fn;
     p->farg = farg;

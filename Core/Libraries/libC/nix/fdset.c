@@ -2,10 +2,10 @@
 #include <covenant/kernel/basic.h>
 #include <covenant/status.h>
 
-ctype_status
-c_nix_fdset(ctype_fd fd, i32 flags)
+Status
+c_nix_fdset(FileDescriptor fd, Int32 flags)
 {
-    i32 opts;
+    Int32 opts;
 
     if ((opts = c_kernel_fcntl(fd, C_KERNEL_FGETFD)) == -1)
         return -1;

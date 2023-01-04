@@ -2,16 +2,16 @@
 
 #include <covenant/std.h>
 
-static ctype_status
-put(ctype_fmt *p, char *s, usize n)
+static Status
+put(Format *p, char *s, USize n)
 {
     return c_ioq_nput(p->farg, s, n);
 }
 
-size
-c_ioq_vfmt(ctype_ioq *p, char *fmt, va_list args)
+Size
+c_ioq_vfmt(InOutObject *p, char *fmt, VaList args)
 {
-    ctype_fmt f;
+    Format f;
 
     c_fmt_init(&f, p, put);
     va_copy(f.args, args);

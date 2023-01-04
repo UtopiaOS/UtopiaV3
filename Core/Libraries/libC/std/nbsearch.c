@@ -1,13 +1,13 @@
 #include <covenant/std.h>
 
-void *
-c_std_nbsearch(void *k, void *buf, usize m, usize n, ctype_cmpfn fn)
+UniversalType
+c_std_nbsearch(UniversalType k, UniversalType buf, USize m, USize n, CompareFunction fn)
 {
-    i32 r;
-    uchar *p, *s;
+    Int32 r;
+    Byte *p, *s;
 
     r = 0;
-    p = s = (uchar *)buf;
+    p = s = (Byte *)buf;
 
     while (m) {
         p = s + (m >> 1) *n;

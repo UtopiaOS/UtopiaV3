@@ -4,10 +4,10 @@
 #include <covenant/errcode.h>
 #include <covenant/shared.h>
 
-size 
-c_kernel_fdwrite(ctype_fd fd, void *buf, usize count)
+Size 
+c_kernel_fdwrite(FileDescriptor fd, void *buf, USize count)
 {
-    size res;
+    Size res;
 
     do
     {

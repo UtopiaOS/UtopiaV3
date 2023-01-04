@@ -1,8 +1,8 @@
 
 #include <covenant/std.h>
 
-usize
-c_arr_bytes(ctype_arr *array)
+USize
+c_arr_bytes(Array *array)
 {
-    return array->length;
+    return array->capacity;
 }

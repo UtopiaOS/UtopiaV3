@@ -9,13 +9,13 @@
 UTOPIA_PACKED_STRUCT(relocations_info, md)
 {
     void *rebase_instructions;
-    size rebase_instructions_size;
+    Size rebase_instructions_size;
 
     void *bind_instructions;
-    size bind_instructions_size;
+    Size bind_instructions_size;
 
     void *weak_bind_instructions;
-    size weak_bind_instructions_size;
+    Size weak_bind_instructions_size;
 };
 
 #endif /* MDLK_INTERNAL_RELOCATIONS_H */

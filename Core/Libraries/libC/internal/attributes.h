@@ -1,13 +1,12 @@
 #define __NEED_uintptr
 #include <covenant/bits/everytype.h>
 
-
-#define UTOPIA_ENUM(type, name, prefix) \
-        typedef type prefix ## type_ ## name; \
+#define UTOPIA_ENUM(type, name) \
+        typedef type name; \
         enum name
 
-#define UTOPIA_OPTIONS(type, name, prefix) \
-    typedef type prefix ## type_ ## name; \
+#define UTOPIA_OPTIONS(type, name) \
+    typedef type name; \
     enum __attribute__((flag_enum)) name
 
 
@@ -18,8 +17,8 @@
 // know about prior to starting the Development of Utopia. They are truly a lost art.
 // You can read more about them in this StackOverflow post: https://stackoverflow.com/questions/4306186/structure-padding-and-packing
 // And this book: http://www.catb.org/esr/structure-packing/
-#define UTOPIA_PACKED_STRUCT(name, prefix) \
-    typedef struct __attribute__((packed)) name prefix ## type_ ## name; \
+#define UTOPIA_PACKED_STRUCT(name) \
+    typedef struct __attribute__((packed)) name name; \
     struct __attribute__((packed)) name
 
-#define UTOPIA_KILL_CONSTANT(type, var) ((type)(uintptr)(const void*)(var))
+#define UTOPIA_KILL_CONSTANT(type, var) ((type)(UIntPtr)(const void*)(var))

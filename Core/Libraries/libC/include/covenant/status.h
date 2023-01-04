@@ -9,6 +9,7 @@
 #define _COVENANT_ERROR_H_
 
 #define __NEED_i32
+#define __NEED_Int32
 #include <covenant/bits/everytype.h>
 #include "internal/attributes.h"
 
@@ -22,19 +23,18 @@
  * conflict.
  *
  */
-
-UTOPIA_ENUM(i32, status, c) {
+UTOPIA_ENUM(Int32, Status) {
     /**
      * No error
      * 
      */
-    ctype_status_ok = 0,
+    StatusOk = 0,
 
     /**
      * Generic error
      * 
      */
-    ctype_status_err = -1,
+    StatusErr = -1,
 };
 
 #endif

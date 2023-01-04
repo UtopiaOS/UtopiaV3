@@ -31,7 +31,7 @@
 #include "syscall.h"
 
 _Noreturn void
-c_kernel_exit(i32 ec)
+c_kernel_exit(Int32 ec)
 {
     __syscall(SYS_exit_group, ec);
     for (;;) __syscall(SYS_exit, ec);

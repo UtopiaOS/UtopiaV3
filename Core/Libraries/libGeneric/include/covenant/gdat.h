@@ -3,39 +3,39 @@
 
 
 #include <covenant/fn.h>
-#define __NEED_u64
-#define __NEED_i32
-#define __NEED_size
-#define __NEED_uchar
+#define __NEED_UInt64
+#define __NEED_Int32
+#define __NEED_Size
+#define __NEED_UChar
 #include <covenant/bits/everytype.h>
 
-typedef struct ctype_hmap ctype_hmap;
+typedef struct HashMap HashMap;
 
-struct ctype_hmap {
-    size obj_size;
-    size cap;
-    u64 seed_zero;
-    u64 seed_one;
-    ctype_hashfn hash;
-    ctype_cmpfn cmp;
+struct HashMap {
+    Size obj_size;
+    Size cap;
+    Int64 seed_zero;
+    Int64 seed_one;
+    HashFunction hash;
+    CompareFunction cmp;
     void (*obj_free)(void *item);
     void *data;
-    size bucket_size;
-    size nbuckets;
-    size count;
-    size mask;
-    size grow_at;
-    size shrink_at;
+    Size bucket_size;
+    Size nbuckets;
+    Size count;
+    Size mask;
+    Size grow_at;
+    Size shrink_at;
     void *buckets;
     void *spare;
     void *obj_data;
 };
 
-typedef struct ctype_hm_bucket ctype_hm_bucket;
+typedef struct HashMapBucket HashMapBucket;
 
-struct ctype_hm_bucket {
-    u64 hash;
-    u64 dib;
+struct HashMapBucket {
+    Int64 hash;
+    Int64 dib;
 };
 
 #endif /* COVEANT_GDAT_H */

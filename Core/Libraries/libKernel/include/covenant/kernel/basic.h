@@ -30,41 +30,42 @@
 #ifndef _COVENANT_KERNEL_BASIC_H
 #define _COVENANT_KERNEL_BASIC_H
 
-#define __NEED_size
-#define __NEED_usize
-#define __NEED_ctype_fd
-#define __NEED_u32
-#define __NEED_i32
-#define __NEED_ulong
-#define __NEED_va_list
+#define __NEED_Size
+#define __NEED_USize
+#define __NEED_FileDescriptor
+#define __NEED_UInt32
+#define __NEED_Int32
+#define __NEED_ULong
+#define __NEED_VaList
+#define __NEED_Status
 #include <covenant/bits/everytype.h>
 #include <covenant/fn.h>
 #include <covenant/status.h>
 
 
-_Noreturn void c_kernel_exit(i32);
-size c_kernel_write(ctype_fd, void*, usize);
+_Noreturn void c_kernel_exit(Int32);
+Size c_kernel_write(FileDescriptor, UniversalType, USize);
 
 /* Write to a file descriptor */
-size c_kernel_fdwrite(ctype_fd, void*, usize);
+Size c_kernel_fdwrite(FileDescriptor, UniversalType, USize);
 
-ctype_status c_kernel_munmap(void*, size);
+Status c_kernel_munmap(UniversalType, Size);
 
 
-i32 c_kernel_open3(char*, i32, u32);
+Int32 c_kernel_open3(char*, Int32, UInt32);
 
-i32 c_kernel_fcntl(ctype_fd, i32, ...);
+Int32 c_kernel_fcntl(FileDescriptor, Int32, ...);
 
-size c_kernel_read(ctype_fd, void*, usize);
+Size c_kernel_read(FileDescriptor, UniversalType, USize);
 
 /* This should be in our thread library
  * for now covenant doesn't support threads
  * that is a can of worms nobody wants to open
  * right now...
 */
-#define c_kernel_abort() { while (*(volatile i32 *)0); }
+#define c_kernel_abort() { while (*(volatile Int32 *)0); }
 
-ctype_status c_kernel_close(ctype_fd);
+Status c_kernel_close(FileDescriptor);
 
 // TODO: Should there really be here?
 #define C_KERNEL_FGETFL 3

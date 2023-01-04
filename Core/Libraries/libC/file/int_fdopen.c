@@ -5,18 +5,18 @@
 #include "internal/attributes.h"
 #include <covenant/kernel/basic.h>
 
-UTOPIA_ALWAYS_INLINE void __covenant_file_init(ctype_file* f, ctype_fd fd, char *buf, usize n) {
+UTOPIA_ALWAYS_INLINE void __covenant_file_init(File* f, FileDescriptor fd, char *buf, USize n) {
     c_arr_init(&f->data, buf, n);
-    f->writefn = c_kernel_write;
-    f->readfn = c_kernel_read;
+    f->write_fn = c_kernel_write;
+    f->read_fn = c_kernel_read;
     f->fd = fd;
 }
 
-ctype_file *
-__covenant_open(ctype_fd fd, const char *mode)
+File *
+__covenant_open(FileDescriptor fd, const char *mode)
 {
-    ctype_file *f;
-    ctype_status status;
+    File *f;
+    Status status;
 
     if (!c_str_chr("rwa", 3, *mode)) {
         return nil;
@@ -27,7 +27,7 @@ __covenant_open(ctype_fd fd, const char *mode)
     /* Set append */
     if (*mode == 'a') {
         // TODO: Write a nix wrapper around this
-        i32 flags = __syscall(SYS_fcntl, fd, C_KERNEL_FGETFL);
+        Int32 flags = __syscall(SYS_fcntl, fd, C_KERNEL_FGETFL);
         if (!(flags & C_NIX_OAPPEND)) {
             status = c_nix_fdset(fd, flags | C_NIX_OAPPEND);
             if (status < 0)
@@ -42,6 +42,6 @@ __covenant_open(ctype_fd fd, const char *mode)
         return nil;
 
     // We are almost done initialize
-    __covenant_file_init(f, fd, (void*)((uchar*)f + sizeof(*f)), C_BIOSIZ);
+    __covenant_file_init(f, fd, (UniversalType)((UChar*)f + sizeof(*f)), C_BIOSIZ);
     return f;
 }

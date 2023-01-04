@@ -1,10 +1,10 @@
 #include <covenant/std.h>
 
 // Read from an ioq, into a b, of a max size of n
-size c_ioq_get(ctype_ioq *p, char *b, usize n)
+Size c_ioq_get(InOutObject *p, char *b, USize n)
 {
-    usize len, min;
-    size r;
+    USize len, min;
+    Size r;
 
     len = n;
     while (len)
@@ -14,9 +14,9 @@ size c_ioq_get(ctype_ioq *p, char *b, usize n)
         if (!r)
             break;
 
-        min = C_MIN((usize)r, len);
+        min = C_MIN((USize)r, len);
         c_mem_cpy(b, min, p->array.members + p->array.size);
-        p->array.length -= min;
+        p->array.capacity -= min;
         p->array.size += min;
         len -= min;
         b += min;

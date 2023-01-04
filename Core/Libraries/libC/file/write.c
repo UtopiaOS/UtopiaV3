@@ -1,12 +1,11 @@
 #include <covenant/std.h>
 
-size
-c_file_write(void *p, size m, size n, ctype_file *fp)
+Size
+c_file_write(UniversalType p, Size m, Size n, File *fp)
 {
-    size ret;
-    char str[] = "Hello World!";
+    Size ret;
 
-    if (C_OFLW_UM(usize, m, n))
+    if (C_OFLW_UM(USize, m, n))
         return 0;
 
     if ((ret = c_file_nput(fp, (char*)p, m * n)) < 0)

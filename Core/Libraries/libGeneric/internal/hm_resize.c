@@ -2,20 +2,20 @@
 #include <covenant/hm.h>
 #include <covenant/std.h>
 
-ctype_status 
-hm_resize(ctype_hmap *hm_map, size new_cap)
+Status 
+hm_resize(HashMap *hm_map, Size new_cap)
 {
-    ctype_hmap new_map;
-    size i, j;
-    ctype_status ret;
+    HashMap new_map;
+    Size i, j;
+    Status ret;
     
     ret = c_hm_init(&new_map, hm_map->obj_size, new_cap, hm_map->hash, hm_map->cmp, hm_map->obj_free, hm_map->data);
 
-    if (ret != ctype_status_ok)
+    if (ret != StatusOk)
         return ret;
 
     for (i = 0; i < hm_map->nbuckets; i++) {
-        ctype_hm_bucket* entry;
+        HashMapBucket* entry;
         entry = c_hm_bucket_at(hm_map, i);
         if (!entry->dib) {
             continue;
@@ -23,7 +23,7 @@ hm_resize(ctype_hmap *hm_map, size new_cap)
         entry->dib = 1;
         j = entry->hash & new_map.mask;
         for (;;) {
-            ctype_hm_bucket* bucket;
+            HashMapBucket* bucket;
             bucket = c_hm_bucket_at(&new_map, j);
             if (bucket->dib == 0) {
                 c_mem_cpy(bucket, hm_map->bucket_size, entry);

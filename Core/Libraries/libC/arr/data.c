@@ -29,8 +29,8 @@
  */
 #include <covenant/std.h>
 
-void *
-c_arr_data(ctype_arr *arr_pointer)
+UniversalType
+c_arr_data(Array *array)
 {
-    return arr_pointer->members;
+    return array->members;
 }

@@ -1,7 +1,7 @@
 #include <covenant/std.h>
 
 char *
-c_u32_pack(char *s, u32 u)
+c_u32_pack(char *s, UInt32 u)
 {
     s[0] = u & 255;
     u >>= 8;

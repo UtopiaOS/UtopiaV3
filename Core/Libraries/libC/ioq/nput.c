@@ -4,10 +4,10 @@
 
 #define BLK(x) C_MIN(C_BIOSIZ, (x))
 
-ctype_status
-c_ioq_nput(ctype_ioq *p, char *s, usize n)
+Status
+c_ioq_nput(InOutObject *p, char *s, USize n)
 {
-    size ret;
+    Size ret;
 
     if (n > c_arr_avail(&p->array)) {
         if (c_ioq_flush(p) < 0)
@@ -19,7 +19,7 @@ c_ioq_nput(ctype_ioq *p, char *s, usize n)
             s += ret;
         }
     }
-    c_mem_cpy(p->array.members + p->array.length, n, s);
-    p->array.length += n;
+    c_mem_cpy(p->array.members + p->array.capacity, n, s);
+    p->array.capacity += n;
     return 0;
 }

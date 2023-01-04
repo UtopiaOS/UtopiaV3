@@ -4,20 +4,20 @@
 
 #include "impl.h"
 
-static i32
-cmp(void *a, void *b)
+static Int32
+cmp(UniversalType a, UniversalType b)
 {
-    return *(uchar *)a - ((struct fmtverb *)b)->c;
+    return *(UChar *)a - ((struct fmtverb *)b)->c;
 }
 
-ctype_status
-c_fmt_install(ctype_rune tgt_char, ctype_fmtfn fn)
+Status
+c_fmt_install(Rune tgt_char, FormatFunction fn)
 {
     struct fmtverb *p;
     struct fmtverb nent;
-    ctype_arr *ap;
-    usize n;
-    uchar *s;
+    Array *ap;
+    USize n;
+    Byte *s;
 
     ap = &__fmt_Fmts;
     if (c_dyn_ready(ap, 1, sizeof(nent)))
@@ -32,6 +32,6 @@ c_fmt_install(ctype_rune tgt_char, ctype_fmtfn fn)
     }
 
     nent = (struct fmtverb){tgt_char, fn};
-	n = (((uchar *)p - s) / sizeof(*p)) + !!n;
-    return c_dyn_idxcat(ap, n, &nent, 1, sizeof(nent));
+	n = (((Byte *)p - s) / sizeof(*p)) + !!n;
+    return c_dyn_insert(ap, n, &nent, 1, sizeof(nent));
 }

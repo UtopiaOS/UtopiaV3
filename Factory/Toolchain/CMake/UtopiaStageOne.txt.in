@@ -42,9 +42,9 @@ set(CMAKE_SYSROOT @UTOPIA_BUILD_DIR@/Root)
 set(CMAKE_EXE_LINKER_FLAGS_INIT "--ld-path=${LD_PATH} -Wl,-platform_version,macos,10.15,10.15 -Wl,-Z -Wl,-arch,x86_64")
 set(CMAKE_SHARED_LINKER_FLAGS_INIT "--ld-path=${LD_PATH} -Wl,-platform_version,macos,10.15,10.15 -Wl,-Z -Wl,-arch,x86_64")
 
-set(CMAKE_C_FLAGS "-ffreestanding -nostdlib -target x86_64-trip-unkown-macho -U__APPLE__ -D__UTOPIA__=1 -mmacosx-version-min=10.15" CACHE INTERNAL "")
+set(CMAKE_C_FLAGS "-ffreestanding -nostdlib -target x86_64-trip-unkown-macho -U__APPLE__ -D__UTOPIA__=1" CACHE INTERNAL "")
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}" CACHE INTERNAL "")
-set(CMAKE_ASM_FLAGS "-nostdlib -target x86_64-trip-unkown-macho -mmacosx-version-min=10.15" CACHE INTERNAL "")
+set(CMAKE_ASM_FLAGS "-nostdlib -target x86_64-trip-unkown-macho" CACHE INTERNAL "")
 
 set(CMAKE_C_COMPILER_FORCED TRUE CACHE INTERNAL "")
 set(CMAKE_CXX_COMPILER_FORCED TRUE CACHE INTERNAL "")

@@ -2,8 +2,8 @@
 
 #include <covenant/std.h>
 
-usize
-c_arr_avail(ctype_arr *p)
+USize
+c_arr_avail(Array *array)
 {
-    return (p->size - p->length);
+    return (array->size - array->capacity);
 }

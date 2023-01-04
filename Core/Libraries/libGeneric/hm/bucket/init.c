@@ -1,11 +1,11 @@
 #include <covenant/hm.h>
 
 
-ctype_hm_bucket 
-c_hm_bucket_init(u64 hash_size, u64 dib_size)
+HashMapBucket 
+c_hm_bucket_init(Int64 hash_size, Int64 dib_size)
 {
-    u64 phash_size, pdib_size;
-    ctype_hm_bucket pbucket;
+    Int64 phash_size, pdib_size;
+    HashMapBucket pbucket;
 
     phash_size = 48;
     pdib_size = 16;

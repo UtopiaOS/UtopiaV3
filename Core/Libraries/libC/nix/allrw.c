@@ -2,11 +2,11 @@
 
 #include <covenant/nix.h>
 
-size
-c_nix_allrw(ctype_iofn op, ctype_fd fd, void *p, usize n)
+Size
+c_nix_allrw(IOFunction op, FileDescriptor fd, void *p, USize n)
 {
-    size ret;
-    uchar *s;
+    Size ret;
+    UChar *s;
 
     s = p;
     while (n) {
@@ -17,5 +17,5 @@ c_nix_allrw(ctype_iofn op, ctype_fd fd, void *p, usize n)
         s += ret;
         n -= ret;
     }
-    return s - (uchar *)p;
+    return s - (UChar *)p;
 }

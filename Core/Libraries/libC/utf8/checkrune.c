@@ -1,8 +1,8 @@
 
 #include <covenant/std.h>
 
-ctype_status
-c_utf8_checkrune(ctype_rune rune)
+Status
+c_utf8_checkrune(Rune rune)
 {
     if (rune > C_RUNEMAX ||
         (rune & 0xFFFE) == 0xFFFE ||

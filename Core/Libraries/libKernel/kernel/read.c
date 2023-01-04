@@ -2,8 +2,8 @@
 #include <covenant/bits/syscall.h>
 #include "internal/syscall.h"
 
-size
-c_kernel_read(ctype_fd fd, void *buf, usize count)
+Size
+c_kernel_read(FileDescriptor fd, void *buf, USize count)
 {
-    return (size)__syscall(SYS_read, fd, buf, count);
+    return (Size)__syscall(SYS_read, fd, buf, count);
 }

@@ -4,7 +4,7 @@
 #include "internal/syscall.h"
 
 // TODO: Should we really handle it like this, is the type casting correct
-ctype_status
-c_kernel_close(ctype_fd fd) {
-    return (ctype_status)__syscall(SYS_close, fd);
+Status
+c_kernel_close(FileDescriptor fd) {
+    return (Status)__syscall(SYS_close, fd);
 }

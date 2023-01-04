@@ -4,12 +4,12 @@
 #include "internal/_fdopen.h"
 #include "internal/attributes.h"
 
-ctype_file *
+File *
 c_file_open(const char *filename, const char* mode)
 {
-    ctype_file *f;
-    i32 flags;
-    i32 fd;
+    File *f;
+    Int32 flags;
+    FileDescriptor fd;
     if (!c_str_chr("rwa", 3, *mode)) {
         return nil;
     }

@@ -3,10 +3,10 @@
 #include <covenant/std.h>
 #include <covenant/shared.h>
 
-void
-c_std_errstr(char *str_err, usize size)
+Void
+c_std_errstr(char *str_err, USize size)
 {
-    usize i;
+    USize i;
     char *p;
 
     p = c_std_getsyserr();
