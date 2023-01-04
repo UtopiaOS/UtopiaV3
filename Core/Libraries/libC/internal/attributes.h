@@ -6,6 +6,10 @@
         typedef type prefix ## type_ ## name; \
         enum name
 
+#define UTOPIA_NEO_ENUM(type, name) \
+        typedef type name; \
+        enum name
+
 #define UTOPIA_OPTIONS(type, name, prefix) \
     typedef type prefix ## type_ ## name; \
     enum __attribute__((flag_enum)) name

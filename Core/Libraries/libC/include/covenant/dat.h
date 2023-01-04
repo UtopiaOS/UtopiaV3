@@ -36,6 +36,12 @@
 #define __NEED_i32
 #define __NEED_va_list
 #define __NEED_uchar
+
+#define __NEED_USize
+#define __NEED_Byte
+#define __NEED_UniversalType
+#define __NEED_VaList
+#define __NEED_ULong
 #include <covenant/bits/everytype.h>
 #include <covenant/status.h>
 
@@ -45,6 +51,15 @@ struct ctype_arr {
     usize size; // a
     usize length; // n 
     uchar *members; // p
+};
+
+
+typedef struct Array Array;
+
+struct Array {
+    USize size;
+    USize capacity;
+    Byte *members;
 };
 
 /* fmt macros */
@@ -68,6 +83,7 @@ enum {
 #define c_arr_INIT(a) { sizeof((a)), 0, (a) }
 
 typedef struct ctype_fmt ctype_fmt;
+typedef struct Format Format;
 typedef ctype_status (*ctype_fmtopfn)(ctype_fmt *, char *, usize);
 typedef ctype_status (*ctype_fmtfn)(ctype_fmt *);
 
@@ -97,6 +113,17 @@ struct ctype_fmt {
     i32 width;
     ulong flags;
     void *farg;
+};
+
+struct Format {
+    VaList args;
+    ctype_fmtopfn fn;
+    USize nfmt;
+    Int32 prec;
+    Int32 r;
+    Int32 width;
+    ULong flags;
+    UniversalType farg;
 };
 
 
