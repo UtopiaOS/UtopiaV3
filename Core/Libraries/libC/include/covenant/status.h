@@ -23,7 +23,7 @@
  * conflict.
  *
  */
-UTOPIA_NEO_ENUM(Int32, Status) {
+UTOPIA_ENUM(Int32, Status) {
     /**
      * No error
      * 
