@@ -10,6 +10,21 @@
 #include <covenant/bits/everytype.h>
 #include <covenant/bool.h>
 
+// Inspired by: https://github.com/ravynsoft/ravynos/blob/main/sys/sys/elf64.h
+typedef UInt64 Macho64Addr;
+typedef UInt16 Macho64Half;
+typedef UInt64 Macho64Off;
+typedef Int32  Macho64Sword;
+typedef Int64  Macho64Sxword;
+typedef UInt32 Macho64Word;
+typedef UInt64 Macho64Lword;
+typedef UInt64 Macho64Xword;
+
+/* Decoded from https://github.com/ravynsoft/ravynos/blob/main/sys/sys/elf_generic.h */
+/* Those are useless for us, but the idea is the same for our declarations... */
+// Additional references: https://github.com/ravynsoft/ravynos/blob/4379804dbb4453d866987a7fa34f48f25c258719/sys/sys/elf64.h
+typedef Macho64Word Macho64Symbol;
+
 UTOPIA_ENUM(Int32, MachoCPUType){
     macho_cpu_type_x86_64 = 0x01000007,
 };
