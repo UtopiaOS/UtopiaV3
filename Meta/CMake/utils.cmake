@@ -59,12 +59,18 @@ function(utopia_covenant_component_dynamic covenant_sublib_name fs_name)
     # Same with the sources
     add_library(${covenant_sublib_name} SHARED ${SOURCES})
     set_target_properties(${covenant_sublib_name} PROPERTIES OUTPUT_NAME ${fs_name})
-    set(install_path Core/Libraries/covenant/${fs_name})
+    set(install_path /Core/Libraries/covenant/lib${fs_name}.dylib) # TODO: This is hacky, use output name in the future
 
     # 100.1.0 is the default version of all Covenant components
     if (NOT DEFINED COVENANT_DYLIB_VERSION)
         set(COVENANT_DYLIB_VERSION 100.1.0)
     endif()
+
+    set_target_properties(${covenant_sublib_name} PROPERTIES
+        PREFIX "lib"
+        SUFFIX ".dylib"
+        OUTPUT "${fs_name}"
+    )
 
     # Asume we don't need compat
     if (NOT DEFINED COVENANT_DYLIB_COMPAT_VERSION)
