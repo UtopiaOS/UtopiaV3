@@ -45,6 +45,7 @@
 typedef Int32 (*CompareFunction)(UniversalType, UniversalType);
 typedef UniversalType (*AllocationFunction)(UniversalType, USize, USize);
 typedef Size (*IOFunction)(Int32, UniversalType, USize);
+typedef void (*DestructorFunction)(UniversalType);
 
 #define va_arg(a, b) __builtin_va_arg(a, b)
 #define va_copy(a, b) __builtin_va_copy(a, b)
