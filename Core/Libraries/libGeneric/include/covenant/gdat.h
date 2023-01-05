@@ -1,7 +1,6 @@
 #ifndef COVENANT_GDAT_H
 #define COVENANT_GDAT_H
 
-
 #include <covenant/fn.h>
 #define __NEED_UInt64
 #define __NEED_Int32
@@ -37,5 +36,6 @@ struct HashMapBucket {
     Int64 hash;
     Int64 dib;
 };
+
 
 #endif /* COVEANT_GDAT_H */
