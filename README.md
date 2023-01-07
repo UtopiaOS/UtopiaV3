@@ -1,5 +1,13 @@
 # Utopia :chair:
 
+## Notice
+
+Utopia-v3 project halted, Utopia (v3, since this is actually the third time I try to make an OS) has officially "failed". Due to my lack of knowledge in certain areas, I am not able to keep up with some problems I faced.
+
+Is this the end of me as OS dev?, No! I am not giving up, I will learn to fill the holes and will return with the same dream I have had since I was 13.
+
+For now, you can browse the source code, and take anything you consider useful, I am sure a lot of it will be used in Utopia v4. When Im ready.
+
 An Operating System developed as a whole powered by the Linux kernel.
 
 <img src="https://raw.githubusercontent.com/UtopiaOS/Utopia/master/Meta/PromotionalUtopia.png" width="100% ">
