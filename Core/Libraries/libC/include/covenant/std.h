@@ -65,6 +65,7 @@
 #include <covenant/fn.h>
 #include <covenant/dat.h>
 #include <covenant/status.h>
+#include <covenant/bool.h>
 
 #define nil ((void *)0)
 
@@ -135,6 +136,7 @@ char* c_str_cpy(char*, USize, char*);
 char* c_str_pncpy(char *__restrict, const char *__restrict, Size);
 char* c_str_ncpy(char *__restrict, char *__restrict, Size);
 char* c_str_chr(char *, USize, Int32);
+Bool c_str_equal(char*, USize, char*);
 
 /* UInt32 */
 UInt32 c_u32_unpack(char*);

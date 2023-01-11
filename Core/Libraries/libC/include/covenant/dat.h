@@ -45,6 +45,7 @@
 #define __NEED_UInt32
 #include <covenant/bits/everytype.h>
 #include <covenant/status.h>
+#include <covenant/fn.h>
 
 typedef ULong Device;
 typedef ULong INode;
