@@ -86,6 +86,32 @@ function(utopia_covenant_component_dynamic covenant_sublib_name fs_name)
 
 endfunction()
 
+function(utopia_support_component_dynamic libname fs_name)
+    add_library(${libname} SHARED ${SOURCES})
+    set_target_properties(${libname} PROPERTIES OUTPUT_NAME ${fs_name})
+    set(install_path /Core/Support/lib${fs_name}.dylib)
+    if (NOT DEFINED SUPPORT_DYLIB_VERSION)
+        set(SUPPORT_DYLIB_VERSION 100.1.0)
+    endif()
+
+    set_target_properties(${libname} PROPERTIES
+        PREFIX "lib"
+        SUFFIX ".dylib"
+        OUPUT "${fs_name}"
+    )
+
+    if (NOT DEFINED SUPPORT_DYLIB_COMPAT_VERSION)
+        set(SUPPORT_DYLIB_COMPAT_VERSION ${SUPPORT_DYLIB_VERSION})
+    endif()
+
+    target_link_options(${libname} PRIVATE
+        -Wl,-dylib
+        -Wl,-dylib_install_name,${install_path}
+        -Wl,-dylib_current_version,${SUPPORT_DYLIB_VERSION}
+        -Wl,-dylib_compatibility_version,${SUPPORT_DYLIB_COMPAT_VERSION}
+    )
+endfunction()
+
 
 function(utopia_library_static libname fs_name)
     utopia_install_headers("")

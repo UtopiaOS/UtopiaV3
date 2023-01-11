@@ -35,7 +35,7 @@ set(SOURCES
     stub/stubs.S
     ${CMAKE_SOURCE_DIR}/Meta/Filler/dummy.c)
 
-utopia_covenant_component_dynamic(libmdlk mdlk)
+utopia_support_component_dynamic(libmdlk mdlk)
 
 add_dependencies(mdlk libC_static)
 add_dependencies(mdlk libCompat_static)
