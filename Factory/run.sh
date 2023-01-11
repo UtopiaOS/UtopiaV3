@@ -14,5 +14,5 @@ qemu-system-x86_64 \
     -kernel $PARENT/Build/kernel/x86_64/arch/x86_64/boot/bzImage \
 	-m 1024 \
 	-initrd $PARENT/Build/rootfs.cpio.gz \
-	-append "earlyprintk=serial.ttys0 console=ttyS0" \
+	-append "earlyprintk=serial.ttys0 console=ttyS0 noapic nolapic acpi=off" \
 	-nographic
