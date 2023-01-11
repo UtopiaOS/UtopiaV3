@@ -39,6 +39,7 @@ TYPEDEF unsigned _Addr      UIntPtr;
 TYPEDEF _Addr               IntPtr;
 TYPEDEF unsigned _Addr      USize;
 TYPEDEF _Addr               Size;
+TYPEDEF _Addr               PtrDiff;
 
 TYPEDEF signed char         Int8;
 TYPEDEF signed short        Int16;
