@@ -3,9 +3,9 @@
 add_executable(
     mdlk
     mdlk.c
+    ptrkey.c
     initialization.c
     mdlk_startup.S
-    loader/images.c
 )
 
 target_link_libraries(mdlk PRIVATE libKernel_static libC_static libGeneric_static libCompat_static)
