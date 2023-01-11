@@ -40,7 +40,6 @@ start:
 
     leaq ___dso_handle(%rip), %r8 # Our own header
     call _mdlk_bootstrap_self
-    movq -8(%rbp),%rdi
 
     #movl %esi,%ecx # Copy argc (address) into the low 32 bits of %rcx
 
