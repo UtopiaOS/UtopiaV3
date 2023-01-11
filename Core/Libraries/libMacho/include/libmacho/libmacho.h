@@ -82,10 +82,10 @@ UTOPIA_PACKED_STRUCT(MachoLoadCommand) {
 UTOPIA_PACKED_STRUCT(MachoLoadCommandSegment64) {
     MachoLoadCommand base;
     char segment_name[16];
-    Int64 memory_address;
-    Int64 memory_size;
-    Int64 file_offset;
-    Int64 file_size;
+    UInt64 memory_address;
+    UInt64 memory_size;
+    UInt64 file_offset;
+    UInt64 file_size;
     Int32 maximum_memory_protection;
     Int32 initial_memory_protection;
     UInt32 section_count;
