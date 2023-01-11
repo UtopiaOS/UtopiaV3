@@ -70,6 +70,8 @@ Status c_kernel_close(FileDescriptor);
 
 Status c_kernel_stat(char*, Stat*);
 
+Int32 c_kernel_open2(char*, Int32);
+
 // TODO: Should there really be here?
 #define C_KERNEL_FGETFL 3
 #define C_KERNEL_FGETLK 5
