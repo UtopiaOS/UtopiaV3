@@ -11,6 +11,13 @@
 
 ImageEntry *map_macho_object(MachoHeader* program_header, FileDescriptor fd);
 
+
+#define	VM_PROT_NONE	((Int32) 0x00)
+
+#define VM_PROT_READ	((Int32) 0x01)	/* read permission */
+#define VM_PROT_WRITE	((Int32) 0x02)	/* write permission */
+#define VM_PROT_EXECUTE	((Int32) 0x04)	/* execute permission */
+
 static ImageEntry*
 image_entry_new() {
     ImageEntry* some_entry = c_std_malloc(sizeof(ImageEntry));
@@ -54,6 +61,22 @@ ImageEntry* mdlk_load_by_path(char* some_path) {
     }
     FileDescriptor fd = c_kernel_open2(some_path, C_NIX_OREAD);
     return map_macho_object(header, fd);
+}
+
+static Int32 macho_flags_to_mmap_flags(Int32 flags) {
+    Int32 new_flags = C_MAP_PRIVATE;
+    return new_flags; // We don't have C_MAP_NOCORE on Linux :/
+}
+
+static Int32 macho_flags_to_mmap_protection(Int32 flags) {
+    Int32 current_prot = 0;
+    if (flags & VM_PROT_READ)
+        current_prot |= C_PROT_READ;
+    if (flags & VM_PROT_WRITE)
+        current_prot |= C_PROT_WRITE;
+    if (flags & VM_PROT_EXECUTE)
+        current_prot |= C_PROT_EXEC;
+    return current_prot;
 }
 
 ImageEntry *map_macho_object(MachoHeader* program_header, FileDescriptor fd) {
@@ -143,8 +166,9 @@ ImageEntry *map_macho_object(MachoHeader* program_header, FileDescriptor fd) {
         data_virtual_address = trunc_page(current_image->segments[i]->memory_address - current_image->segments[0]->memory_size);
         data_virtual_limit = round_page(current_image->segments[i]->memory_address - current_image->segments[0]->memory_size + current_image->segments[i]->file_size);
         data_address = map_base + (data_virtual_address - base_virtual_address);
-        // TODO: Actually retrieve the protection from the info the file provides
-        UniversalType res = c_kernel_mmap(data_address, data_virtual_limit - data_virtual_address, C_PROT_NONE, C_MAP_PRIVATE, fd, data_offset);
+        Int32 protection_flags = macho_flags_to_mmap_protection(current_image->segments[i]->initial_memory_protection);
+        Int32 data_flags = macho_flags_to_mmap_flags(current_image->segments[i]->initial_memory_protection) | C_MAP_FIXED;
+        UniversalType res = c_kernel_mmap(data_address, data_virtual_limit - data_virtual_address, protection_flags, data_flags, fd, data_offset);
         if (res == C_MAP_FAILED) {
             c_ioq_fmt(ioq1, "Failed to overlay segments\n");
             return nil;
