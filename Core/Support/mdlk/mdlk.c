@@ -24,6 +24,8 @@ image_entry_new() {
     some_entry->number_of_segments = -1; // So we actually hit 0, TODO: Is this hacky or not?
     some_entry->symbol_table = nil;
     some_entry->string_table = nil;
+    some_entry->export_trie = nil;
+    some_entry->export_trie_size = 0;
     some_entry->symbol_table_entry_count = 0;
     some_entry->string_table_size = 0;
     c_vec_init(&some_entry->dependencies, 2, sizeof(UIntPtr));
@@ -144,6 +146,20 @@ ImageEntry *map_macho_object(MachoHeader* program_header, FileDescriptor fd) {
                 current_image->string_table_size = some_symbol_table_info->string_table_size;
                 break;
             }
+            case macho_load_command_type_compressed_dynamic_linker_info_only: {
+                MachoLoadCommandCompressedDynamicLinkerInfo* some_compressed_dynamic_linker_info = (MachoLoadCommandCompressedDynamicLinkerInfo*)some_lc; // Offset by relocbase later in the function
+                relocation_info.rebase_instructions_size = some_compressed_dynamic_linker_info->rebase_info_size;
+                relocation_info.bind_instructions_size = some_compressed_dynamic_linker_info->bind_info_size;
+                relocation_info.weak_bind_instructions_size = some_compressed_dynamic_linker_info->weak_bind_info_size;
+
+                relocation_info.rebase_instrucions = (UniversalType)some_compressed_dynamic_linker_info->rebase_info_offset;
+                relocation_info.bind_instructions = (UniversalType)some_compressed_dynamic_linker_info->bind_info_offset;
+                relocation_info.weak_bind_instructions = (UniversalType)some_compressed_dynamic_linker_info->weak_bind_info_offset;
+
+                // If you are wondering what a "trie" is, just Google "trie" data structure, I would recommend an article or website, but with current SEO all the websites are trash...
+                current_image->export_trie = (UniversalType)some_compressed_dynamic_linker_info->export_info_offset; // Same story, the address of this is wrong as of now
+                current_image->export_trie_size = some_compressed_dynamic_linker_info->export_info_size;
+            }
             case macho_load_command_type_load_dynamic_linker: // This is us
             default:
                 break;
@@ -212,7 +228,24 @@ ImageEntry *map_macho_object(MachoHeader* program_header, FileDescriptor fd) {
         current_image->symbol_table = (Macho64Addr* )(((PtrDiff)current_image->relocation_base) + ((PtrDiff)current_image->symbol_table));
     if (current_image->string_table)
         current_image->string_table = (const char*)(((PtrDiff)current_image->relocation_base) + ((PtrDiff)current_image->string_table));
+    if (current_image->export_trie)
+        current_image->export_trie = (UniversalType)(((PtrDiff)current_image->relocation_base) + ((PtrDiff)current_image->export_trie));
     
+    // Fix up relocation info
+    if (relocation_info.bind_instructions)
+        relocation_info.bind_instructions = (UniversalType)(((PtrDiff)current_image->relocation_base) + ((PtrDiff)relocation_info.bind_instructions));
+    if (relocation_info.rebase_instrucions)
+        relocation_info.rebase_instrucions = (UniversalType)(((PtrDiff)current_image->relocation_base) + ((PtrDiff)relocation_info.rebase_instrucions));
+    if (relocation_info.weak_bind_instructions)
+        relocation_info.rebase_instrucions = (UniversalType)(((PtrDiff)current_image->relocation_base) + ((PtrDiff)relocation_info.weak_bind_instructions));
+
+    c_ioq_fmt(ioq1, "Bind instructions address: %p, Rebase instructions address: %p, Weak Bind Address: %p\n", relocation_info.bind_instructions, relocation_info.rebase_instrucions, relocation_info.weak_bind_instructions);
+        
+    current_image->entry = (UniversalType)current_image->relocation_base + main_address;
+
+    c_ioq_fmt(ioq1, "Symbol table address: %p, String table address: %p, Export trie address: %p\n", (UniversalType)current_image->symbol_table, (UniversalType)current_image->string_table, (UniversalType)current_image->export_trie);
+
+
     // Fix up file offset again, as we plan on iterating from the header to find our dylib load commands    
     offset = (Macho64Addr)program_header;
     offset += sizeof(MachoHeader);
@@ -234,6 +267,8 @@ ImageEntry *map_macho_object(MachoHeader* program_header, FileDescriptor fd) {
         c_vec_push_back(&dependency->dependants, current_image); // Register the dependants
         offset += some_lc->size;
     }
+
+    mdlk_perform_relocation(current_image, &relocation_info);
 
     return current_image;
 }

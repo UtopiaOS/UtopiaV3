@@ -5,6 +5,7 @@ add_executable(
     mdlk.c
     ptrkey.c
     initialization.c
+    relocations.c
     mdlk_startup.S
 )
 
