@@ -91,6 +91,10 @@ ImageEntry *map_macho_object(MachoHeader* program_header, FileDescriptor fd) {
     Macho64Addr data_virtual_limit;
     UniversalType data_address;
 
+    Int32 text_segment = -1;
+
+    RelocationInfo relocation_info = {0};
+
     Macho64Addr main_address = 0; // Save it before we store it in the actual data structure with our reloc offset
 
     // Displace the header, we already have it mapped
@@ -104,6 +108,9 @@ ImageEntry *map_macho_object(MachoHeader* program_header, FileDescriptor fd) {
 
     USize map_size = 0;
 
+    MachoLoadCommandSegment64* segments[16]; // Temporary pre-slide array of segments...
+    UInt32 segment_count = -1;
+
     // Find:
     // 1. How big is the area we plan on mapping
     // 2. What is our entry point
@@ -115,8 +122,13 @@ ImageEntry *map_macho_object(MachoHeader* program_header, FileDescriptor fd) {
         switch (some_lc->type) {
             case macho_load_command_type_segment_64: {
                 MachoLoadCommandSegment64* some_segment_64 = (MachoLoadCommandSegment64*)some_lc;
+                c_ioq_fmt(ioq1, "Got segment, with name: %s, address: %x\n", some_segment_64->segment_name, some_segment_64->memory_address);
+            
                 current_image->number_of_sections += some_segment_64->section_count;
-                current_image->segments[++current_image->number_of_segments]=some_segment_64;
+                segments[++segment_count] = some_segment_64;
+                if (c_str_equal("__TEXT", C_USIZE_MAX, some_segment_64->segment_name)) {
+                    text_segment = (Int32)i;
+                }
                 break;
             }
             case macho_load_command_type_entry_point: {
@@ -138,10 +150,12 @@ ImageEntry *map_macho_object(MachoHeader* program_header, FileDescriptor fd) {
         }
         offset += some_lc->size;
     }
-    base_virtual_address = trunc_page(current_image->segments[0]->memory_address);
-    base_virtual_limit = round_page(current_image->segments[current_image->number_of_segments]->memory_address + current_image->segments[current_image->number_of_segments]->memory_size);
-    map_size = base_virtual_limit - base_virtual_address - current_image->segments[0]->memory_size + C_PAGESIZE;
+    base_virtual_address = trunc_page(segments[0]->memory_address);
+    base_virtual_limit = round_page(segments[segment_count]->memory_address + segments[segment_count]->memory_size);
+    map_size = base_virtual_limit - base_virtual_address - segments[0]->memory_size;
     base_address = (UniversalType)base_virtual_address;
+
+    c_ioq_fmt(ioq1, "Virtual address of: %x\n", base_virtual_address);
 
     base_flags = C_MAP_PRIVATE | C_MAP_ANON;
     void* map_base = c_kernel_mmap(base_address, map_size, C_PROT_NONE, base_flags, -1, 0);
@@ -159,22 +173,30 @@ ImageEntry *map_macho_object(MachoHeader* program_header, FileDescriptor fd) {
     }
 
     // Is time to overlay our segment commands
-    for (Int32 i = 0; i <= current_image->number_of_segments; i++) {
-        if (c_str_equal(current_image->segments[i]->segment_name, C_USIZE_MAX, "__PAGEZERO"))
+    for (Int32 i = 0; i <= segment_count; i++) {
+        if (c_str_equal(segments[i]->segment_name, C_USIZE_MAX, "__PAGEZERO")) {
+            c_ioq_fmt(ioq1, "Found PAGEZERO segment, won't be overlayed, ignoring\n");
             continue;
-        data_offset = trunc_page(current_image->segments[i]->file_offset);
-        data_virtual_address = trunc_page(current_image->segments[i]->memory_address - current_image->segments[0]->memory_size);
-        data_virtual_limit = round_page(current_image->segments[i]->memory_address - current_image->segments[0]->memory_size + current_image->segments[i]->file_size);
+        }
+        c_ioq_fmt(ioq1, "Overlaying segment: %s\n", segments[i]->segment_name);
+        data_offset = trunc_page(segments[i]->file_offset);
+        data_virtual_address = trunc_page(segments[i]->memory_address - segments[0]->memory_size);
+        data_virtual_limit = round_page(segments[i]->memory_address - segments[0]->memory_size + segments[i]->file_size);
         data_address = map_base + (data_virtual_address - base_virtual_address);
-        Int32 protection_flags = macho_flags_to_mmap_protection(current_image->segments[i]->initial_memory_protection);
-        Int32 data_flags = macho_flags_to_mmap_flags(current_image->segments[i]->initial_memory_protection) | C_MAP_FIXED;
+        Int32 protection_flags = macho_flags_to_mmap_protection(segments[i]->initial_memory_protection);
+        Int32 data_flags = macho_flags_to_mmap_flags(segments[i]->initial_memory_protection) | C_MAP_FIXED;
         UniversalType res = c_kernel_mmap(data_address, data_virtual_limit - data_virtual_address, protection_flags, data_flags, fd, data_offset);
         if (res == C_MAP_FAILED) {
             c_ioq_fmt(ioq1, "Failed to overlay segments\n");
             return nil;
         }
+        current_image->segments[i] = data_address; // Point up our segments to the ones ACTUALLY mapped to memory now
+        c_ioq_fmt(ioq1, "Segment: %s overlayed successfully, address: %p, size: %p, range: %p - %p\n", segments[i]->segment_name, res, data_virtual_limit - data_virtual_address, res, (UniversalType)res + (data_virtual_limit - data_virtual_address));
     }
+    current_image->number_of_segments = segment_count;
 
+    if (program_header->file_type == macho_file_type_executable && text_segment < 0)
+        c_ioq_fmt(ioq1, "Program is executable, but has no text segment\n");
 
     // Actually fill up some information for the image now
     current_image->map_base = map_base;
@@ -182,6 +204,8 @@ ImageEntry *map_macho_object(MachoHeader* program_header, FileDescriptor fd) {
 
     current_image->virtual_addr_base = base_virtual_address;
     current_image->relocation_base = map_base - base_virtual_address;
+
+    c_ioq_fmt(ioq1, "Relocation base: %p\n", current_image->relocation_base);
 
     // Fix up addresses based on our offset given by our relocation base
     if (current_image->symbol_table)

@@ -81,18 +81,9 @@ typedef void (*InitWithArgumentsFunction)(Int32, char**, char**);
 
 // In Apple's dyld, Image is used as an "object" synonym
 typedef struct ImageEntry ImageEntry;
-typedef struct ImageDynamic ImageDynamic;
 typedef struct ImageEntryDependency ImageEntryDependency;
+typedef struct RelocationInfo RelocationInfo;
 
-
-// Dynamic objects, in ELF the .dynamic section, reference on: https://github.com/ravynsoft/ravynos/blob/4379804dbb4453d866987a7fa34f48f25c258719/sys/sys/elf64.h
-struct ImageDynamic {
-    Macho64Sxword d_tag;
-    union {
-        Macho64Xword d_val;
-        Macho64Addr  d_ptr;
-    } d_un;
-};
 
 struct MDLKGlobalState {
     TailQueue* dependency_graph;
@@ -105,13 +96,22 @@ struct ImageEntryDependency {
     ImageEntry* image_object; // The object it is referencing, at the start, nil
 };
 
+struct RelocationInfo {
+    UniversalType rebase_instrucions;
+    USize rebase_instructions_size;
+
+    UniversalType bind_instructions;
+    USize bind_instructions_size;
+
+    UniversalType weak_bind_instructions;
+    USize weak_bind_instructions_size;
+};
+
 struct ImageEntry {
     UInt64 *lazy_loaded_symbols; // TODO: Maybe this is addr type?
 
     Device device; // Related device
     INode inode; // Inode of object
-
-    ImageDynamic* dynamic; /* Dynamic section */
 
     UniversalType map_base; // This used caddr_t, that is some legacy remainings from BSD. Represents the base address of the mapped region.
     Size map_size; // Size of the mapped region in bytes
@@ -136,20 +136,29 @@ struct ImageEntry {
     const Macho64Symbol *symbol_table;
     UInt32 symbol_table_entry_count;
 
+    /* Adress of our entry point (main) */
+    UniversalType entry;
+
     Bool is_mdlk : 1; // Wether we are the dynamic linker or not, we plan to use only 1 bit of this...
 
     UInt32 number_of_sections; // Current number of sections per segment
 
     UInt32 number_of_segments; // Current number of segments
-    MachoLoadCommandSegment64 *segments[16]; // Don't quote me on 16: https://github.com/ravynsoft/ravynos/blob/610d6be060509eea727d87d315267c677e6eaf00/libexec/dyld/map_object.c#L373
+    UniversalType segments[16]; // Don't quote me on 16: https://github.com/ravynsoft/ravynos/blob/610d6be060509eea727d87d315267c677e6eaf00/libexec/dyld/map_object.c#L373
 
     UniversalType relocated_segments; // Segments address after performing a relocation
     UniversalType linkedit_ptr; // Pointer to our LINKEDIT section
+
+    // Export trie section
+    UniversalType export_trie;
+    USize export_trie_size;
 
     // Type: ImageEntry
     Vector dependencies;
     Vector dependants;
 };
 
+// TODO: Move this out of here
+void mdlk_perform_relocation(ImageEntry*, RelocationInfo*);
 
 #endif
