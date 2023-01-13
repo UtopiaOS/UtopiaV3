@@ -1,5 +1,20 @@
 #include <mdlk/mdlk.h>
 #include "internal/_leb128.h"
+#include <covenant/limits.h>
+
+typedef struct BindInfo BindInfo;
+
+struct BindInfo {
+    MachoRelocationType relocation_type;
+    UInt32 segment_index;
+    USize segment_offset;
+    const char* symbol_name;
+    USize symbol_lenght;
+    UIntMax library_ordinal;
+    Int64 addend; // TODO: Make this IntMax
+    Byte flags;
+};
+
 
 static void
 mdlk_perform_rebase(UInt64 address, UInt64 slide, MachoRelocationType type) {
@@ -121,6 +136,101 @@ void mdlk_perform_image_rebase(ImageEntry* entry, RelocationInfo* relocation_inf
     }
 }
 
+void mdlk_perform_image_bind(ImageEntry* entry, RelocationInfo* relocation_info) {
+    const Byte *start = (Byte*)relocation_info->bind_instructions;
+    const Byte *end = start + relocation_info->bind_instructions_size;
+    const Byte *point = start;
+
+    Bool done = false;
+
+    Int32 segment_idx = 0;
+
+    BindInfo bind_info = {0};
+
+    // Other implementations don't really check for (point < end) which I find weird, that always resulted in a segfault...
+    while (!done && (point < end)) {
+        Byte immediate = macho_relocation_instruction_get_immediate(*point);
+        MachoRebaseOPCode opcode = macho_relocation_instruction_get_opcode(*point);
+        ++point;
+        
+        switch (opcode) {
+            case macho_bind_opcode_done:
+                done = true;
+                break;
+            case macho_bind_opcode_set_dylib_ordinal_immediate:
+                bind_info.library_ordinal = immediate;
+                break;
+            case macho_bind_opcode_set_dylib_ordinal_uleb: {
+                UIntMax new_library_ordinal = 0;
+                Status status = mdlk_read_unsigned_leb128(&point, end, &new_library_ordinal);
+                if (status != StatusOk)
+                    return;
+                bind_info.library_ordinal = new_library_ordinal;
+                break;
+            }
+            case macho_bind_opcode_set_dylib_special_immediate: {
+                if (immediate == 0) {
+                    bind_info.library_ordinal = immediate;
+                } else {
+                    SByte sign_extended = 0xf0 | immediate;
+                    bind_info.library_ordinal = sign_extended;
+                }
+                break;
+            }
+            case macho_bind_opcode_set_symbol_trailing_flags: {
+                bind_info.symbol_name = (const char*)point;
+                bind_info.flags = immediate;
+                while (*point)
+                    ++point;
+                ++point;
+                break;
+            }
+            case macho_bind_opcode_set_type_immediate:
+                bind_info.relocation_type = immediate;
+                break;
+            case macho_bind_opcode_set_addend_sleb: {
+                Int64 addend = 0;
+                Status status = mdlk_read_signed_leb128(&point, end, &addend);
+                if (status != StatusOk)
+                    return;
+                bind_info.addend = addend;
+                break;
+            }
+            case macho_bind_opcode_set_segment_immediate_and_offset_uleb: {
+                segment_idx = immediate;
+                if (((UInt32)segment_idx > entry->number_of_segments || segment_idx < 0)) {
+                    return;
+                }
+                UInt64 offset = 0;
+                Status status = mdlk_read_unsigned_leb128(&point, end, &offset);
+                if (status != StatusOk)
+                    return;
+                bind_info.segment_index = segment_idx;
+                bind_info.segment_offset = offset;
+                break;
+            }
+            case macho_bind_opcode_add_address_uleb: {
+                UInt64 add_address = 0;
+                Status status = mdlk_read_unsigned_leb128(&point, end, &add_address);
+                if (status != StatusOk)
+                    return;
+                bind_info.segment_offset += add_address;
+                break;
+            }
+            case macho_bind_opcode_perform_bind:
+                c_ioq_fmt(ioq1, "Requested to bind, symbol: %s\n", bind_info.symbol_name);
+                break;
+            
+            default:
+                break;
+            
+        }
+    }
+}
+
 void mdlk_perform_relocation(ImageEntry* entry, RelocationInfo* relocation_info) {
-    mdlk_perform_image_rebase(entry, relocation_info);    
+    mdlk_perform_image_rebase(entry, relocation_info);
+
+    // Now the hard part, perform the binding, or well, try to
+    mdlk_perform_image_bind(entry, relocation_info);
 }
