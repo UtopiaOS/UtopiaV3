@@ -109,65 +109,75 @@ static Status
 Vint(Format *p)
 {
     UVLong l;
-    Int32 b, d, i, j, u, neg;
+    UInt32 d, u;
+    Int32 b, i, n;
     char buf[64];
-    
+    char *s;
+
+    if ((b = __getbase(p->r)) == 16) 
+        p->flags |= C_FMTUNSIGNED;
     u = p->flags & C_FMTUNSIGNED;
-    neg = 0;
 
-	if (p->flags & C_FMTVLONG) {
-		l = va_arg(p->args, UVLong);
-		if (!u && (VLong)l < 0) l = (++neg, -(VLong)l);
-	} else if (p->flags & C_FMTLONG) {
-		l = va_arg(p->args, ULong);
-		if (!u && (long)l < 0) l = (++neg, -(long)l);
-	} else {
-		l = va_arg(p->args, UInt32);
-		if (!u && (Int32)l < 0) l = (++neg, -(Int32)l);
- 	}
-
-
-    b = __getbase(p->r);
-    u = (p->r == 'X') ? 'A' : 'a';
-    i = sizeof(buf) - 1;
-    j = 0;
-
-    if (!l)
-        buf[--i] = '0';
-    
-    for (; l; ++j) {
-        d = (l % b);
-        if ((p->flags & C_FMTCOMMA) && j % 4 == 3) {
-            buf[--i] = ',';
-            ++j;
-        }
-        buf[--i] = (d < 10) ? d + '0' : u + d - 10;
-        l /= b;
+    n = 0;
+    if (p->flags & C_FMTVLONG) {
+        l = va_arg(p->args, UVLong);
+        if (!u && (n = (VLong)l < 0))
+            l = -(VLong)l;
+    } else if (p->flags & C_FMTLONG) {
+        l = va_arg(p->args, ULong);
+        if (!u && (n = (long)l <0))
+            l = -(long)l;
+    } else if (p->flags & C_FMTSHORT) {
+        l = va_arg(p->args, UInt32);
+        if (!u && (n = (short)l < 0))
+            l = -(short)l;
+    } else if (p->flags & C_FMTBYTE) {
+        l = va_arg(p->args, UInt32);
+        if (!u && (n = (char)l < 0))
+            l = -(char)l;
+    } else {
+        l = va_arg(p->args, UInt32);
+        if (!u && (n = (Int32)l < 0))
+            l = -(Int32)l;
     }
 
-    if ((p->flags & C_FMTZERO) && !(p->flags & (C_FMTLEFT | C_FMTPREC))) {
-        p->width -= sizeof(buf) - i;
-        for (; p->width >= 0; --p->width) {
-            buf[--i] = '0';
+    u = (p->r == 'X') ? 'A' : 'a';
+    s = buf + sizeof(buf);
+    if (!l) {
+        *--s = '0';
+    } else {
+        i = 0;
+        for (; l; i++) {
+            d = l % b;
+            if ((p->flags & C_FMTCOMMA) && i % 4 == 3) {
+                *--s = ',';
+                ++i;
+            }
+            *--s = (d < 10) ? d + '0' : u + d - 10;
+            l /= b;
         }
+
+    }
+
+
+    u = (C_FMTZERO | C_FMTLEFT | C_FMTPREC) & ~p->flags;
+    if (u == (C_FMTLEFT | C_FMTPREC)) {
+        p->width -= (buf + sizeof(buf)) - s;
+        for (; p->width > 0; --p->width)
+            *--s = '0';
         p->width = 0;
     }
 
     if (p->flags & C_FMTSHARP) {
-        if (b == 16)
-            buf[--i] = u + 23;
-        if (b == 16 || b == 8)
-            buf[--i] = '0';
+        if (b == 16) {
+            *--s = u + 23;
+            *--s = '0';
+        } else if (b == 8) {
+            *--s = '0';
+        }
     }
 
-    if (neg)
-        buf[--i] = '-';
-    else if (p->flags & C_FMTSIGN)
-        buf[--i] = '+';
-    else if (p->flags & C_FMTSPACE)
-        buf[--i] = ' ';
-    
-    return c_fmt_nput(p, buf + i, sizeof(buf) - (i + 1));
+    return c_fmt_nput(p, s, (buf + sizeof(buf)) - s);
 }
 
 static Status
