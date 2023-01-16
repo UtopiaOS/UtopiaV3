@@ -97,7 +97,7 @@ function(utopia_support_component_dynamic libname fs_name)
     set_target_properties(${libname} PROPERTIES
         PREFIX "lib"
         SUFFIX ".dylib"
-        OUPUT "${fs_name}"
+        OUTPUT "${fs_name}"
     )
 
     if (NOT DEFINED SUPPORT_DYLIB_COMPAT_VERSION)
