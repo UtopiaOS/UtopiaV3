@@ -8,8 +8,7 @@
 #include <covenant/vec.h>
 #include "internal/_ptrkey.h"
 
-
-ImageEntry *map_macho_object(MachoHeader* program_header, FileDescriptor fd);
+Status map_macho_object(MachoHeader* program_header, FileDescriptor fd, const char*, ImageEntry** out_image_entry);
 
 
 #define	VM_PROT_NONE	((Int32) 0x00)
@@ -93,7 +92,7 @@ static Int32 macho_flags_to_mmap_protection(Int32 flags) {
     return current_prot;
 }
 
-ImageEntry *map_macho_object(MachoHeader* program_header, FileDescriptor fd) {
+Status map_macho_object(MachoHeader* program_header, FileDescriptor fd, const char* path, ImageEntry** out_image_entry) {
     Macho64Addr offset = 0;
     MachoLoadCommandDylib* some_dylib = nil;
     void* file_load_top = nil;
@@ -225,7 +224,8 @@ ImageEntry *map_macho_object(MachoHeader* program_header, FileDescriptor fd) {
     void* map_base = c_kernel_mmap(base_address, map_size, C_PROT_NONE, base_flags, -1, 0);
     if (map_base == C_MAP_FAILED) {
         c_ioq_fmt(ioq1, "Unable to map\n");
-        return nil;
+        status = StatusErr;
+        goto out;
     }
 
     // Since our base virtual address might be 0, when we typecast to UniversalType, we get the following underlying code:
@@ -233,7 +233,8 @@ ImageEntry *map_macho_object(MachoHeader* program_header, FileDescriptor fd) {
     // so mmap, interprets it as "load it anywhere", and we would error if we only did the map_base and base_address comparison
     if (base_address != nil && map_base != base_address) {
         c_ioq_fmt(ioq1, "Failed to get desired address\n");
-        return nil;
+        status = StatusErr;
+        goto out;
     }
 
     // Is time to overlay our segment commands
@@ -283,15 +284,19 @@ ImageEntry *map_macho_object(MachoHeader* program_header, FileDescriptor fd) {
         UniversalType res = c_kernel_mmap(data_address, data_virtual_limit - data_virtual_address, protection_flags, data_flags, fd, data_offset);
         if (res == C_MAP_FAILED) {
             c_ioq_fmt(ioq1, "Failed to overlay segments\n");
-            return nil;
+            status = StatusErr;
+            goto out;
         }
         current_image->segments[i] = data_address; // Point up our segments to the ones ACTUALLY mapped to memory now
         c_ioq_fmt(ioq1, "Segment: %s overlayed successfully, address: %p, size: %p, range: %p - %p\n", segments[i]->segment_name, res, data_virtual_limit - data_virtual_address, res, (UniversalType)res + (data_virtual_limit - data_virtual_address));
     }
     current_image->number_of_segments = segment_count;
 
-    if (program_header->file_type == macho_file_type_executable && text_segment < 0)
+    if (program_header->file_type == macho_file_type_executable && text_segment < 0) {
         c_ioq_fmt(ioq1, "Program is executable, but has no text segment\n");
+        status = StatusErr;
+        goto out;
+    }
 
     // Actually fill up some information for the image now
     current_image->map_base = map_base;
@@ -339,15 +344,23 @@ ImageEntry *map_macho_object(MachoHeader* program_header, FileDescriptor fd) {
         MachoLoadCommandDylib* some_dylib = (MachoLoadCommandDylib*)some_lc;
         char* dylib_path = (char*)some_lc + some_dylib->name_offset; // The offset in this case, is relative to the current segment
         c_ioq_fmt(ioq1, "%s\n", dylib_path);
-        ImageEntry* dependency = mdlk_load_by_path(dylib_path);
+        ImageEntry* dependency = nil;
+        status = mdlk_load_by_path(dylib_path, &dependency);
+        if (status != StatusOk) {
+            c_ioq_fmt(ioq1, "Critical error, couldn't map dependency\n");
+            goto out;
+        }
         c_vec_push_back(&current_image->dependencies, dependency); // Register it as a dependency 
         c_vec_push_back(&dependency->dependants, current_image); // Register the dependants
         offset += some_lc->size;
     }
 
-    mdlk_perform_relocation(current_image, &relocation_info);
+    mdlk_perform_relocation(current_image, relocation_info);
 
-    return current_image;
+out:
+    if (status == StatusOk)
+        *out_image_entry = current_image;
+    return status;
 }
 
 struct MDLKGlobalState mdlk_global_state;
