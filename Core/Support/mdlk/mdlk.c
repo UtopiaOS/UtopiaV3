@@ -7,6 +7,7 @@
 #include <covenant/nix.h>
 #include <covenant/vec.h>
 #include "internal/_ptrkey.h"
+#include <covenant/hsh.h>
 
 Status map_macho_object(MachoHeader* program_header, FileDescriptor fd, const char*, ImageEntry** out_image_entry);
 
@@ -16,6 +17,44 @@ Status map_macho_object(MachoHeader* program_header, FileDescriptor fd, const ch
 #define VM_PROT_READ	((Int32) 0x01)	/* read permission */
 #define VM_PROT_WRITE	((Int32) 0x02)	/* write permission */
 #define VM_PROT_EXECUTE	((Int32) 0x04)	/* execute permission */
+
+static HashMap images;
+
+static UInt64 mdlk_hash_symbol(UniversalType key, UInt64 seed_one, UInt64 seed_two) {
+    ImageSymbol* symbol = key;
+    HST hs;
+    HMD* md;
+    char out[16];
+    md = c_hsh_murmur32;
+    md->init(&hs);
+    md->update(&hs, symbol->name, symbol->name_lenght);
+    md->end(&hs, out);
+    return *(UInt64*)out;
+}
+
+static Int32 mdlk_compare_symbol(UniversalType first, UniversalType second) {
+    ImageSymbol* symbol_first = first;
+    ImageSymbol* symbol_second = second;
+    return c_str_cmp(symbol_first->name, C_USIZE_MAX, symbol_second->name);
+}
+
+static UInt64 mdlk_hash_image_entry(UniversalType key, UInt64 seed_one, UInt64 seed_two) {
+    ImageEntry* image_entry = key;
+    HST hs;
+    HMD* md;
+    char out[16];
+    md = c_hsh_murmur32;
+    md->init(&hs);
+    md->update(&hs, image_entry->path, c_str_len(image_entry->path, C_USIZE_MAX));
+    md->end(&hs, out);
+    return *(UInt64*)out;
+}
+
+static Int32 mdlk_compare_image_entry(UniversalType first, UniversalType second) {
+    ImageEntry* first_image_entry = first;
+    ImageEntry* second_image_entry = second;
+    return c_str_cmp(first_image_entry->path, C_USIZE_MAX, second_image_entry->path);
+}
 
 static ImageEntry*
 image_entry_new() {
@@ -29,6 +68,8 @@ image_entry_new() {
     some_entry->string_table_size = 0;
     c_vec_init(&some_entry->dependencies, 2, sizeof(UIntPtr));
     c_vec_init(&some_entry->dependants, 2, sizeof(UIntPtr));
+    c_hm_init(&some_entry->exports_table, sizeof(ImageSymbol), 4, &mdlk_hash_symbol, &mdlk_compare_symbol ,nil, nil);
+    some_entry->path = c_std_malloc(4096 * sizeof(char));
     return some_entry;
 }
 
@@ -59,6 +100,7 @@ MachoHeader* mdlk_get_macho_header_by_path(char* some_path) {
     UniversalType status = c_kernel_mmap(nil, 4 * C_PAGESIZE, C_PROT_READ, C_MAP_PRIVATE, fd, 0);
     if (status == C_MAP_FAILED)
         goto err;
+    c_kernel_close(fd);
     return (MachoHeader*)status;
 err:
     c_kernel_munmap(status, 4 * C_PAGESIZE);
@@ -66,14 +108,15 @@ err:
     return nil;
 }
 
-ImageEntry* mdlk_load_by_path(char* some_path) {
+Status mdlk_load_by_path(char* some_path, ImageEntry** out_image_entry) {
     MachoHeader* header = mdlk_get_macho_header_by_path(some_path);
+    Status status = StatusOk;
     if (!header) {
         c_ioq_fmt(ioq1,"Error getting the header!");
-        return nil;
+        return StatusErr;
     }
     FileDescriptor fd = c_kernel_open2(some_path, C_NIX_OREAD);
-    return map_macho_object(header, fd);
+    return map_macho_object(header, fd, some_path, out_image_entry);
 }
 
 static Int32 macho_flags_to_mmap_flags(Int32 flags) {
@@ -94,8 +137,6 @@ static Int32 macho_flags_to_mmap_protection(Int32 flags) {
 
 Status map_macho_object(MachoHeader* program_header, FileDescriptor fd, const char* path, ImageEntry** out_image_entry) {
     Macho64Addr offset = 0;
-    MachoLoadCommandDylib* some_dylib = nil;
-    void* file_load_top = nil;
     Macho64Addr base_virtual_address;
     Macho64Addr base_virtual_limit;
 
@@ -218,8 +259,6 @@ Status map_macho_object(MachoHeader* program_header, FileDescriptor fd, const ch
         map_size -= segments[0]->memory_size;
     base_address = (UniversalType)base_virtual_address;
 
-    c_ioq_fmt(ioq1, "Virtual address of: %x\n", base_virtual_address);
-
     base_flags = C_MAP_PRIVATE | C_MAP_ANON;
     void* map_base = c_kernel_mmap(base_address, map_size, C_PROT_NONE, base_flags, -1, 0);
     if (map_base == C_MAP_FAILED) {
@@ -309,7 +348,7 @@ Status map_macho_object(MachoHeader* program_header, FileDescriptor fd, const ch
 
     // Fix up addresses based on our offset given by our relocation base
     if (current_image->symbol_table)
-        current_image->symbol_table = (Macho64Addr* )(((PtrDiff)current_image->relocation_base) + ((PtrDiff)current_image->symbol_table));
+        current_image->symbol_table = (Macho64Addr*)(((PtrDiff)current_image->relocation_base) + ((PtrDiff)current_image->symbol_table));
     if (current_image->string_table)
         current_image->string_table = (const char*)(((PtrDiff)current_image->relocation_base) + ((PtrDiff)current_image->string_table));
     if (current_image->export_trie)
@@ -326,7 +365,7 @@ Status map_macho_object(MachoHeader* program_header, FileDescriptor fd, const ch
     current_image->entry = (UniversalType)current_image->relocation_base + main_address;
 
     c_ioq_fmt(ioq1, "Symbol table address: %p, String table address: %p, Export trie address: %p\n", (UniversalType)current_image->symbol_table, (UniversalType)current_image->string_table, (UniversalType)current_image->export_trie);
-
+    c_ioq_fmt(ioq1, "Bind info adresss: %p, Rebase info address: %p, Weak bind info address: %p\n", relocation_info->bind_instructions, relocation_info->rebase_instrucions, relocation_info->weak_bind_instructions);
 
     // Fix up file offset again, as we plan on iterating from the header to find our dylib load commands    
     offset = (Macho64Addr)program_header;
@@ -364,15 +403,16 @@ out:
 }
 
 struct MDLKGlobalState mdlk_global_state;
-
+ 
 // Return the main address of the program after everything is ready
 UIntPtr mdlk_main(MachoHeader *program_header, UIntPtr program_slide, UInt32 argc, const char* argv[], const char* envp[], const char* utopia_pointers[]) 
-{    
-    mdlk_global_state.dependency_graph = c_std_malloc(sizeof(TailQueue));
-    c_tq_init(mdlk_global_state.dependency_graph, sizeof(ImageEntryDependency), &image_entry_dependency_cmp, nil);
-    
+{        
     FileDescriptor fd = c_kernel_open2(mdlk_get_executable_path(utopia_pointers[0]), C_NIX_OREAD);
 
-    map_macho_object(program_header, fd);  
+    ImageEntry* main_image = nil;
+
+    c_hm_init(&images, sizeof(ImageEntry), 4, &mdlk_hash_image_entry, &mdlk_compare_image_entry, nil, nil);
+
+    map_macho_object(program_header, fd, mdlk_get_executable_path(utopia_pointers[0]), &main_image);  
     c_std_exit(0);   
 }

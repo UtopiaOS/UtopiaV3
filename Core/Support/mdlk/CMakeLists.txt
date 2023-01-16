@@ -6,6 +6,7 @@ add_executable(
     ptrkey.c
     initialization.c
     relocations.c
+    resolution.c
     mdlk_startup.S
 )
 

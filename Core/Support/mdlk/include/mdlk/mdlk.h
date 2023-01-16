@@ -51,6 +51,7 @@
 #include <libmacho/libmacho.h>
 #include <covenant/tq.h>
 #include <covenant/vec.h>
+#include <covenant/hm.h>
 
 /*
 extern size_t tls_last_offset;
@@ -62,6 +63,8 @@ extern int tls_max_index;
 * Note: Last time I researched about tls it turns out these are completely differnt on Mach-O and ELF? So for now, this is staying commented as reference
 */
 
+// TODO: REALLY, REALLY split this header
+
 extern Int32 npagesizes;
 extern Size *pagesizes;
 
@@ -71,8 +74,9 @@ extern char **environ; // or envp
 // TODO: We might need Utopia pointers
 
 // Taken from NetBSD
-#define trunc_page(x) ((x) & ~(C_PAGESIZE - 1))
-#define round_page(x) (((x) + C_PAGESIZE - 1) & ~(C_PAGESIZE - 1))
+#define PAGE_MASK	(C_PAGESIZE-1)
+#define	round_page(x)	((((unsigned long)(x)) + PAGE_MASK) & ~(PAGE_MASK))
+#define	trunc_page(x)	((unsigned long)(x) & ~(PAGE_MASK))
 
 /* Types of main functions */
 typedef void (*InitFunction)(void);
@@ -83,7 +87,7 @@ typedef void (*InitWithArgumentsFunction)(Int32, char**, char**);
 typedef struct ImageEntry ImageEntry;
 typedef struct ImageEntryDependency ImageEntryDependency;
 typedef struct RelocationInfo RelocationInfo;
-
+typedef struct ImageSymbol ImageSymbol;
 
 struct MDLKGlobalState {
     TailQueue* dependency_graph;
@@ -98,17 +102,28 @@ struct ImageEntryDependency {
 
 struct RelocationInfo {
     UniversalType rebase_instrucions;
-    USize rebase_instructions_size;
+    UInt32 rebase_instructions_size;
 
     UniversalType bind_instructions;
-    USize bind_instructions_size;
+    UInt32 bind_instructions_size;
 
     UniversalType weak_bind_instructions;
-    USize weak_bind_instructions_size;
+    UInt32 weak_bind_instructions_size;
+};
+
+struct ImageSymbol {
+    const char* name;
+    USize name_lenght;
+    UniversalType address;
+    ImageEntry* image;
+    Byte flags;
+    ImageSymbol* reexport_source;
 };
 
 struct ImageEntry {
     UInt64 *lazy_loaded_symbols; // TODO: Maybe this is addr type?
+    
+    const char* path; // Path to the image
 
     Device device; // Related device
     INode inode; // Inode of object
@@ -156,9 +171,14 @@ struct ImageEntry {
     // Type: ImageEntry
     Vector dependencies;
     Vector dependants;
+
+    // Type: Symbol
+    HashMap exports_table;
 };
 
 // TODO: Move this out of here
 void mdlk_perform_relocation(ImageEntry*, RelocationInfo*);
+
+void mdlk_resolve_export(ImageEntry*, const char*, USize, ImageSymbol**);
 
 #endif
