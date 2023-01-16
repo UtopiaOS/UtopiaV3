@@ -40,6 +40,7 @@ c_hm_init(HashMap *self, Size obj_size, Size cap, HashFunction hash, CompareFunc
     //! TODO: We might have to make this a type function, unkown if this is usefull
     //! for the rest of libgeneric
     //! NOTICE THAT WE WANT TO AVOID REPEATING CODE
+    //! TODO: As of writing, said function is already implemented and is necessary to migrate it
     self->obj_free = obj_free;
     self->data = data;
     self->spare = ((char *)self) + sizeof(HashFunction);
