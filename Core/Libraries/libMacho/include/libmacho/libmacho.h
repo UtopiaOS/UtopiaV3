@@ -95,8 +95,8 @@ UTOPIA_PACKED_STRUCT(MachoLoadCommandSegment64) {
 UTOPIA_PACKED_STRUCT(MachoSection64) {
     char section_name[16];
     char segment_name[16];
-    Int64 memory_address;
-    Int64 size;
+    UInt64 memory_address;
+    UInt64 size;
     UInt32 file_offset;
     UInt32 alignment;
     UInt32 relocations_file_offset;
