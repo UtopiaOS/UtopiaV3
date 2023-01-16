@@ -36,6 +36,9 @@
 // Adapted to Utopia by Diego Magdaleno
 // LEB128 implementation
 
+#ifndef MDLK_LEB128_H
+#define MDLK_LEB128_H
+
 #include <covenant/status.h>
 #define __NEED_USize
 #define __NEED_UInt64
@@ -44,8 +47,9 @@
 #define __NEED_Int32
 #define __NEED_Byte
 #include <covenant/bits/everytype.h>
+#include "internal/attributes.h"
 
-Status mdlk_read_unsigned_leb128(const Byte **p, const Byte *end, UInt64* final) {
+UTOPIA_ALWAYS_INLINE Status mdlk_read_unsigned_leb128(const Byte **p, const Byte *end, UInt64* final) {
     UInt64 result = 0;
     Byte q = 0;
     Int32 bit = 0;
@@ -67,7 +71,7 @@ Status mdlk_read_unsigned_leb128(const Byte **p, const Byte *end, UInt64* final)
     return StatusOk;
 }
 
-Status mdlk_read_signed_leb128(const Byte **p, const Byte *end, Int64* final) {
+UTOPIA_ALWAYS_INLINE Status mdlk_read_signed_leb128(const Byte **p, const Byte *end, Int64* final) {
     Int64 result = 0;
     Int32 bit = 0;
     Byte byte;
@@ -90,3 +94,5 @@ Status mdlk_read_signed_leb128(const Byte **p, const Byte *end, Int64* final) {
     *final = result;
     return StatusOk;
 }
+
+#endif
